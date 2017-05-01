@@ -1,4 +1,4 @@
-# [FriendlyCSharp.Databases](https://github.com/FriendlyCSharp/Databases)
+# [FriendlyCSharp.Databases](https://github.com/inmem/FriendlyCSharp.Databases)
 
 A library of cross platform C# data structures. Generic [**B-tree**](https://en.wikipedia.org/wiki/B-tree) written in C#, which can be replaced with NoSQL database stored in the memory of discharge requirements in real-time (*Firebase, Redis Cache, SAP HANA, Exadata, OLTP, etc.*). Basic information B-tree can be found in the book N. Wirth, Algorithms + data structures = programs and on Wikipedia, namely:
 >"*In computer science, a B-tree is a self-balancing tree data structure that keeps data sorted and allows searches, sequential access, insertions, and deletions in logarithmic time. The B-tree is a generalization of a binary search tree in that a node can have more than two children (Comer 1979, p. 123). Unlike self-balancing binary search trees, the B-tree is optimized for systems that read and write large blocks of data. B-trees are a good example of a data structure for external memory. It is commonly used in databases and filesystems. (...) Rudolf Bayer and Ed McCreight invented the B-tree while working at Boeing Research Labs in 1971 (Bayer & McCreight 1972), but they did not explain what, if anything, the B stands for.*" -&nbsp;[Wikipedia](https://en.wikipedia.org/wiki/B-tree).
@@ -15,9 +15,6 @@ A library of cross platform C# data structures. Generic [**B-tree**](https://en.
 #### [FcsFastLockBTreeN&lt;TKey, TValue&gt;](FcsFastLockBTreeN.cs)
    + `Methods:` BtnCompares, BtnUpdates, BtnAdd, BtnDeleteAll, BtnFind, BtnFirst, BtnLast, BtnNext, BtnPrev, BtnSearch, BtnSearchPrev, BtnUpdate and BtnUsedKeys.
    + `Methods:` BtnFastFind, BtnFastFirst, BtnFastLast, BtnFastNext, BtnFastPrev, BtnFastSearch, BtnFastSearchPrev.
-
-### Source code
-See the [Github](https://github.com/FriendlyCSharp/Databases).
 
 ### Performance
 A [**B-tree**](https://en.wikipedia.org/wiki/B-tree) of order m is a tree which satisfies the following properties:
@@ -49,7 +46,7 @@ The benchmark was configured as follows:
 | &lt;int, uint&gt; | sorted by&nbsp;key | iteration | total&nbsp;(ms) | one time (ns) | speed | RAM&nbsp;(MB) | occupied |
 | --- | :---: | ---: | ---: | ---: | :---: | :---: | :---: |
 | [**FcsFastBTreeN&lt;...&gt;**](#fcsfastbtreentkey-tvalue) | **Yes** | 10,000,000 | **6,185** | **619** | **100%** | **128** | **100%** |
-| SortedSet&lt;...&gt; | **Yes** | 10,000,000 | ~~&nbsp;19,443&nbsp;~~ | ~~&nbsp;1,944&nbsp;~~ | ~~&nbsp;32%&nbsp;~~ | ~~&nbsp;458&nbsp;~~ | ~~&nbsp;358%&nbsp;~~ |
+| SortedSet&lt;...&gt; | **Yes** | 10,000,000 | ~~&nbsp;19,443&nbsp;~~ | ~~&nbsp;1,944&nbsp;~~ | ~~&nbsp;32%&nbsp;~~ | ~~&nbsp;458&nbsp;~~ | &nbsp;358%&nbsp; |
 | HashSet&lt;...&gt; | No | 10,000,000 | 2,017 | 202 | 307% | 229 | 179% |
 | Dictionary&lt;...&gt; | No | 10,000,000 | 1,378 | 138 | 449% | 229 | 179% |
 
@@ -67,9 +64,6 @@ The benchmark was configured as follows:
 ### MemoryStream generic class
 #### [FcsInmemStream&lt;T&gt;](FcsInmemStream.cs) \[where T : struct\]
    + `Methods:` Append, Close, Length, Open, Position, Read, Seek, Write.
-
-### Source code
-See the [Github](https://github.com/FriendlyCSharp/Databases).
 
 ### Benchmark 
 The benchmark was configured as follows:
