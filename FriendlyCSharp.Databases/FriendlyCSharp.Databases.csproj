@@ -1,7 +1,32 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard1.4</TargetFramework>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Authors>Libor Kubala</Authors>
+    <Company>inmem, s.r.o.</Company>
+    <PackageLicenseUrl>https://github.com/FriendlyCSharp/Databases/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>http://www.friendlycsharp.com</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/FriendlyCSharp/Databases</RepositoryUrl>
+    <PackageTags>b-tree btree Bayer</PackageTags>
+    <Copyright>Copyright 2017 (c) KUBDAT® &amp; inmem, s.r.o.</Copyright>
+    <Description>
+      Generic B-tree written in C#, which can be replaced with NoSQL database stored in the memory.
+
+      The B-tree is a generalization of a binary search tree in that a node can have more than two children (Comer 1979, p. 123). Unlike self-balancing binary search trees, the B-tree is optimized for systems that read and write large blocks of data.
+    </Description>
+    <PackageReleaseNotes>First Release</PackageReleaseNotes>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <TargetFramework>netstandard1.1</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>TRACE;DEBUG;NETSTANDARD1_1;KEY_VALUE_PAIR</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DefineConstants>TRACE;RELEASE;NETSTANDARD1_1;KEY_VALUE_PAIR</DefineConstants>
   </PropertyGroup>
 
 </Project>
