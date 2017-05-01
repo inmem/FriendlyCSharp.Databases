@@ -5,14 +5,14 @@ A library of cross platform C# data structures. Generic [**B-tree**](https://en.
 
 &nbsp;
 ## B-Tree generic class
-#### [FcsBTreeN&lt;TKey, TValue&gt;](FcsBTreeN.cs)
+#### [FcsBTreeN&lt;TKey, TValue&gt;](FriendlyCSharp.Databases/BTreeN/FcsBTreeN.cs)
    + `Methods:` BtnCompares, BtnUpdates, BtnAdd, BtnDeleteAll, BtnFind, BtnFirst, BtnLast, BtnNext, BtnPrev, BtnSearch, BtnSearchPrev, BtnUpdate and BtnUsedKeys.
-#### [FcsFastBTreeN&lt;TKey, TValue&gt;](FcsFastBTreeN.cs)
+#### [FcsFastBTreeN&lt;TKey, TValue&gt;](FriendlyCSharp.Databases/BTreeN/FcsFastBTreeN.cs)
    + `Methods:` BtnCompares, BtnUpdates, BtnAdd, BtnDeleteAll, BtnFind, BtnFirst, BtnLast, BtnNext, BtnPrev, BtnSearch, BtnSearchPrev, BtnUpdate and BtnUsedKeys.
    + `Methods:` BtnFastFind, BtnFastFirst, BtnFastLast, BtnFastNext, BtnFastPrev, BtnFastSearch, BtnFastSearchPrev.
-#### [FcsLockBTreeN&lt;TKey, TValue&gt;](FcsLockBTreeN.cs)
+#### [FcsLockBTreeN&lt;TKey, TValue&gt;](FriendlyCSharp.Databases/BTreeN/FcsLockBTreeN.cs)
    + `Methods:` BtnCompares, BtnUpdates, BtnAdd, BtnDeleteAll, BtnFind, BtnFirst, BtnLast, BtnNext, BtnPrev, BtnSearch, BtnSearchPrev, BtnUpdate and BtnUsedKeys.
-#### [FcsFastLockBTreeN&lt;TKey, TValue&gt;](FcsFastLockBTreeN.cs)
+#### [FcsFastLockBTreeN&lt;TKey, TValue&gt;](FriendlyCSharp.Databases/BTreeN/FcsFastLockBTreeN.cs)
    + `Methods:` BtnCompares, BtnUpdates, BtnAdd, BtnDeleteAll, BtnFind, BtnFirst, BtnLast, BtnNext, BtnPrev, BtnSearch, BtnSearchPrev, BtnUpdate and BtnUsedKeys.
    + `Methods:` BtnFastFind, BtnFastFirst, BtnFastLast, BtnFastNext, BtnFastPrev, BtnFastSearch, BtnFastSearchPrev.
 
@@ -62,7 +62,7 @@ The benchmark was configured as follows:
 
 &nbsp;
 ### MemoryStream generic class
-#### [FcsInmemStream&lt;T&gt;](FcsInmemStream.cs) \[where T : struct\]
+#### [FcsInmemStream&lt;T&gt;](FriendlyCSharp.Databases/Storage/FcsInmemStream.cs) \[where T : struct\]
    + `Methods:` Append, Close, Length, Open, Position, Read, Seek, Write.
 
 ### Benchmark 
@@ -72,7 +72,7 @@ The benchmark was configured as follows:
 * 4x4 GB DDR3 Kingston @ 1333 MHz
 * Append, Read, Write (*cache 1,000 T*) and foreach (*cache 128 T*)
 
-| [FcsInmemStream&lt;T&gt;](FcsInmemStream.cs) | Append | Read | Write | foreach |
+| [FcsInmemStream&lt;T&gt;](FriendlyCSharp.Databases/Storage/FcsInmemStream.cs) | Append | Read | Write | foreach |
 | --- | ---: | ---: | ---: | ---: |
 | IOPS \[T =    8 Byte\] | **160**,000,000 | **800**,000,000 | **800**,000,000 | 80,000,000 |
 | IOPS \[T =   16 Byte\] | **140**,000,000 | **500**,000,000 | **400**,000,000 | 80,000,000 |
