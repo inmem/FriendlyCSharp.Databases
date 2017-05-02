@@ -16,6 +16,9 @@ A library of cross platform C# data structures. Generic [**B-tree**](https://en.
    + `Methods:` BtnCompares, BtnUpdates, BtnAdd, BtnDeleteAll, BtnFind, BtnFirst, BtnLast, BtnNext, BtnPrev, BtnSearch, BtnSearchPrev, BtnUpdate and BtnUsedKeys.
    + `Methods:` BtnFastFind, BtnFastFirst, BtnFastLast, BtnFastNext, BtnFastPrev, BtnFastSearch, BtnFastSearchPrev.
 
+### Examples
+* [BtnEnumerator.examples](BtnEnumerator.examples)
+
 ### Performance
 A [**B-tree**](https://en.wikipedia.org/wiki/B-tree) of order m is a tree which satisfies the following properties:
 1. Every node has at most m children.
@@ -246,9 +249,6 @@ public virtual KeyValuePair<TKey, TValue>? BtnSearchPrev(TKey key)
 {
 }
 ```
-
-### Examples
-* [BtnEnumerator.examples](BtnEnumerator.examples)
 
 &nbsp;
 ## MemoryStream generic class
