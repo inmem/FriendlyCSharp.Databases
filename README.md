@@ -103,7 +103,7 @@ Tree gradually passes from the lowest, from the specified keys or higher.
 >Typical usage:
 
 ```cs
-foreach(KeyValuePair<int, uint>? BtnKV in MyBtnKeyValue)
+foreach(KeyValuePair<TKey, TValue>? BtnKV in MyBtnKeyValue)
 {
 }
 ```
@@ -190,7 +190,7 @@ The method finds the specified key and returns the key value pair or null.
 public virtual  bool? BtnFind(TKey key, out TValue value)
 {
 }
-public virtual (TKey key, TValue value)? BtnFind(TKey key)
+public virtual KeyValuePair<TKey, TValue>? BtnFind(TKey key)
 {
 }
 ```
@@ -203,7 +203,7 @@ The method finds the first key and returns the key value pair or null.
 public virtual bool? BtnFirst(out TKey key, out TValue value)
 {
 }
-public virtual (TKey key, TValue value)? BtnFirst()
+public virtual KeyValuePair<TKey, TValue>? BtnFirst()
 {
 }
 ```
@@ -216,7 +216,7 @@ The method finds the last key and returns the key value pair or null.
 public virtual bool? BtnLast(out TKey key, out TValue value)
 {
 }
-public virtual (TKey key, TValue value)? BtnLast()
+public virtual KeyValuePair<TKey, TValue>? BtnLast()
 {
 }
 ```
@@ -229,7 +229,7 @@ The method finds the specified key or the next higher and returns the key value 
 public virtual bool? BtnSearch(ref TKey key, out TValue value)
 {
 }
-public virtual (TKey key, TValue value)? BtnSearch(TKey key)
+public virtual KeyValuePair<TKey, TValue>? BtnSearch(TKey key)
 {
 }
 ```
@@ -242,7 +242,7 @@ The method finds the specified key or the next lower and returns the key value p
 public virtual bool? BtnSearchPrev(ref TKey key, out TValue value)
 {
 }
-public virtual (TKey key, TValue value)? BtnSearchPrev(TKey key)
+public virtual KeyValuePair<TKey, TValue>? BtnSearchPrev(TKey key)
 {
 }
 ```
