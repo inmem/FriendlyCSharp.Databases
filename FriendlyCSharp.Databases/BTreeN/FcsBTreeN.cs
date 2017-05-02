@@ -94,7 +94,7 @@ namespace FriendlyCSharp.Databases
     //////////////////////////
     protected FcsBTreeN(int btnBTreeN, uint allocIdxFast, object objCmp)
     {
-      if ((btnBTreeN <= 0) || (btnBTreeN > _btnMaxBTreeN))
+      if ((btnBTreeN <= 1) || (btnBTreeN > _btnMaxBTreeN))
         throw new ArgumentOutOfRangeException();
       if (allocIdxFast > _btnMaxIdxFast)
         throw new ArgumentOutOfRangeException();
@@ -172,7 +172,7 @@ namespace FriendlyCSharp.Databases
     {
       bool? bNullResult = null;
       if (kvPageUp == null)
-      {  //  Pridani
+      { 
         bUp = true;
         kvUp = kvAdd;
       }
@@ -198,7 +198,7 @@ namespace FriendlyCSharp.Databases
         if (iResultCmp == 0)
         {
           bUp = false;
-          // bVyslNull je pri update = false, jinak null - viz predchozi radek; add = true - viz vyse
+          // bVyslNull je pri update = false, else null - viz predchozi radek; add = true - viz vyse
           if (BtnUpdates(kvAdd.key, kvAdd.value, ref kvPageUp.aData[middle].value, objUpdates))
             kvPageUp.bUpdatedValue = true;
           kvAdd = kvPageUp.aData[middle];
@@ -1014,46 +1014,17 @@ namespace FriendlyCSharp.Databases
         if (iResultCmp == 0)
         {
           bNext = false;
-          if (kvPage.kvPageNextRight != null)
+          key = kvPage.aData[middle].key;
+          value = kvPage.aData[middle].value;
+          if (kvPage.kvPageNextRight == null)
           {
-            middle--;
-            if (middle > 0)
-              QQ = kvPage.kvPageNextRight[middle];
-            else
-              QQ = kvPage.kvPageNextRight[0];
-            while ((QQ != null) && (QQ.kvPageNextRight != null))
-              QQ = QQ.kvPageNextRight[QQ.iDataCount];
-            key = QQ.aData[QQ.iDataCount].key;
-            value = QQ.aData[QQ.iDataCount].value;
-            if (QQ.kvPageNextRight == null)
-            {
-
-              btnFast.version = BtnVersion;
-              btnFast.fastMiddle = QQ.iDataCount;
-              btnFast.fastPage = QQ;
-            }
-            else
-              btnFast = default(BtnFastKeyValue);
-            bNullResult = new bool?(true);
+            btnFast.version = BtnVersion;
+            btnFast.fastMiddle = middle;
+            btnFast.fastPage = kvPage;
           }
           else
-          {
-            if (middle > 1)
-            {
-              key = kvPage.aData[middle - 1].key;
-              value = kvPage.aData[middle - 1].value;
-              btnFast.version = BtnVersion;
-              btnFast.fastMiddle = middle - 1;
-              btnFast.fastPage = kvPage;
-              bNullResult = new bool?(true);
-            }
-            else
-            {
-              bNext = true;
-              value = default(TValue);
-              btnFast = default(BtnFastKeyValue);
-            }
-          }
+            btnFast = default(BtnFastKeyValue);
+          bNullResult = new bool?(true);
         }
         else
         {
@@ -1261,10 +1232,6 @@ namespace FriendlyCSharp.Databases
       //////////////////////////
       public BtnEnumerator(FcsBTreeN<TKey, TValue> btn, TKey? keyLo, TKey? keyHi, bool reverse, int maxCount)
       {
-        if ((!reverse) && (keyLo == null) && (keyHi != null))
-          throw new NullReferenceException(nameof(keyLo));
-        if ((reverse) && (keyLo != null) && (keyHi == null))
-          throw new NullReferenceException(nameof(keyHi));
         _btn = btn ?? throw new NullReferenceException();
         _keyLo = keyLo;
         _keyHi = keyHi;
@@ -1348,8 +1315,8 @@ namespace FriendlyCSharp.Databases
       public void Reset()
       {
         _count = _maxCount;
-        _bFirst = true;
         _bOK = true;
+        _bFirst = true;
       }
     }
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
