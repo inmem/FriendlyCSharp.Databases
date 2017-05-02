@@ -2,12 +2,12 @@
 
   <PropertyGroup>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <Authors>Libor Kubala</Authors>
+    <Authors>KUBDAT®</Authors>
     <Company>inmem, s.r.o.</Company>
-    <PackageLicenseUrl>https://github.com/FriendlyCSharp/Databases/blob/master/LICENSE</PackageLicenseUrl>
-    <PackageProjectUrl>http://www.friendlycsharp.com</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/FriendlyCSharp/Databases</RepositoryUrl>
-    <PackageTags>b-tree btree Bayer</PackageTags>
+    <PackageLicenseUrl>https://github.com/inmem/FriendlyCSharp.Databases/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/inmem/FriendlyCSharp.Databases</PackageProjectUrl>
+    <RepositoryUrl></RepositoryUrl>
+    <PackageTags>C# cross-platform netstandard key-value nosql in-memory cache database b-tree btree Bayer fulltext elastic search KUBDAT inmem</PackageTags>
     <Copyright>Copyright 2017 (c) KUBDAT® &amp; inmem, s.r.o.</Copyright>
     <Description>
       Generic B-tree written in C#, which can be replaced with NoSQL database stored in the memory.
