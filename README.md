@@ -38,7 +38,7 @@ A [**B-tree**](https://en.wikipedia.org/wiki/B-tree) of order m is a tree which 
 ### Benchmark 
 The benchmark was configured as follows:
 * CPU: Intel Xeon E3-1245 @ 3.3 GHz;
-* Windows 10, 64bit, .NET Standard 1.2
+* Windows 10, 64bit, .NET Standard 1.1
 * 4x4GB DDR3 Kingston @ 1333 MHz
 
 >**Adding in a single thread:**
@@ -60,6 +60,193 @@ The benchmark was configured as follows:
 | HashSet&lt;...&gt; | No | 10,000,000 | 47.3 | 4,73 | 422%	| **210**,000,000 |
 | Dictionary&lt;...&gt; | No | 10,000,000 | 86.5 | 8,65 | 231% | **115**,000,000 |
 
+### Functions
+Various methods used throughout the library.
+
+#### Comparator
+Some data structures require a comparator method to automatically keep their elements sorted upon insertion. 
+
+>Default comparator is initialized as follows:
+
+```cs
+protected virtual int BtnCompares(TKey keyX, TKey keyY, object objCmp)
+{
+  return keyX.CompareTo(keyY);
+}
+```
+
+>**Writing custom class with comparators is easy:**
+
+```cs
+public class MyBtnKeyValue : FcsBTreeN<int, uint>
+{
+  protected override void BtnUpdates(int keyAdd, uint valueAdd, ref uint valueUpdates, object objUpdates)
+  {
+    valueUpdates++;
+  }
+  //////////////////////////
+  protected override int BtnCompares(int keyX, int keyY, object objCmp)
+  {
+    return keyX - keyY;
+  }
+  //////////////////////////
+  public MyBtnKeyValue() : base()
+  {
+  }
+}
+```
+
+#### Iterator
+
+Tree gradually passes from the lowest, from the specified keys or higher.
+
+>Typical usage:
+
+```cs
+foreach(KeyValuePair<int, uint>? BtnKV in MyBtnKeyValue)
+{
+}
+```
+
+>Other usages:
+
+```cs
+if (MyBtnKeyValue.BtnFirst(out btnKey, out btnValue) != null)
+{
+  do
+  {
+  }
+  while (MyBtnKeyValue.BtnNext(ref btnKey, out btnValue) != null)
+}
+```
+
+```cs
+if (MyBtnKeyValue.BtnFind(btnKey, out btnValue) != null)
+{
+  do
+  {
+  }
+  while (MyBtnKeyValue.BtnNext(ref btnKey, out btnValue) != null)
+}
+```
+
+```cs
+if (MyBtnKeyValue.BtnSearch(ref btnKey, out btnValue) != null)
+{
+  do
+  {
+  }
+  while (MyBtnKeyValue.BtnNext(ref btnKey, out btnValue) != null)
+}
+```
+
+#### Reverse Iterator
+
+The tree passes successively from the last or entered or lower than the specified key.
+
+>Typical usage of iteration in reverse:
+
+```cs
+if (MyBtnKeyValue.BtnLast(out btnKey, out btnValue) != null)
+{
+  do
+  {
+  }
+  while (MyBtnKeyValue.BtnPrev(ref btnKey, out btnValue) != null)
+}
+```
+
+>Other usages:
+
+```cs
+if (MyBtnKeyValue.BtnFind(btnKey, out btnValue) != null)
+{
+  do
+  {
+  }
+  while (MyBtnKeyValue.BtnPrev(ref btnKey, out btnValue) != null)
+}
+```
+
+```cs
+if (MyBtnKeyValue.BtnSearchPrev(btnKey, out btnValue) != null)
+{
+  do
+  {
+  }
+  while (MyBtnKeyValue.BtnPrev(ref btnKey, out btnValue) != null)
+}
+```
+
+### Enumerate
+
+Methods that seek the desired key and returns the key value pair or null.
+
+>**Find**
+
+The method finds the specified key and returns the key value pair or null.
+
+```cs
+public virtual  bool? BtnFind(TKey key, out TValue value)
+{
+}
+public virtual (TKey key, TValue value)? BtnFind(TKey key)
+{
+}
+```
+
+>**First**
+
+The method finds the first key and returns the key value pair or null.
+
+```cs
+public virtual bool? BtnFirst(out TKey key, out TValue value)
+{
+}
+public virtual (TKey key, TValue value)? BtnFirst()
+{
+}
+```
+
+>**Last**
+
+The method finds the last key and returns the key value pair or null.
+
+```cs
+public virtual bool? BtnLast(out TKey key, out TValue value)
+{
+}
+public virtual (TKey key, TValue value)? BtnLast()
+{
+}
+```
+
+>**Search**
+
+The method finds the specified key or the next higher and returns the key value pair or null.
+
+```cs
+public virtual bool? BtnSearch(ref TKey key, out TValue value)
+{
+}
+public virtual (TKey key, TValue value)? BtnSearch(TKey key)
+{
+}
+```
+
+>**SearchPrev**
+
+The method finds the specified key or the next lower and returns the key value pair or null.
+
+```cs
+public virtual bool? BtnSearchPrev(ref TKey key, out TValue value)
+{
+}
+public virtual (TKey key, TValue value)? BtnSearchPrev(TKey key)
+{
+}
+```
+
 &nbsp;
 ### MemoryStream generic class
 #### [FcsInmemStream&lt;T&gt;](FriendlyCSharp.Databases/Storage/FcsInmemStream.cs) \[where T : struct\]
@@ -68,7 +255,7 @@ The benchmark was configured as follows:
 ### Benchmark 
 The benchmark was configured as follows:
 * CPU: Intel Xeon E3-1245 @ 3.3 GHz;
-* Windows 10, 64bit, .NET Standard 1.2
+* Windows 10, 64bit, .NET Standard 1.1
 * 4x4 GB DDR3 Kingston @ 1333 MHz
 * Append, Read, Write (*cache 1,000 T*) and foreach (*cache 128 T*)
 
