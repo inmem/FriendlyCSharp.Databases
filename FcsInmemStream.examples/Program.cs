@@ -33,7 +33,7 @@ namespace FcsInmemStream.examples
       int cacheCount = 1000;
       StructIms[] aIms = new StructIms[cacheCount];
       FcsInmemStream<StructIms>.ImsEnumeratorCacheLen = 128;
-      FcsInmemStream<StructIms> ims = FcsInmemStream<StructIms>.Open();
+      FcsInmemStream<StructIms> ims = FcsInmemStream<StructIms>.Open(2);
 #if DEBUG
       ims.FuncException = true;
 #else

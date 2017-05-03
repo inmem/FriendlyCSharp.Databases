@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BtnEnumerator.examples", "B
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FcsInmemStream.examples", "FcsInmemStream.examples\FcsInmemStream.examples.csproj", "{58D9270A-D1CF-4CB2-8A0F-222A99B906ED}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FcsFastBTreeN.benchmark", "FcsFastBTreeN.benchmark\FcsFastBTreeN.benchmark.csproj", "{9EFD0AF3-3F32-4ECA-8D1B-A635928F278D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{58D9270A-D1CF-4CB2-8A0F-222A99B906ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{58D9270A-D1CF-4CB2-8A0F-222A99B906ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{58D9270A-D1CF-4CB2-8A0F-222A99B906ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9EFD0AF3-3F32-4ECA-8D1B-A635928F278D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9EFD0AF3-3F32-4ECA-8D1B-A635928F278D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9EFD0AF3-3F32-4ECA-8D1B-A635928F278D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9EFD0AF3-3F32-4ECA-8D1B-A635928F278D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
