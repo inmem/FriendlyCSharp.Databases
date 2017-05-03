@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FriendlyCSharp.Databases", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BtnEnumerator.examples", "BtnEnumerator.examples\BtnEnumerator.examples.csproj", "{A8A0F38B-D324-4EC3-B87E-8731773E052C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FcsInmemStream.examples", "FcsInmemStream.examples\FcsInmemStream.examples.csproj", "{58D9270A-D1CF-4CB2-8A0F-222A99B906ED}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{A8A0F38B-D324-4EC3-B87E-8731773E052C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A8A0F38B-D324-4EC3-B87E-8731773E052C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A8A0F38B-D324-4EC3-B87E-8731773E052C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{58D9270A-D1CF-4CB2-8A0F-222A99B906ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{58D9270A-D1CF-4CB2-8A0F-222A99B906ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{58D9270A-D1CF-4CB2-8A0F-222A99B906ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{58D9270A-D1CF-4CB2-8A0F-222A99B906ED}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

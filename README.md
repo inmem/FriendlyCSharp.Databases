@@ -255,6 +255,9 @@ public virtual KeyValuePair<TKey, TValue>? BtnSearchPrev(TKey key)
 #### [FcsInmemStream&lt;T&gt;](FriendlyCSharp.Databases/Storage/FcsInmemStream.cs) \[where T : struct\]
    + `Methods:` Append, Close, Length, Open, Position, Read, Seek, Write.
 
+### Examples
+* [FcsInmemStream.examples](FcsInmemStream.examples)
+
 ### Benchmark 
 The benchmark was configured as follows:
 * CPU: Intel Xeon E3-1245 @ 3.3 GHz;

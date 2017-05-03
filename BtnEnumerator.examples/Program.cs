@@ -1,6 +1,6 @@
-﻿using FriendlyCSharp.Databases;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using FriendlyCSharp.Databases;
 
 namespace BtnEnumerator.examples
 {
@@ -14,6 +14,7 @@ namespace BtnEnumerator.examples
     //////////////////////////
     protected override int BtnCompares(int keyX, int keyY, object objCmp)
     {
+      // return less < 0, equal = 0, greater > 0
       return keyX - keyY;
     }
     //////////////////////////
@@ -26,6 +27,8 @@ namespace BtnEnumerator.examples
   {
     static void Main(string[] args)
     {
+      Console.OutputEncoding = System.Text.Encoding.Unicode;
+
       uint uiCount = 1;
       TestKV btnTest = new TestKV();
       // Build the tree
@@ -49,6 +52,7 @@ namespace BtnEnumerator.examples
       btnTest.BtnAdd(32, uiCount); //
       btnTest.BtnAdd(38, uiCount);
       btnTest.BtnAdd(24, uiCount);
+      btnTest.BtnAdd(27, uiCount); // duplicity call BtnUpdates()
       btnTest.BtnAdd(45, uiCount);
       btnTest.BtnAdd(25, uiCount); //
 
@@ -58,84 +62,90 @@ namespace BtnEnumerator.examples
       Console.WriteLine();
 
       // output: 5,7,8,10,13,15,18,20,22,24,25,26,
-      FcsBTreeN<int, uint>.BtnEnumerator btnE = FcsBTreeN<int, uint>.GetEnumeratorEx(btnTest, false, 12);
-      while (btnE.MoveNext())
-        Console.Write(btnE.Current.GetValueOrDefault().Key + ",");
-      btnE.Dispose();
+      FcsBTreeN<int, uint>.BtnEnumerator btnEn = btnTest.GetEnumeratorEx(false, 12);
+      while (btnEn.MoveNext())
+        Console.Write(btnEn.Current.GetValueOrDefault().Key + ",");
+      btnEn.Dispose();
       Console.WriteLine();
 
       int? keyLo = 22;
       int? keyHi = 38;
       // output: 5,7,8,10,13,15,18,20,22,24,25,26,27,30,32,35,38,
-      btnE = FcsBTreeN<int, uint>.GetEnumeratorEx(btnTest, null, keyHi, false);
-      while (btnE.MoveNext())
-        Console.Write(btnE.Current.GetValueOrDefault().Key + ",");
-      btnE.Dispose();
+      btnEn = btnTest.GetEnumeratorEx(null, keyHi, false);
+      while (btnEn.MoveNext())
+        Console.Write(btnEn.Current.GetValueOrDefault().Key + ",");
       Console.WriteLine();
+      btnEn.Dispose();
 
       // output: 22,24,25,26,27,30,32,35,38,40,42,45,46,
-      btnE = FcsBTreeN<int, uint>.GetEnumeratorEx(btnTest, keyLo, null, false);
-      while (btnE.MoveNext())
-        Console.Write(btnE.Current.GetValueOrDefault().Key + ",");
-      btnE.Dispose();
+      btnEn = btnTest.GetEnumeratorEx(keyLo, null, false);
+      while (btnEn.MoveNext())
+        Console.Write(btnEn.Current.GetValueOrDefault().Key + ",");
       Console.WriteLine();
+      btnEn.Dispose();
 
       // output: 22,24,25,26,27,30,32,35,38,
-      btnE = FcsBTreeN<int, uint>.GetEnumeratorEx(btnTest, keyLo, keyHi, false);
-      while (btnE.MoveNext())
-        Console.Write(btnE.Current.GetValueOrDefault().Key + ",");
-      btnE.Dispose();
+      btnEn = btnTest.GetEnumeratorEx(keyLo, keyHi, false);
+      while (btnEn.MoveNext())
+        Console.Write(btnEn.Current.GetValueOrDefault().Key + ",");
       Console.WriteLine();
+      // output: 22,24,25,26,27,30,32,35,38,
+      btnEn.Reset();
+      while (btnEn.MoveNext())
+        Console.Write(btnEn.Current.GetValueOrDefault().Key + ",");
+      Console.WriteLine();
+      btnEn.Dispose();
 
       // output: 22,24,25,26,27,
-      btnE = FcsBTreeN<int, uint>.GetEnumeratorEx(btnTest, keyLo, keyHi, false, 5);
-      while (btnE.MoveNext())
-        Console.Write(btnE.Current.GetValueOrDefault().Key + ",");
-      btnE.Dispose();
+      btnEn = btnTest.GetEnumeratorEx(keyLo, keyHi, false, 5);
+      while (btnEn.MoveNext())
+        Console.Write(btnEn.Current.GetValueOrDefault().Key + ",");
       Console.WriteLine();
+      btnEn.Dispose();
 
       // ---------- REVERSE ---------- 
-      // output: 46,45,42,40,38,35,32,30,27,26,25,24,22,20,18,15,13,10,8,7,5,
-      btnE = FcsBTreeN<int, uint>.GetEnumeratorEx(btnTest, true);
-      while (btnE.MoveNext())
-        Console.Write(btnE.Current.GetValueOrDefault().Key + ",");
-      btnE.Dispose();
       Console.WriteLine();
+      // output: 46,45,42,40,38,35,32,30,27,26,25,24,22,20,18,15,13,10,8,7,5,
+      btnEn = btnTest.GetEnumeratorEx(true);
+      while (btnEn.MoveNext())
+        Console.Write(btnEn.Current.GetValueOrDefault().Key + ",");
+      Console.WriteLine();
+      btnEn.Dispose();
 
       // output: 46,45,42,40,38,35,32,30,27,26,25,24,
-      btnE = FcsBTreeN<int, uint>.GetEnumeratorEx(btnTest, true, 12);
-      while (btnE.MoveNext())
-        Console.Write(btnE.Current.GetValueOrDefault().Key + ",");
-      btnE.Dispose();
+      btnEn = btnTest.GetEnumeratorEx(true, 12);
+      while (btnEn.MoveNext())
+        Console.Write(btnEn.Current.GetValueOrDefault().Key + ",");
       Console.WriteLine();
+      btnEn.Dispose();
 
       // output: 38,35,32,30,27,26,25,24,22,20,18,15,13,10,8,7,5,
-      btnE = FcsBTreeN<int, uint>.GetEnumeratorEx(btnTest, null, keyHi, true);
-      while (btnE.MoveNext())
-        Console.Write(btnE.Current.GetValueOrDefault().Key + ",");
-      btnE.Dispose();
+      btnEn = btnTest.GetEnumeratorEx(null, keyHi, true);
+      while (btnEn.MoveNext())
+        Console.Write(btnEn.Current.GetValueOrDefault().Key + ",");
       Console.WriteLine();
+      btnEn.Dispose();
 
       // output: 46,45,42,40,38,35,32,30,27,26,25,24,22,
-      btnE = FcsBTreeN<int, uint>.GetEnumeratorEx(btnTest, keyLo, null, true);
-      while (btnE.MoveNext())
-        Console.Write(btnE.Current.GetValueOrDefault().Key + ",");
-      btnE.Dispose();
+      btnEn = btnTest.GetEnumeratorEx(keyLo, null, true);
+      while (btnEn.MoveNext())
+        Console.Write(btnEn.Current.GetValueOrDefault().Key + ",");
       Console.WriteLine();
+      btnEn.Dispose();
 
       // output: 38,35,32,30,27,26,25,24,22,
-      btnE = FcsBTreeN<int, uint>.GetEnumeratorEx(btnTest, keyLo, keyHi, true);
-      while (btnE.MoveNext())
-        Console.Write(btnE.Current.GetValueOrDefault().Key + ",");
-      btnE.Dispose();
+      btnEn = btnTest.GetEnumeratorEx(keyLo, keyHi, true);
+      while (btnEn.MoveNext())
+        Console.Write(btnEn.Current.GetValueOrDefault().Key + ",");
       Console.WriteLine();
+      btnEn.Dispose();
 
       // output: 38,35,32,30,27,
-      btnE = FcsBTreeN<int, uint>.GetEnumeratorEx(btnTest, keyLo, keyHi, true, 5);
-      while (btnE.MoveNext())
-        Console.Write(btnE.Current.GetValueOrDefault().Key + ",");
-      btnE.Dispose();
+      btnEn = btnTest.GetEnumeratorEx(keyLo, keyHi, true, 5);
+      while (btnEn.MoveNext())
+        Console.Write(btnEn.Current.GetValueOrDefault().Key + ",");
       Console.WriteLine();
+      btnEn.Dispose();
 
       Console.WriteLine();
       Console.WriteLine("Key ENTER press.");

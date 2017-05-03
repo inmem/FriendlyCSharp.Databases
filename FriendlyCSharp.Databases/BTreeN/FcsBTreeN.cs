@@ -94,7 +94,7 @@ namespace FriendlyCSharp.Databases
     //////////////////////////
     protected FcsBTreeN(int btnBTreeN, uint allocIdxFast, object objCmp)
     {
-      if ((btnBTreeN <= 1) || (btnBTreeN > _btnMaxBTreeN))
+      if ((btnBTreeN <= 0) || (btnBTreeN > _btnMaxBTreeN))
         throw new ArgumentOutOfRangeException();
       if (allocIdxFast > _btnMaxIdxFast)
         throw new ArgumentOutOfRangeException();
@@ -1184,24 +1184,24 @@ namespace FriendlyCSharp.Databases
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////         IEnumerator          //////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    public static BtnEnumerator GetEnumeratorEx(FcsBTreeN<TKey, TValue> btn, bool reverse)
+    public FcsBTreeN<TKey, TValue>.BtnEnumerator GetEnumeratorEx(bool reverse)
     {
-      return new BtnEnumerator(btn, null, null, reverse, -2);
+      return new BtnEnumerator(this, null, null, reverse, -2);
     }
     //////////////////////////
-    public static BtnEnumerator GetEnumeratorEx(FcsBTreeN<TKey, TValue> btn, bool reverse, int maxCount)
+    public FcsBTreeN<TKey, TValue>.BtnEnumerator GetEnumeratorEx(bool reverse, int maxCount)
     {
-      return new BtnEnumerator(btn, null, null, reverse, maxCount);
+      return new BtnEnumerator(this, null, null, reverse, maxCount);
     }
     //////////////////////////
-    public static BtnEnumerator GetEnumeratorEx(FcsBTreeN<TKey, TValue> btn, TKey? keyLo, TKey? keyHi, bool reverse)
+    public FcsBTreeN<TKey, TValue>.BtnEnumerator GetEnumeratorEx(TKey? keyLo, TKey? keyHi, bool reverse)
     {
-      return new BtnEnumerator(btn, keyLo, keyHi, reverse, -3);
+      return new BtnEnumerator(this, keyLo, keyHi, reverse, -3);
     }
     //////////////////////////
-    public static BtnEnumerator GetEnumeratorEx(FcsBTreeN<TKey, TValue> btn, TKey? keyLo, TKey? keyHi, bool reverse, int maxCount)
+    public FcsBTreeN<TKey, TValue>.BtnEnumerator GetEnumeratorEx(TKey? keyLo, TKey? keyHi, bool reverse, int maxCount)
     {
-      return new BtnEnumerator(btn, keyLo, keyHi, reverse, maxCount);
+      return new BtnEnumerator(this, keyLo, keyHi, reverse, maxCount);
     }
     //////////////////////////
     IEnumerator IEnumerable.GetEnumerator()

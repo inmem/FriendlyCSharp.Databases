@@ -339,24 +339,24 @@ namespace FriendlyCSharp.Databases
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////         IEnumerator          //////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    public static BtnEnumeratorFast GetEnumeratorFastEx(FcsFastBTreeN<TKey, TValue> btnFast, bool reverse)
+    public FcsFastBTreeN<TKey, TValue>.BtnEnumeratorFast GetEnumeratorFastEx(bool reverse)
     {
-      return new BtnEnumeratorFast(btnFast, null, null, reverse, -2);
+      return new BtnEnumeratorFast(this, null, null, reverse, -2);
     }
     //////////////////////////
-    public static BtnEnumeratorFast GetEnumeratorFastEx(FcsFastBTreeN<TKey, TValue> btnFast, bool reverse, int maxCount)
+    public FcsFastBTreeN<TKey, TValue>.BtnEnumeratorFast GetEnumeratorFastEx(bool reverse, int maxCount)
     {
-      return new BtnEnumeratorFast(btnFast, null, null, reverse, maxCount);
+      return new BtnEnumeratorFast(this, null, null, reverse, maxCount);
     }
     //////////////////////////
-    public static BtnEnumeratorFast GetEnumeratorFastEx(FcsFastBTreeN<TKey, TValue> btnFast, TKey? keyLo, TKey? keyHi, bool reverse)
+    public FcsFastBTreeN<TKey, TValue>.BtnEnumeratorFast GetEnumeratorFastEx(TKey? keyLo, TKey? keyHi, bool reverse)
     {
-      return new BtnEnumeratorFast(btnFast, keyLo, keyHi, reverse, -3);
+      return new BtnEnumeratorFast(this, keyLo, keyHi, reverse, -3);
     }
     //////////////////////////
-    public static BtnEnumeratorFast GetEnumeratorFastEx(FcsFastBTreeN<TKey, TValue> btnFast, TKey? keyLo, TKey? keyHi, bool reverse, int maxCount)
+    public FcsFastBTreeN<TKey, TValue>.BtnEnumeratorFast GetEnumeratorFastEx(TKey? keyLo, TKey? keyHi, bool reverse, int maxCount)
     {
-      return new BtnEnumeratorFast(btnFast, keyLo, keyHi, reverse, maxCount);
+      return new BtnEnumeratorFast(this, keyLo, keyHi, reverse, maxCount);
     }
     //////////////////////////
     public new IEnumerator<KeyValuePair<TKey, TValue>?> GetEnumerator()

@@ -22,7 +22,6 @@ namespace FriendlyCSharp.Databases
     protected long _capacity;
     protected long _length;
     protected bool _isOpen;
-// Specify if necessary, the symbol of:   Project -> Properties -> Build -> Conditional Compilation Symbols 
     private long _position;
     protected readonly object _lockAppend = new object();
     public const long OFFSET_ERROR = long.MinValue;
@@ -350,6 +349,11 @@ namespace FriendlyCSharp.Databases
     /////////////////////////////////////////////    Length, Open, Position    //////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public override long Length { get => _length; }
+    /////////////////////////////////////////////
+    public static FcsInmemStream<T> Open()
+    {
+      return new FcsInmemStream<T>(0, false);
+    }
     /////////////////////////////////////////////
     public static FcsInmemStream<T> Open(short deltaPage)
     {
@@ -813,14 +817,14 @@ namespace FriendlyCSharp.Databases
       }
     }
     /////////////////////////////////////////////
-    public static ImsEnumerator GetEnumeratorEx(FcsInmemStream<T> inmem, long posLo)
+    public FcsInmemStream<T>.ImsEnumerator GetEnumeratorEx(long posLo)
     {
-      return new ImsEnumerator(inmem, posLo, -1);
+      return new ImsEnumerator(this, posLo, -1);
     }
     /////////////////////////////////////////////
-    public static ImsEnumerator GetEnumeratorEx(FcsInmemStream<T> inmem, long posLo, int countMax)
+    public FcsInmemStream<T>.ImsEnumerator GetEnumeratorEx(long posLo, int countMax)
     {
-      return new ImsEnumerator(inmem, posLo, countMax);
+      return new ImsEnumerator(this, posLo, countMax);
     }
     /////////////////////////////////////////////
     IEnumerator IEnumerable.GetEnumerator()
