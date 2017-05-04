@@ -1,9 +1,9 @@
-﻿using FriendlyCSharp.Databases;
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using FriendlyCSharp.Databases;
 
-namespace FcsInmemStream.examples
+namespace FcsInmemStream.Core.examples
 {
   class Program
   {
@@ -22,6 +22,8 @@ namespace FcsInmemStream.examples
     static void Main(string[] args)
     {
       Console.OutputEncoding = System.Text.Encoding.Unicode;
+      Console.WriteLine("FcsInmemStream.Core11.examples");
+      Console.WriteLine("------------------------------");
 
       int iSizeT = Marshal.SizeOf(default(StructIms));
       int iRepeat = 6000;
@@ -58,6 +60,13 @@ namespace FcsInmemStream.examples
 
       // foreach()
       iID = 0;
+      foreach (StructIms value in ims)
+      {
+        if (value.key != iID)
+          break;
+        iID++;
+      }
+      iID = 0;
       swX.Reset();
       swX.Start();
       foreach (StructIms value in ims)
@@ -70,9 +79,15 @@ namespace FcsInmemStream.examples
       Console.WriteLine("foreach IOPS: {0,13:N0} [{1:N7} s] | count: {2,10:N0}", iID / swX.Elapsed.TotalSeconds, swX.Elapsed.TotalSeconds, iID);
 
       // Write()
+      long pos = 0;
+      while (pos < ims.Length)
+      {
+        int iRead = ims.Read(pos, aIms, (UInt16)cacheCount);
+        pos += iRead;
+      }
       Array.Clear(aIms, 0, aIms.Length);
       iID = 0;
-      long pos = 0;
+      pos = 0;
       swX.Reset();
       while (pos < ims.Length)
       {
@@ -111,7 +126,7 @@ namespace FcsInmemStream.examples
       Console.WriteLine("Read IOPS:    {0,13:N0} [{1:N7} s] | count: {2,10:N0}", iID / swX.Elapsed.TotalSeconds, swX.Elapsed.TotalSeconds, iID);
       ims.Close();
 
-      Console.WriteLine();
+      Console.WriteLine("------------------------------");
       Console.WriteLine("Key ENTER press.");
       Console.ReadLine();
     }

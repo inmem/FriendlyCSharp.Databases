@@ -17,8 +17,8 @@ A library of cross platform C# data structures. Generic [**B-tree**](https://en.
    + `Methods:` BtnFastFind, BtnFastFirst, BtnFastLast, BtnFastNext, BtnFastPrev, BtnFastSearch, BtnFastSearchPrev.
 
 ### Examples
-* [BtnEnumerator.examples](BtnEnumerator.examples)
-* [FcsFastBTreeN.benchmark](FcsFastBTreeN.benchmark)
+* [BtnEnumerator.Core.examples](BtnEnumerator.Core.examples), [BtnEnumerator.NET.examples](BtnEnumerator.NET.examples)
+* [FcsFastBTreeN.Core.benchmark](FcsFastBTreeN.Core.benchmark), [FcsFastBTreeN.NET.benchmark](FcsFastBTreeN.NET.benchmark)
 
 ### Performance
 A [**B-tree**](https://en.wikipedia.org/wiki/B-tree) of order m is a tree which satisfies the following properties:
@@ -52,7 +52,7 @@ The benchmark was configured as follows:
 | [**FcsFastBTreeN&lt;...&gt;**](#fcsfastbtreentkey-tvalue) | **Yes** | 10,000,000 | **6,185** | **619** | **100%** | **131** | **100%** |
 | SortedSet&lt;...&gt; | **Yes** | 10,000,000 | ~~&nbsp;19,443&nbsp;~~ | ~~&nbsp;1,944&nbsp;~~ | ~~&nbsp;32%&nbsp;~~ | ~~&nbsp;458&nbsp;~~ | &nbsp;358%&nbsp; |
 | HashSet&lt;...&gt; | No | 10,000,000 | 2,017 | 202 | 307% | 229 | 179% |
-| Dictionary&lt;...&gt; | No | 10,000,000 | 1,378 | 138 | 449% | 190 | 145% |
+| Dictionary&lt;...&gt; | No | 10,000,000 | 1,378 | 138 | 449% | 229 | 179% |
 
 >**Foreach in a single thread:**
 
@@ -84,9 +84,10 @@ protected virtual int BtnCompares(TKey keyX, TKey keyY, object objCmp)
 ```cs
 public class MyBtnKeyValue : FcsBTreeN<int, uint>
 {
-  protected override void BtnUpdates(int keyAdd, uint valueAdd, ref uint valueUpdates, object objUpdates)
+  protected override bool BtnUpdates(int keyAdd, uint valueAdd, ref uint valueUpdates, object objUpdates)
   {
     valueUpdates++;
+    return true;
   }
   //////////////////////////
   protected override int BtnCompares(int keyX, int keyY, object objCmp)
@@ -107,7 +108,7 @@ Tree gradually passes from the lowest, from the specified keys or higher.
 >Typical usage:
 
 ```cs
-foreach(KeyValuePair<TKey, TValue>? BtnKV in MyBtnKeyValue)
+foreach(KeyValuePair<TKey, TValue>? btnKV in MyBtnKeyValue)
 {
 }
 ```
@@ -257,7 +258,7 @@ public virtual KeyValuePair<TKey, TValue>? BtnSearchPrev(TKey key)
    + `Methods:` Append, Close, Length, Open, Position, Read, Seek, Write.
 
 ### Examples
-* [FcsInmemStream.examples](FcsInmemStream.examples)
+* [FcsInmemStream.Core.examples](FcsInmemStream.Core.examples), [FcsInmemStream.NET.examples](FcsInmemStream.NET.examples)
 
 ### Benchmark 
 The benchmark was configured as follows:

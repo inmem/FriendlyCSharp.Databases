@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using FriendlyCSharp.Databases;
 
-namespace BtnEnumerator.examples
+namespace BtnEnumerator.NET.examples
 {
   public class TestKV : FcsBTreeN<int, uint>
   {
@@ -28,6 +28,8 @@ namespace BtnEnumerator.examples
     static void Main(string[] args)
     {
       Console.OutputEncoding = System.Text.Encoding.Unicode;
+      Console.WriteLine("BtnEnumerator.NET452.examples");
+      Console.WriteLine("-----------------------------");
 
       uint uiCount = 1;
       TestKV btnTest = new TestKV();
@@ -57,7 +59,7 @@ namespace BtnEnumerator.examples
       btnTest.BtnAdd(25, uiCount); //
 
       // output: 5,7,8,10,13,15,18,20,22,24,25,26,27,30,32,35,38,40,42,45,46,
-      foreach(KeyValuePair<int, uint>? keyValue in btnTest)
+      foreach (KeyValuePair<int, uint>? keyValue in btnTest)
         Console.Write(keyValue.GetValueOrDefault().Key + ",");
       Console.WriteLine();
 
@@ -104,7 +106,7 @@ namespace BtnEnumerator.examples
       btnEn.Dispose();
 
       // ---------- REVERSE ---------- 
-      Console.WriteLine();
+      Console.WriteLine("-----------------------------");
       // output: 46,45,42,40,38,35,32,30,27,26,25,24,22,20,18,15,13,10,8,7,5,
       btnEn = btnTest.GetEnumeratorEx(true);
       while (btnEn.MoveNext())
@@ -147,7 +149,7 @@ namespace BtnEnumerator.examples
       Console.WriteLine();
       btnEn.Dispose();
 
-      Console.WriteLine();
+      Console.WriteLine("-----------------------------");
       Console.WriteLine("Key ENTER press.");
       Console.ReadLine();
     }

@@ -1,15 +1,20 @@
-﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26403.7
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FriendlyCSharp.Databases", "FriendlyCSharp.Databases\FriendlyCSharp.Databases.csproj", "{025F885E-8B28-410E-8059-EF5FE70EE1C7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BtnEnumerator.examples", "BtnEnumerator.examples\BtnEnumerator.examples.csproj", "{A8A0F38B-D324-4EC3-B87E-8731773E052C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BtnEnumerator.Core.examples", "BtnEnumerator.Core.examples\BtnEnumerator.Core.examples.csproj", "{A8A0F38B-D324-4EC3-B87E-8731773E052C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FcsInmemStream.examples", "FcsInmemStream.examples\FcsInmemStream.examples.csproj", "{58D9270A-D1CF-4CB2-8A0F-222A99B906ED}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FcsInmemStream.Core.examples", "FcsInmemStream.Core.examples\FcsInmemStream.Core.examples.csproj", "{58D9270A-D1CF-4CB2-8A0F-222A99B906ED}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FcsFastBTreeN.benchmark", "FcsFastBTreeN.benchmark\FcsFastBTreeN.benchmark.csproj", "{9EFD0AF3-3F32-4ECA-8D1B-A635928F278D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FcsFastBTreeN.Core.benchmark", "FcsFastBTreeN.Core.benchmark\FcsFastBTreeN.Core.benchmark.csproj", "{9EFD0AF3-3F32-4ECA-8D1B-A635928F278D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BtnEnumerator.NET.examples", "BtnEnumerator.NET.examples\BtnEnumerator.NET.examples.csproj", "{543751D8-0433-4634-A221-7FB49AFCF81B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FcsFastBTreeN.NET.benchmark", "FcsFastBTreeN.NET.benchmark\FcsFastBTreeN.NET.benchmark.csproj", "{421FC1B7-9B96-4A1A-B8C9-2E1E0137B332}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FcsInmemStream.NET.examples", "FcsInmemStream.NET.examples\FcsInmemStream.NET.examples.csproj", "{F2C7032E-EC2E-4D9F-A3C5-0D8869F342E0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +38,18 @@ Global
 		{9EFD0AF3-3F32-4ECA-8D1B-A635928F278D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9EFD0AF3-3F32-4ECA-8D1B-A635928F278D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9EFD0AF3-3F32-4ECA-8D1B-A635928F278D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{543751D8-0433-4634-A221-7FB49AFCF81B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{543751D8-0433-4634-A221-7FB49AFCF81B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{543751D8-0433-4634-A221-7FB49AFCF81B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{543751D8-0433-4634-A221-7FB49AFCF81B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{421FC1B7-9B96-4A1A-B8C9-2E1E0137B332}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{421FC1B7-9B96-4A1A-B8C9-2E1E0137B332}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{421FC1B7-9B96-4A1A-B8C9-2E1E0137B332}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{421FC1B7-9B96-4A1A-B8C9-2E1E0137B332}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F2C7032E-EC2E-4D9F-A3C5-0D8869F342E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F2C7032E-EC2E-4D9F-A3C5-0D8869F342E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F2C7032E-EC2E-4D9F-A3C5-0D8869F342E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F2C7032E-EC2E-4D9F-A3C5-0D8869F342E0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
