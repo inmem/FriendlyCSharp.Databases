@@ -53,7 +53,7 @@ namespace FcsFastBTreeN.NET.benchmark
     const int _max = 1;
     static void Main(string[] args)
     {
-      Console.OutputEncoding = System.Text.Encoding.Unicode;
+      Console.OutputEncoding = System.Text.Encoding.UTF8;
       Console.WriteLine("FcsFastBTreeN.NET452.benchmark");
       Console.WriteLine("------------------------------");
 
