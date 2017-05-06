@@ -6,14 +6,14 @@ A library of cross platform C# data structures. Generic [**B-tree**](https://en.
 &nbsp;
 ## B-Tree generic class
 #### [FcsBTreeN&lt;TKey, TValue&gt;](FriendlyCSharp.Databases/BTreeN/FcsBTreeN.cs) \[where TKey : struct, IComparable&lt;TKey&gt;\]
-   + `Methods:` BtnCompares, BtnUpdates, BtnAdd, BtnDeleteAll, BtnFind, BtnFirst, BtnLast, BtnNext, BtnPrev, BtnSearch, BtnSearchPrev, BtnUpdate and BtnUsedKeys.
+   + `Methods:` BtnAddFirst, BtnCompares, BtnUpdates, BtnAdd, BtnDeleteAll, BtnFind, BtnFirst, BtnLast, BtnNext, BtnPrev, BtnSearch, BtnSearchPrev, BtnUpdate and BtnUsedKeys.
 #### [FcsFastBTreeN&lt;TKey, TValue&gt;](FriendlyCSharp.Databases/BTreeN/FcsFastBTreeN.cs) \[where TKey : struct, IComparable&lt;TKey&gt;\]
-   + `Methods:` BtnCompares, BtnUpdates, BtnAdd, BtnDeleteAll, BtnFind, BtnFirst, BtnLast, BtnNext, BtnPrev, BtnSearch, BtnSearchPrev, BtnUpdate and BtnUsedKeys.
+   + `Methods:` BtnAddFirst, BtnCompares, BtnUpdates, BtnAdd, BtnDeleteAll, BtnFind, BtnFirst, BtnLast, BtnNext, BtnPrev, BtnSearch, BtnSearchPrev, BtnUpdate and BtnUsedKeys.
    + `Methods:` BtnFastFind, BtnFastFirst, BtnFastLast, BtnFastNext, BtnFastPrev, BtnFastSearch, BtnFastSearchPrev.
 #### [FcsLockBTreeN&lt;TKey, TValue&gt;](FriendlyCSharp.Databases/BTreeN/FcsLockBTreeN.cs) \[where TKey : struct, IComparable&lt;TKey&gt;\]
-   + `Methods:` BtnCompares, BtnUpdates, BtnAdd, BtnDeleteAll, BtnFind, BtnFirst, BtnLast, BtnNext, BtnPrev, BtnSearch, BtnSearchPrev, BtnUpdate and BtnUsedKeys.
+   + `Methods:` BtnAddFirst, BtnCompares, BtnUpdates, BtnAdd, BtnDeleteAll, BtnFind, BtnFirst, BtnLast, BtnNext, BtnPrev, BtnSearch, BtnSearchPrev, BtnUpdate and BtnUsedKeys.
 #### [FcsFastLockBTreeN&lt;TKey, TValue&gt;](FriendlyCSharp.Databases/BTreeN/FcsFastLockBTreeN.cs) \[where TKey : struct, IComparable&lt;TKey&gt;\]
-   + `Methods:` BtnCompares, BtnUpdates, BtnAdd, BtnDeleteAll, BtnFind, BtnFirst, BtnLast, BtnNext, BtnPrev, BtnSearch, BtnSearchPrev, BtnUpdate and BtnUsedKeys.
+   + `Methods:` BtnAddFirst, BtnCompares, BtnUpdates, BtnAdd, BtnDeleteAll, BtnFind, BtnFirst, BtnLast, BtnNext, BtnPrev, BtnSearch, BtnSearchPrev, BtnUpdate and BtnUsedKeys.
    + `Methods:` BtnFastFind, BtnFastFirst, BtnFastLast, BtnFastNext, BtnFastPrev, BtnFastSearch, BtnFastSearchPrev.
 
 ### Examples
