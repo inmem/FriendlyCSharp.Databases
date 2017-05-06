@@ -28,8 +28,8 @@ namespace BtnEnumerator.Core.examples
     static void Main(string[] args)
     {
       Console.OutputEncoding = System.Text.Encoding.UTF8;
-      Console.WriteLine("BtnEnumerator.Core11.examples");
-      Console.WriteLine("-----------------------------");
+      Console.WriteLine(String.Format("BtnEnumerator.Core11.examples, {0}", (IntPtr.Size == 4) ? "32 bit" : "64 bit"));
+      Console.WriteLine("-------------------------------------");
 
       uint uiCount = 1;
       TestKV btnTest = new TestKV();
@@ -106,7 +106,7 @@ namespace BtnEnumerator.Core.examples
       btnEn.Dispose();
 
       // ---------- REVERSE ---------- 
-      Console.WriteLine("-----------------------------");
+      Console.WriteLine("-------------------------------------");
       // output: 46,45,42,40,38,35,32,30,27,26,25,24,22,20,18,15,13,10,8,7,5,
       btnEn = btnTest.GetEnumeratorEx(true);
       while (btnEn.MoveNext())
@@ -149,7 +149,7 @@ namespace BtnEnumerator.Core.examples
       Console.WriteLine();
       btnEn.Dispose();
 
-      Console.WriteLine("-----------------------------");
+      Console.WriteLine("-------------------------------------");
       Console.WriteLine("Key ENTER press.");
       Console.ReadLine();
     }

@@ -156,8 +156,14 @@ namespace FriendlyCSharp.Databases
       return false;
     }
     //////////////////////////
+    protected virtual void BtnAddFirst(TValue valueIn, out TValue valueAdd)
+    {
+      valueAdd = valueIn;
+    }
+    //////////////////////////
     protected virtual int BtnCompares(TKey keyX, TKey keyY, object objCmp)
     {
+      // return < 0 (less), = 0 (equal), > 0 (greater)
       return keyX.CompareTo(keyY);
     }
     //////////////////////////
@@ -174,7 +180,8 @@ namespace FriendlyCSharp.Databases
       if (kvPageUp == null)
       { 
         bUp = true;
-        kvUp = kvAdd;
+        kvUp.key = kvAdd.key;
+        BtnAddFirst(kvAdd.value, out kvUp.value);
       }
       else
       {
@@ -1161,7 +1168,7 @@ namespace FriendlyCSharp.Databases
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////           BtnUsedKeys           ///////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    protected void _BtnUsedKeys(ref uint Count, BtnKeyValuePage QQ)
+    private void _BtnUsedKeys(ref uint Count, BtnKeyValuePage QQ)
     {
       if (QQ != null)
       {

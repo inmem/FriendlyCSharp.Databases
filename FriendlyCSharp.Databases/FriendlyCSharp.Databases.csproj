@@ -13,14 +13,14 @@
 
 The B-tree is a generalization of a binary search tree in that a node can have more than two children (Comer 1979, p. 123). Unlike self-balancing binary search trees, the B-tree is optimized for systems that read and write large blocks of data.
 </Description>
-    <PackageReleaseNotes>Update FcsBTreeN&lt;K,V&gt;.BtnEnumerator and FcsFastBTreeN&lt;K,V&gt;.BtnEnumerator</PackageReleaseNotes>
+    <PackageReleaseNotes>add FcsBTreeN.BtnAddFirst()</PackageReleaseNotes>
   </PropertyGroup>
 
   <PropertyGroup>
     <TargetFramework>netstandard1.1</TargetFramework>
-    <Version>1.0.2</Version>
-    <AssemblyVersion>1.0.2.0</AssemblyVersion>
-    <FileVersion>1.0.2.0</FileVersion>
+    <Version>1.0.3</Version>
+    <AssemblyVersion>1.0.3.0</AssemblyVersion>
+    <FileVersion>1.0.3.0</FileVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

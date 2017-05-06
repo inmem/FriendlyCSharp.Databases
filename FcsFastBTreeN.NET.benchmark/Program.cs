@@ -54,8 +54,8 @@ namespace FcsFastBTreeN.NET.benchmark
     static void Main(string[] args)
     {
       Console.OutputEncoding = System.Text.Encoding.UTF8;
-      Console.WriteLine("FcsFastBTreeN.NET452.benchmark");
-      Console.WriteLine("------------------------------");
+      Console.WriteLine(String.Format("FcsFastBTreeN.NET452.benchmark, {0}", (IntPtr.Size == 4) ? "32 bit" : "64 bit"));
+      Console.WriteLine("--------------------------------------");
 
       int iPocetAdd = 0;
       Random r = new Random((int)DateTime.Now.Ticks);
@@ -77,7 +77,7 @@ namespace FcsFastBTreeN.NET.benchmark
       long iMemOld = iMem;
       //
       //
-      Console.WriteLine("------------------------------");
+      Console.WriteLine("--------------------------------------");
       Console.WriteLine("FcsFastBTreeN");
       TestKV btnTest = new TestKV();
       var swFcsKV = Stopwatch.StartNew();
@@ -113,7 +113,7 @@ namespace FcsFastBTreeN.NET.benchmark
       Console.WriteLine($"{((double)(swFcsKV.Elapsed.TotalMilliseconds * 1000000) / iCompareCount),7:N2} ns  [{swFcsKV.Elapsed.TotalMilliseconds,11} ms | {iCompareCount} ]{iCompareCount / swFcsKV.Elapsed.TotalSeconds,20:N0} IOPS");
       //
       //
-      Console.WriteLine("------------------------------");
+      Console.WriteLine("--------------------------------------");
       Console.WriteLine("SortedSet");
       SortedSet<StructBtn> sorted = new SortedSet<StructBtn>(Comparer<StructBtn>.Create((a, b) => a.CompareTo(b)));
       var swSorted = Stopwatch.StartNew();
@@ -141,7 +141,7 @@ namespace FcsFastBTreeN.NET.benchmark
       Console.WriteLine($"{((double)(swSorted.Elapsed.TotalMilliseconds * 1000000) / iCompareCount),7:N2} ns  [{swSorted.Elapsed.TotalMilliseconds,11} ms | {iCompareCount} ]{iCompareCount / swSorted.Elapsed.TotalSeconds,20:N0} IOPS");
       //
       //
-      Console.WriteLine("------------------------------");
+      Console.WriteLine("--------------------------------------");
       Console.WriteLine("HashSet");
       var hash = new HashSet<StructBtn>(new StructBtnComparer());
       var swHash = Stopwatch.StartNew();
@@ -169,7 +169,7 @@ namespace FcsFastBTreeN.NET.benchmark
       Console.WriteLine($"{((double)(swHash.Elapsed.TotalMilliseconds * 1000000) / iCompareCount),7:N2} ns  [{swSorted.Elapsed.TotalMilliseconds,11} ms | {iCompareCount} ]{iCompareCount / swHash.Elapsed.TotalSeconds,20:N0} IOPS");
       //
       //
-      Console.WriteLine("------------------------------");
+      Console.WriteLine("--------------------------------------");
       Console.WriteLine("Dictionary");
       var dic = new Dictionary<int, uint>();
       var swDic = Stopwatch.StartNew();
@@ -194,7 +194,7 @@ namespace FcsFastBTreeN.NET.benchmark
       //
       iCompareCount = 0;
       int iCompareEquals = 0;
-      Console.WriteLine("------------------------------");
+      Console.WriteLine("--------------------------------------");
       Console.WriteLine("Checking for sorting and matching");
       btnTest.BtnFastFirst(out fcsKey2, out fcsValue2, 2);
       foreach (StructBtn sortedSet in sorted)
@@ -211,7 +211,7 @@ namespace FcsFastBTreeN.NET.benchmark
       Console.WriteLine($"count SortedSet:      {iCompareCount}");
       Console.WriteLine($"checking:             {iCompareEquals}");
 
-      Console.WriteLine("------------------------------");
+      Console.WriteLine("--------------------------------------");
       Console.WriteLine("Key ENTER press.");
       Console.ReadLine();
     }

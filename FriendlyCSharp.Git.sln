@@ -16,6 +16,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FcsFastBTreeN.NET.benchmark
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FcsInmemStream.NET.examples", "FcsInmemStream.NET.examples\FcsInmemStream.NET.examples.csproj", "{F2C7032E-EC2E-4D9F-A3C5-0D8869F342E0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultipleKeys.NET.examples", "MultipleKeys.NET.examples\MultipleKeys.NET.examples.csproj", "{8C949D90-EF08-467F-87D0-F09E89B89ADD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultipleKeys.Core.examples", "MultipleKeys.Core.examples\MultipleKeys.Core.examples.csproj", "{8438A9C7-1A14-46A6-9664-15FEBA8E108B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -50,6 +54,14 @@ Global
 		{F2C7032E-EC2E-4D9F-A3C5-0D8869F342E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F2C7032E-EC2E-4D9F-A3C5-0D8869F342E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F2C7032E-EC2E-4D9F-A3C5-0D8869F342E0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8C949D90-EF08-467F-87D0-F09E89B89ADD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C949D90-EF08-467F-87D0-F09E89B89ADD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C949D90-EF08-467F-87D0-F09E89B89ADD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C949D90-EF08-467F-87D0-F09E89B89ADD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8438A9C7-1A14-46A6-9664-15FEBA8E108B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8438A9C7-1A14-46A6-9664-15FEBA8E108B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8438A9C7-1A14-46A6-9664-15FEBA8E108B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8438A9C7-1A14-46A6-9664-15FEBA8E108B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
