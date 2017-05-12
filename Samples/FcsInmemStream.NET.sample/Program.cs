@@ -1,9 +1,9 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using FriendlyCSharp.Databases;
 
-namespace FcsInmemStream.Core.examples
+namespace FcsInmemStream.NET.sample
 {
   class Program
   {
@@ -22,8 +22,8 @@ namespace FcsInmemStream.Core.examples
     static void Main(string[] args)
     {
       Console.OutputEncoding = System.Text.Encoding.UTF8;
-      Console.WriteLine(String.Format("FcsInmemStream.Core11.examples, {0}", (IntPtr.Size == 4) ? "32 bit" : "64 bit"));
-      Console.WriteLine("--------------------------------------");
+      Console.WriteLine(String.Format("FcsInmemStream.NET452.sample, {0}", (IntPtr.Size == 4) ? "32 bit" : "64 bit"));
+      Console.WriteLine("------------------------------------");
 
       int iSizeT = Marshal.SizeOf(default(StructIms));
       int iRepeat = 6000;
@@ -126,7 +126,7 @@ namespace FcsInmemStream.Core.examples
       Console.WriteLine("Read IOPS:    {0,13:N0} [{1:N7} s] | count: {2,10:N0}", iID / swX.Elapsed.TotalSeconds, swX.Elapsed.TotalSeconds, iID);
       ims.Close();
 
-      Console.WriteLine("--------------------------------------");
+      Console.WriteLine("------------------------------------");
       Console.WriteLine("Key ENTER press.");
       Console.ReadLine();
     }

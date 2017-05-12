@@ -1,15 +1,15 @@
-﻿using System.Reflection;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("FcsInmemStream.NET.examples")]
+[assembly: AssemblyTitle("BtnEnumerator.NET451.sample")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("FcsInmemStream.NET.examples")]
+[assembly: AssemblyProduct("BtnEnumerator.NET451.sample")]
 [assembly: AssemblyCopyright("Copyright ©  2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("f2c7032e-ec2e-4d9f-a3c5-0d8869f342e0")]
+[assembly: Guid("543751d8-0433-4634-a221-7fb49afcf81b")]
 
 // Version information for an assembly consists of the following four values:
 //

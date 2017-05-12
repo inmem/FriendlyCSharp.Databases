@@ -5,7 +5,7 @@
     <Authors>KUBDAT®</Authors>
     <Company>inmem, s.r.o.</Company>
     <PackageLicenseUrl>https://github.com/inmem/FriendlyCSharp.Databases/blob/master/LICENSE</PackageLicenseUrl>
-    <PackageProjectUrl>https://www.nuget.org/packages/FriendlyCSharp.Databases</PackageProjectUrl>
+    <PackageProjectUrl></PackageProjectUrl>
     <RepositoryUrl>https://github.com/inmem/FriendlyCSharp.Databases</RepositoryUrl>
     <PackageTags>C# cross-platform netstandard key-value nosql in-memory cache database b-tree btree Bayer fulltext elastic search KUBDAT inmem</PackageTags>
     <Copyright>Copyright 2017 (c) KUBDAT® &amp; inmem, s.r.o.</Copyright>
@@ -13,14 +13,14 @@
 
 The B-tree is a generalization of a binary search tree in that a node can have more than two children (Comer 1979, p. 123). Unlike self-balancing binary search trees, the B-tree is optimized for systems that read and write large blocks of data.
 </Description>
-    <PackageReleaseNotes>add FcsBTreeN.BtnAddFirst()</PackageReleaseNotes>
+    <PackageReleaseNotes>Upgrades with news NETStandard.Library 2.0.0-preview</PackageReleaseNotes>
   </PropertyGroup>
 
   <PropertyGroup>
-    <TargetFramework>netstandard1.1</TargetFramework>
-    <Version>1.0.3</Version>
-    <AssemblyVersion>1.0.3.0</AssemblyVersion>
-    <FileVersion>1.0.3.0</FileVersion>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Version>2.0.0-preview</Version>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
+    <FileVersion>2.0.0.0</FileVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -30,5 +30,9 @@ The B-tree is a generalization of a binary search tree in that a node can have m
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DefineConstants>TRACE;RELEASE;NETSTANDARD1_1;KEY_VALUE_PAIR</DefineConstants>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Update="NETStandard.Library" Version="2.0.0-preview1-25301-01" />
+  </ItemGroup>
 
 </Project>

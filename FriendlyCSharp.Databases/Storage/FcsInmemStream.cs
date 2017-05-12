@@ -11,7 +11,7 @@ using System.Runtime.InteropServices;
 namespace FriendlyCSharp.Databases
 {
   public partial class FcsInmemStream<T> : Stream, IDisposable, IEnumerable, IEnumerable<T> 
-                                           where T : struct//, ICloneable
+                                           where T : struct, ICloneable
   {
     protected int _maxBlockByte = 1 << 20;
     protected int _bufferCols;
@@ -54,7 +54,7 @@ namespace FriendlyCSharp.Databases
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////         Transaction          //////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    public struct Transaction //: ICloneable
+    public struct Transaction : ICloneable
     {
       public long   keyPos;
       public UInt16 keyCount;
@@ -270,7 +270,7 @@ namespace FriendlyCSharp.Databases
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public virtual long Capacity { get => _capacity; }
     /////////////////////////////////////////////
-    public void Close()
+    public override void Close()
     {
       _isOpen = false;
       Dispose();

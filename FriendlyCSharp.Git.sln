@@ -1,24 +1,28 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26403.7
+VisualStudioVersion = 15.0.26510.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FriendlyCSharp.Databases", "FriendlyCSharp.Databases\FriendlyCSharp.Databases.csproj", "{025F885E-8B28-410E-8059-EF5FE70EE1C7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BtnEnumerator.Core.examples", "BtnEnumerator.Core.examples\BtnEnumerator.Core.examples.csproj", "{A8A0F38B-D324-4EC3-B87E-8731773E052C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BtnEnumerator.Core.sample", "Samples\BtnEnumerator.Core.sample\BtnEnumerator.Core.sample.csproj", "{A8A0F38B-D324-4EC3-B87E-8731773E052C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FcsInmemStream.Core.examples", "FcsInmemStream.Core.examples\FcsInmemStream.Core.examples.csproj", "{58D9270A-D1CF-4CB2-8A0F-222A99B906ED}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FcsInmemStream.Core.sample", "Samples\FcsInmemStream.Core.sample\FcsInmemStream.Core.sample.csproj", "{58D9270A-D1CF-4CB2-8A0F-222A99B906ED}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FcsFastBTreeN.Core.benchmark", "FcsFastBTreeN.Core.benchmark\FcsFastBTreeN.Core.benchmark.csproj", "{9EFD0AF3-3F32-4ECA-8D1B-A635928F278D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FcsFastBTreeN.Core.benchmark", "Samples\FcsFastBTreeN.Core.benchmark\FcsFastBTreeN.Core.benchmark.csproj", "{9EFD0AF3-3F32-4ECA-8D1B-A635928F278D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BtnEnumerator.NET.examples", "BtnEnumerator.NET.examples\BtnEnumerator.NET.examples.csproj", "{543751D8-0433-4634-A221-7FB49AFCF81B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BtnEnumerator.NET.sample", "Samples\BtnEnumerator.NET.sample\BtnEnumerator.NET.sample.csproj", "{543751D8-0433-4634-A221-7FB49AFCF81B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FcsFastBTreeN.NET.benchmark", "FcsFastBTreeN.NET.benchmark\FcsFastBTreeN.NET.benchmark.csproj", "{421FC1B7-9B96-4A1A-B8C9-2E1E0137B332}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FcsFastBTreeN.NET.benchmark", "Samples\FcsFastBTreeN.NET.benchmark\FcsFastBTreeN.NET.benchmark.csproj", "{421FC1B7-9B96-4A1A-B8C9-2E1E0137B332}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FcsInmemStream.NET.examples", "FcsInmemStream.NET.examples\FcsInmemStream.NET.examples.csproj", "{F2C7032E-EC2E-4D9F-A3C5-0D8869F342E0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FcsInmemStream.NET.sample", "Samples\FcsInmemStream.NET.sample\FcsInmemStream.NET.sample.csproj", "{F2C7032E-EC2E-4D9F-A3C5-0D8869F342E0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultipleKeys.NET.examples", "MultipleKeys.NET.examples\MultipleKeys.NET.examples.csproj", "{8C949D90-EF08-467F-87D0-F09E89B89ADD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultipleKeys.NET.sample", "Samples\MultipleKeys.NET.sample\MultipleKeys.NET.sample.csproj", "{8C949D90-EF08-467F-87D0-F09E89B89ADD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultipleKeys.Core.examples", "MultipleKeys.Core.examples\MultipleKeys.Core.examples.csproj", "{8438A9C7-1A14-46A6-9664-15FEBA8E108B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultipleKeys.Core.sample", "Samples\MultipleKeys.Core.sample\MultipleKeys.Core.sample.csproj", "{8438A9C7-1A14-46A6-9664-15FEBA8E108B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DuplicityKeys.Core.sample", "DuplicityKeys.Core.sample\DuplicityKeys.Core.sample.csproj", "{8B6A5945-BC63-4358-BFAA-4EC78AAABD22}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{4657E7EB-D8BC-4ABA-BA7D-D977C684C2F4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -62,8 +66,22 @@ Global
 		{8438A9C7-1A14-46A6-9664-15FEBA8E108B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8438A9C7-1A14-46A6-9664-15FEBA8E108B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8438A9C7-1A14-46A6-9664-15FEBA8E108B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8B6A5945-BC63-4358-BFAA-4EC78AAABD22}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B6A5945-BC63-4358-BFAA-4EC78AAABD22}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B6A5945-BC63-4358-BFAA-4EC78AAABD22}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B6A5945-BC63-4358-BFAA-4EC78AAABD22}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A8A0F38B-D324-4EC3-B87E-8731773E052C} = {4657E7EB-D8BC-4ABA-BA7D-D977C684C2F4}
+		{58D9270A-D1CF-4CB2-8A0F-222A99B906ED} = {4657E7EB-D8BC-4ABA-BA7D-D977C684C2F4}
+		{9EFD0AF3-3F32-4ECA-8D1B-A635928F278D} = {4657E7EB-D8BC-4ABA-BA7D-D977C684C2F4}
+		{543751D8-0433-4634-A221-7FB49AFCF81B} = {4657E7EB-D8BC-4ABA-BA7D-D977C684C2F4}
+		{421FC1B7-9B96-4A1A-B8C9-2E1E0137B332} = {4657E7EB-D8BC-4ABA-BA7D-D977C684C2F4}
+		{F2C7032E-EC2E-4D9F-A3C5-0D8869F342E0} = {4657E7EB-D8BC-4ABA-BA7D-D977C684C2F4}
+		{8C949D90-EF08-467F-87D0-F09E89B89ADD} = {4657E7EB-D8BC-4ABA-BA7D-D977C684C2F4}
+		{8438A9C7-1A14-46A6-9664-15FEBA8E108B} = {4657E7EB-D8BC-4ABA-BA7D-D977C684C2F4}
 	EndGlobalSection
 EndGlobal

@@ -1,9 +1,9 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using FriendlyCSharp.Databases;
 using System.Diagnostics;
 
-namespace MultipleKeys.NET.examples
+namespace MultipleKeys.NET.sample
 {
   class Program
   {
@@ -15,7 +15,7 @@ namespace MultipleKeys.NET.examples
         if (valueUpdates.aDateTime.Length <= valueUpdates.count)
         {
           if (valueUpdates.aDateTime.Length >= 1024) 
-            Array.Resize<DateTime>(ref valueUpdates.aDateTime, valueUpdates.aDateTime.Length + 512); 
+            Array.Resize<DateTime>(ref valueUpdates.aDateTime, valueUpdates.aDateTime.Length + 256); 
           else
             Array.Resize<DateTime>(ref valueUpdates.aDateTime, valueUpdates.aDateTime.Length * 2);
         }
@@ -23,7 +23,7 @@ namespace MultipleKeys.NET.examples
         if (valueUpdates.aRand.Length <= valueUpdates.count)
         {
           if (valueUpdates.aRand.Length >= 1024) 
-            Array.Resize<uint>(ref valueUpdates.aRand, valueUpdates.aRand.Length + 512); 
+            Array.Resize<uint>(ref valueUpdates.aRand, valueUpdates.aRand.Length + 256); 
           else
             Array.Resize<uint>(ref valueUpdates.aRand, valueUpdates.aRand.Length * 2);
         }
@@ -138,8 +138,8 @@ namespace MultipleKeys.NET.examples
     static void Main(string[] args)
     {
       Console.OutputEncoding = System.Text.Encoding.UTF8;
-      Console.WriteLine(String.Format("MultipleKeys.NET452.examples, {0}", (IntPtr.Size == 4) ? "32 bit" : "64 bit"));
-      Console.WriteLine("------------------------------------");
+      Console.WriteLine(String.Format("MultipleKeys.NET452.sample, {0}", (IntPtr.Size == 4) ? "32 bit" : "64 bit"));
+      Console.WriteLine("----------------------------------");
 
       int max = 36000;
       string[] aCity = { "London", "Moscow", "Warsaw", "Berlin", "Paris", "Prague", "Brussels", "Vienna", "Zagreb", "Helsinki" };
@@ -164,7 +164,7 @@ namespace MultipleKeys.NET.examples
       //
       //
       iPocetAdd = 0;
-      Console.WriteLine("------------------------------------");
+      Console.WriteLine("----------------------------------");
       Console.WriteLine("FcsFastBTreeN");
       TestKV btnTest = new TestKV();
       var swFcsKV = Stopwatch.StartNew();
@@ -234,7 +234,7 @@ namespace MultipleKeys.NET.examples
       //
       //
 
-      Console.WriteLine("------------------------------------");
+      Console.WriteLine("----------------------------------");
       Console.WriteLine("Key ENTER press.");
       Console.ReadLine();
     }
