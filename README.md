@@ -7,7 +7,7 @@ A library of cross platform C# data structures. Generic [**B-tree**](https://en.
 ## B-Tree generic class
 #### [FcsBTreeN&lt;TKey, TValue&gt;](FriendlyCSharp.Databases/BTreeN/FcsBTreeN.cs) \[where TKey : struct, IComparable&lt;TKey&gt;\]
    + `Methods:` BtnAddFirst, BtnCompares, BtnUpdates, BtnAdd, BtnDeleteAll, BtnFind, BtnFirst, BtnLast, BtnNext, BtnPrev, BtnSearch, BtnSearchPrev, BtnUpdate and BtnUsedKeys.
-#### [FcsDuplValueFastBTreeN&lt;TKey, TValue&gt;](FriendlyCSharp.Databases/BTreeN/FcsDuplValueFastBTreeN.cs) \[where TKey : struct, IComparable&lt;TKey&gt;\] - new 2.0.0-preview
+#### [FcsDuplValueFastBTreeN&lt;TKey, TValue&gt;](FriendlyCSharp.Databases/BTreeN/FcsDuplValueFastBTreeN.cs) \[where TKey : struct, IComparable&lt;TKey&gt;\] - [new 2.0.0-preview](https://www.nuget.org/packages/FriendlyCSharp.Databases/2.0.0-preview)
    + `Methods:` BtnAddFirst, BtnCompares, BtnUpdates, BtnAdd, BtnDeleteAll, BtnFind, BtnFirst, BtnLast, BtnNext, BtnPrev, BtnSearch, BtnSearchPrev, BtnUpdate and BtnUsedKeys.
    + `Methods:` BtnFastFind, BtnFastFirst, BtnFastLast, BtnFastNext, BtnFastPrev, BtnFastSearch, BtnFastSearchPrev.
 #### [FcsFastBTreeN&lt;TKey, TValue&gt;](FriendlyCSharp.Databases/BTreeN/FcsFastBTreeN.cs) \[where TKey : struct, IComparable&lt;TKey&gt;\]
@@ -15,7 +15,7 @@ A library of cross platform C# data structures. Generic [**B-tree**](https://en.
    + `Methods:` BtnFastFind, BtnFastFirst, BtnFastLast, BtnFastNext, BtnFastPrev, BtnFastSearch, BtnFastSearchPrev.
 #### [FcsLockBTreeN&lt;TKey, TValue&gt;](FriendlyCSharp.Databases/BTreeN/FcsLockBTreeN.cs) \[where TKey : struct, IComparable&lt;TKey&gt;\]
    + `Methods:` BtnAddFirst, BtnCompares, BtnUpdates, BtnAdd, BtnDeleteAll, BtnFind, BtnFirst, BtnLast, BtnNext, BtnPrev, BtnSearch, BtnSearchPrev, BtnUpdate and BtnUsedKeys.
-#### [FcsKeyFastBTreeN&lt;TKey, TValue&gt;](FriendlyCSharp.Databases/BTreeN/FcsKeyFastBTreeN.cs) \[where TKey : struct\] - new 2.0.0-preview
+#### [FcsKeyFastBTreeN&lt;TKey, TValue&gt;](FriendlyCSharp.Databases/BTreeN/FcsKeyFastBTreeN.cs) \[where TKey : struct\] - [new 2.0.0-preview](https://www.nuget.org/packages/FriendlyCSharp.Databases/2.0.0-preview)
    + `Methods:` BtnAdd, BtnDeleteAll, BtnFind, BtnFirst, BtnLast, BtnNext, BtnPrev, BtnSearch, BtnSearchPrev, BtnUpdate and BtnUsedKeys.
    + `Methods:` BtnFastFind, BtnFastFirst, BtnFastLast, BtnFastNext, BtnFastPrev, BtnFastSearch, BtnFastSearchPrev.
 #### [FcsFastLockBTreeN&lt;TKey, TValue&gt;](FriendlyCSharp.Databases/BTreeN/FcsFastLockBTreeN.cs) \[where TKey : struct, IComparable&lt;TKey&gt;\]
@@ -26,7 +26,7 @@ A library of cross platform C# data structures. Generic [**B-tree**](https://en.
 * [BtnEnumerator.Core.sample](Samples/BtnEnumerator.Core.sample), [BtnEnumerator.NET.sample](Samples/BtnEnumerator.NET.sample)
 * [FcsFastBTreeN.Core.benchmark](Samples/FcsFastBTreeN.Core.benchmark), [FcsFastBTreeN.NET.benchmark](Samples/FcsFastBTreeN.NET.benchmark)
 * [MultipleKeys.Core.sample](Samples/MultipleKeys.Core.sample), [MultipleKeys.NET.sample](Samples/MultipleKeys.NET.sample)
-* [DuplicityKeys.Core.sample](DuplicityKeys.Core.sample) - Microsoft.NETCore.App 2.0.0-preview1, NETStandard.Library 2.0.0-preview1
+* [DuplicityKeys.Core.sample](DuplicityKeys.Core.sample) - [Microsoft.NETCore.App 2.0.0-preview1](https://www.nuget.org/packages/Microsoft.NETCore.App/2.0.0-preview1-002111-00), [NETStandard.Library 2.0.0-preview1](https://www.nuget.org/packages/NETStandard.Library/2.0.0-preview1-25301-01), [INSTALL](#install)
 
 ### Performance
 A [**B-tree**](https://en.wikipedia.org/wiki/B-tree) of order m is a tree which satisfies the following properties:
@@ -296,10 +296,16 @@ Instal Visual Studio 2017 version 15.3 preview
 * [Chanel 9 - Build 2017 - .NET Standard 2.0 and .NET Core 2.0](https://channel9.msdn.com/Events/Build/2017/C9L18)
 * [.NET Framework 4.6.1 supporting .NET Standard 2.0](https://github.com/dotnet/standard/blob/master/docs/netstandard-20/README.md#net-framework-461-supporting-net-standard-20)
 
-Install via Nuget Package Manager 2.0.0-preview
+Install via Nuget Package Manager [2.0.0-preview](https://www.nuget.org/packages/FriendlyCSharp.Databases/2.0.0-preview)
 
 ```
 PM> Install-Package FriendlyCSharp.Databases -pre
+```
+
+Install via Nuget Package Manager [1.0.3](https://www.nuget.org/packages/FriendlyCSharp.Databases/1.0.3)
+
+```
+PM> Install-Package FriendlyCSharp.Databases -Version 1.0.3
 ```
 
 &nbsp;
