@@ -2,12 +2,14 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 
 namespace DuplicityKeys.Core.sample
 {
   class Program
   {
     //
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
     private struct BtnKey
     {
       public string keyCity;
@@ -45,20 +47,18 @@ namespace DuplicityKeys.Core.sample
       static bool FuncUpdate(BtnKey keyAdd, ref BtnKey keyUpdate, object objUpdate)
       {
         // Resize ?
-        if (keyUpdate.aValueDateTime.Length <= keyUpdate.valueCount)
+        if ((keyUpdate.aValueDateTime.Length <= keyUpdate.valueCount) || (keyUpdate.aValueRand.Length <= keyUpdate.valueCount))
         {
-          if (keyUpdate.aValueDateTime.Length >= 1024)
-            Array.Resize<DateTime>(ref keyUpdate.aValueDateTime, keyUpdate.aValueDateTime.Length + 256);
+          if ((keyUpdate.aValueDateTime.Length >= 1024) || (keyUpdate.aValueRand.Length >= 1024))
+          {
+            Array.Resize<DateTime>(ref keyUpdate.aValueDateTime, keyUpdate.aValueDateTime.Length + 1024);
+            Array.Resize<uint>(ref keyUpdate.aValueRand, keyUpdate.aValueRand.Length + 1024);
+          }
           else
+          {
             Array.Resize<DateTime>(ref keyUpdate.aValueDateTime, keyUpdate.aValueDateTime.Length * 2);
-        }
-        // Resize ?
-        if (keyUpdate.aValueRand.Length <= keyUpdate.valueCount)
-        {
-          if (keyUpdate.aValueRand.Length >= 1024)
-            Array.Resize<uint>(ref keyUpdate.aValueRand, keyUpdate.aValueRand.Length + 256);
-          else
             Array.Resize<uint>(ref keyUpdate.aValueRand, keyUpdate.aValueRand.Length * 2);
+          }
         }
         // Update
         keyUpdate.aValueDateTime[keyUpdate.valueCount] = keyAdd.aValueDateTime[0];
@@ -69,7 +69,7 @@ namespace DuplicityKeys.Core.sample
       //
       public static FcsKeyFastBTreeN<BtnKey> CreateFcsKeyFastBTreeN()
       {
-        return new FcsKeyFastBTreeN<BtnKey>(BtnKey.CmpBtnKey, BtnKey.FuncUpdate, 32);
+        return new FcsKeyFastBTreeN<BtnKey>(CmpBtnKey, FuncUpdate, 32);
       }
     }
     //
@@ -126,12 +126,17 @@ namespace DuplicityKeys.Core.sample
       }
       swFcsKV.Stop();
       iMem = GC.GetTotalMemory(true);
-      Console.WriteLine("UsedMemory {0,5} MB [{1,5:N1} s] | {3} keys | Δ {2,3} MB | {4,8:N0} ns   | {5,10:N0} values", iMem >> 20, swFcsKV.Elapsed.TotalSeconds, (iMem - iMemOld) >> 20,
-                        btnTest.BtnUsedKeys(), ((double)(swFcsKV.Elapsed.TotalMilliseconds * 1000000) / iPocetAdd), iPocetAdd);
+      Console.WriteLine("UsedMemory {0,5} MB [{1,5:N1} s] | {3} keys | Δ {2,3} MB | {4,8:N0} ns   | {5,10:N0} values | sizeT {6,2} Byte", iMem >> 20, swFcsKV.Elapsed.TotalSeconds, (iMem - iMemOld) >> 20,
+                        btnTest.BtnUsedKeys(), ((double)(swFcsKV.Elapsed.TotalMilliseconds * 1000000) / iPocetAdd), iPocetAdd, Marshal.SizeOf<BtnKey>());
       iMemOld = iMem;
       int iCompareCount = 0;
+      // generate code at run time 
+      foreach (BtnKey? value in btnTest)
+        iCompareCount++;
+      // 
+      iCompareCount = 0;
       swFcsKV.Restart();
-      foreach(BtnKey? value in btnTest)
+      foreach (BtnKey? value in btnTest)
         iCompareCount++;
       swFcsKV.Stop();
       Console.WriteLine("\nFcsKeyFastBTreeN - foreach()");
@@ -140,12 +145,13 @@ namespace DuplicityKeys.Core.sample
       iCompareCount = 0;
       FcsKeyFastBTreeN<BtnKey>.BtnKeyEnumeratorFast btnEn = btnTest.GetEnumeratorFastEx(false);
       swFcsKV.Restart();
-      while(btnEn.MoveNext())
+      while (btnEn.MoveNext())
       {
         BtnKey? value = btnEn.Current;
         iCompareCount++;
       }
       swFcsKV.Stop();
+      btnEn.Dispose();
       Console.WriteLine("\nFcsKeyFastBTreeN - foreach()");
       Console.WriteLine($"{((double)(swFcsKV.Elapsed.TotalMilliseconds * 1000000) / iCompareCount),9:N2} ns  [{swFcsKV.Elapsed.TotalMilliseconds,11} ms | {iCompareCount} keys ]{iCompareCount / swFcsKV.Elapsed.TotalSeconds,20:N0} IOPS");
 

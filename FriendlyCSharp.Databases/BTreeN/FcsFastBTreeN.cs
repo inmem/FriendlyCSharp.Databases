@@ -459,7 +459,7 @@ namespace FriendlyCSharp.Databases
         }
       }
       //////////////////////////
-      public void Dispose() { _btn = null; }
+      public void Dispose() { _btn = null; _btnFast.Dispose(); }
       //////////////////////////
       public void Reset()
       {

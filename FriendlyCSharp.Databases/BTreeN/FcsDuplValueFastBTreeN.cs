@@ -381,7 +381,7 @@ namespace FriendlyCSharp.Databases
       BtnDeleteAll(false);
     }
     //////////////////////////
-    public void BtnDeleteAll(bool bRunGC)
+    public virtual void BtnDeleteAll(bool bRunGC)
     {
       lock (_btnLockAdd)
       {
@@ -1506,7 +1506,7 @@ namespace FriendlyCSharp.Databases
         }
       }
       //////////////////////////
-      public void Dispose() { _btn = null; }
+      public void Dispose() { _btn = null; _btnFast.Dispose(); }
       //////////////////////////
       public void Reset()
       {
