@@ -7,53 +7,6 @@ namespace DuplicityKeys.Core.sample
 {
   class Program
   {
-    static int CmpBtnKey(BtnKey keyX, BtnKey keyY, object objCmp)
-    {
-      // return < 0 (less), = 0 (equal), > 0 (greater)
-      int iResult = String.Compare(keyX.keyCity, keyY.keyCity, StringComparison.Ordinal);
-      if (iResult == 0)
-      {
-        iResult = keyX.keyId.CompareTo(keyY.keyId);
-        //if (iResult == 0)
-        //{
-        //  iResult = DateTime.Compare(key0, keyY.key0);
-        //  if (iResult == 0)
-        //  {
-        //    iResult = string.Compare(key1, keyY.key1, true);
-        //    if (iResult == 0)
-        //    {
-        //      iResult = key2.CompareTo(keyY.key2);
-        //    }
-        //  }
-        //}
-      }
-      return iResult;
-    }
-    //
-    static bool FuncUpdate(BtnKey keyAdd, ref BtnKey keyUpdate, object objUpdate)
-    {
-      // Resize ?
-      if (keyUpdate.aValueDateTime.Length <= keyUpdate.valueCount)
-      {
-        if (keyUpdate.aValueDateTime.Length >= 1024)
-          Array.Resize<DateTime>(ref keyUpdate.aValueDateTime, keyUpdate.aValueDateTime.Length + 256);
-        else
-          Array.Resize<DateTime>(ref keyUpdate.aValueDateTime, keyUpdate.aValueDateTime.Length * 2);
-      }
-      // Resize ?
-      if (keyUpdate.aValueRand.Length <= keyUpdate.valueCount)
-      {
-        if (keyUpdate.aValueRand.Length >= 1024)
-          Array.Resize<uint>(ref keyUpdate.aValueRand, keyUpdate.aValueRand.Length + 256);
-        else
-          Array.Resize<uint>(ref keyUpdate.aValueRand, keyUpdate.aValueRand.Length * 2);
-      }
-      // Update
-      keyUpdate.aValueDateTime[keyUpdate.valueCount] = keyAdd.aValueDateTime[0];
-      keyUpdate.aValueRand[keyUpdate.valueCount] = keyAdd.aValueRand[0];
-      keyUpdate.valueCount++;
-      return true;
-    }
     //
     private struct BtnKey
     {
@@ -65,6 +18,59 @@ namespace DuplicityKeys.Core.sample
       public int valueCount;
       public DateTime[] aValueDateTime;
       public uint[] aValueRand;
+      //
+      static int CmpBtnKey(BtnKey keyX, BtnKey keyY, object objCmp)
+      {
+        // return < 0 (less), = 0 (equal), > 0 (greater)
+        int iResult = String.Compare(keyX.keyCity, keyY.keyCity, StringComparison.Ordinal);
+        if (iResult == 0)
+        {
+          iResult = keyX.keyId.CompareTo(keyY.keyId);
+          //if (iResult == 0)
+          //{
+          //  iResult = DateTime.Compare(key0, keyY.key0);
+          //  if (iResult == 0)
+          //  {
+          //    iResult = string.Compare(key1, keyY.key1, true);
+          //    if (iResult == 0)
+          //    {
+          //      iResult = key2.CompareTo(keyY.key2);
+          //    }
+          //  }
+          //}
+        }
+        return iResult;
+      }
+      //
+      static bool FuncUpdate(BtnKey keyAdd, ref BtnKey keyUpdate, object objUpdate)
+      {
+        // Resize ?
+        if (keyUpdate.aValueDateTime.Length <= keyUpdate.valueCount)
+        {
+          if (keyUpdate.aValueDateTime.Length >= 1024)
+            Array.Resize<DateTime>(ref keyUpdate.aValueDateTime, keyUpdate.aValueDateTime.Length + 256);
+          else
+            Array.Resize<DateTime>(ref keyUpdate.aValueDateTime, keyUpdate.aValueDateTime.Length * 2);
+        }
+        // Resize ?
+        if (keyUpdate.aValueRand.Length <= keyUpdate.valueCount)
+        {
+          if (keyUpdate.aValueRand.Length >= 1024)
+            Array.Resize<uint>(ref keyUpdate.aValueRand, keyUpdate.aValueRand.Length + 256);
+          else
+            Array.Resize<uint>(ref keyUpdate.aValueRand, keyUpdate.aValueRand.Length * 2);
+        }
+        // Update
+        keyUpdate.aValueDateTime[keyUpdate.valueCount] = keyAdd.aValueDateTime[0];
+        keyUpdate.aValueRand[keyUpdate.valueCount] = keyAdd.aValueRand[0];
+        keyUpdate.valueCount++;
+        return true;
+      }
+      //
+      public static FcsKeyFastBTreeN<BtnKey> CreateFcsKeyFastBTreeN()
+      {
+        return new FcsKeyFastBTreeN<BtnKey>(BtnKey.CmpBtnKey, BtnKey.FuncUpdate, 32);
+      }
     }
     //
     //
@@ -103,7 +109,7 @@ namespace DuplicityKeys.Core.sample
       BtnKey key;
       key.aValueRand = new uint[1];
       key.aValueDateTime = new DateTime[1];
-      FcsKeyFastBTreeN<BtnKey> btnTest = new FcsKeyFastBTreeN<BtnKey>(CmpBtnKey, FuncUpdate, 32);
+      FcsKeyFastBTreeN<BtnKey> btnTest = BtnKey.CreateFcsKeyFastBTreeN();
       var swFcsKV = Stopwatch.StartNew();
       for (int iter = 0; iter < 100; iter++)
       {
