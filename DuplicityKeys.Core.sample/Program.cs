@@ -160,9 +160,11 @@ namespace DuplicityKeys.Core.sample
       swFcsKV.Restart();
       if (btnTest.BtnFastFirst(out BtnKey fcsKey2, out btnFast) != null)
       {
-        iCompareCount++;
-        while (btnTest.BtnFastNext(ref fcsKey2, ref btnFast) != null)
+        do
+        {
           iCompareCount++;
+        }
+        while (btnTest.BtnFastNext(ref fcsKey2, ref btnFast) != null);
       }
       swFcsKV.Stop();
       btnFast.Dispose();
