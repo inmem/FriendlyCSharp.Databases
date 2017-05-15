@@ -191,7 +191,7 @@ if (MyBtnKeyValue.BtnSearchPrev(btnKey, out btnValue) != null)
 }
 ```
 
-### Enumerate
+### Searching
 
 Methods that seek the desired key and returns the key value pair or null.
 
@@ -249,7 +249,7 @@ public virtual KeyValuePair<TKey, TValue>? BtnSearch(TKey key)
 
 >**SearchPrev**
 
-The method finds the specified key or the next lower and returns the key value pair or null.
+The method finds the specified key or the previous and returns the key value pair or null.
 
 ```cs
 public virtual bool? BtnSearchPrev(ref TKey key, out TValue value)
