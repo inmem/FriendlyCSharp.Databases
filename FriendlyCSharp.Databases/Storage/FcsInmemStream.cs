@@ -312,6 +312,7 @@ namespace FriendlyCSharp.Databases
     {
       Dispose(true);
       //GC.SuppressFinalize(this);
+      base.Dispose(true);
     }
     /////////////////////////////////////////////
     protected override void Dispose(bool disposing)
@@ -392,7 +393,47 @@ namespace FriendlyCSharp.Databases
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public override int Read(byte[] buffer, int offset, int count)
     {
-      throw new NotImplementedException("Cannot Read() to this FcsInmemStream<T>.");
+      if (!_bFuncPosition)
+        throw new NotImplementedException("Cannot Read() to this FcsInmemStream<T>.");
+      if (!CanRead)
+        return 0;
+
+      int sizeT = Marshal.SizeOf<T>();
+      int countT = Math.Abs(count) / sizeT;
+      if ((count > 0) && (countT <= 0))
+        countT = sizeT;
+      countT &= 0xFFFF;
+      if (_bFuncException)
+      {
+        if (buffer == null)
+          throw new ArgumentOutOfRangeException(nameof(buffer));
+        if ((offset < 0) || (offset >= buffer.Length))
+          throw new ArgumentOutOfRangeException(nameof(offset));
+        if ((count <= 0) || (count + offset > buffer.Length))
+          throw new ArgumentOutOfRangeException(nameof(count));
+      }
+
+      long lengthTemp = Length;
+      long position = Position;
+      if (position == lengthTemp) // foreach must return 0
+        return 0;
+      if ((position < 0) || (position > lengthTemp))
+        throw new ArgumentOutOfRangeException(nameof(Position));
+
+      if (position + countT > lengthTemp)
+        countT = (UInt16)(lengthTemp - position);
+      T[] aValue = new T[countT];
+      int iRead = _BlockCopyInternal(true, position, aValue, 0, countT);
+      //
+      int size = iRead * sizeT;
+      IntPtr ptr = Marshal.AllocHGlobal(size);
+      Marshal.StructureToPtr(aValue, ptr, false);
+      Marshal.Copy(ptr, buffer, offset, size);
+      Marshal.FreeHGlobal(ptr);
+      //
+      lock (_lockAppend)
+        Position = position + iRead;
+      return iRead * sizeT;
     }
     /////////////////////////////////////////////
     public virtual int Read(out T value)
