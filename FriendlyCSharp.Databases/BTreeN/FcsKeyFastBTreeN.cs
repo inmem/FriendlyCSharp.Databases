@@ -8,17 +8,17 @@ using System.Collections.Generic;
 
 namespace FriendlyCSharp.Databases
 {
-  public class FcsKeyFastBTreeN<TKey> : IEnumerable<TKey?> where TKey : struct
+  public class FcsKeyFastBTreeN<TKeyValue> : IEnumerable<TKeyValue?> where TKeyValue : struct
   {
     protected const int _btnDefaultBTreeN = 32;
     protected object _btnLockAdd;
     protected BtnKeyPage _btnRoot = null;
     protected BtnFastKey _btnFast;
     private object _objCmp = null;
-    private Func<TKey, TKey, object, int> _funcCmp;
+    private Func<TKeyValue, TKeyValue, object, int> _funcCmp;
     private object _objUp = null;
     private FuncUpdate _funcUp;
-    public delegate bool FuncUpdate(TKey keyAdd, ref TKey keyUpdate, object objUpdate);
+    public delegate bool FuncUpdate(TKeyValue keyAdd, ref TKeyValue keyUpdate, object objUpdate);
     //////////////////////////
     private int    _btnBTreeN;
     protected int  BtnBTreeN { get => _btnBTreeN; }
@@ -40,7 +40,7 @@ namespace FriendlyCSharp.Databases
       internal int fastMiddle;
       internal BtnKeyPage fastPage;
       //////////////////////////
-      public int Version { get => version; set => version = 0; } // value; }
+      public int Version { get => version; set => version = 0; } 
       //////////////////////////
       public void Dispose(bool disposing)
       {
@@ -58,7 +58,7 @@ namespace FriendlyCSharp.Databases
       public UInt32 flags;
       public bool bUpdatedValue;
       public int iDataCount;
-      public TKey[] aData;
+      public TKeyValue[] aData;
       public BtnKeyPage[] kvPageNextRight;
       public long[] aPos;
       //////////////////////////
@@ -67,7 +67,7 @@ namespace FriendlyCSharp.Databases
         bUpdatedValue = false;
         flags = 0;
         iDataCount = 0;
-        aData = new TKey[(iPageN * 2) + 1];
+        aData = new TKeyValue[(iPageN * 2) + 1];
         if (bPageNext)
           kvPageNextRight = new BtnKeyPage[(iPageN * 2) + 1];
         else
@@ -76,47 +76,47 @@ namespace FriendlyCSharp.Databases
       }
     }
     //////////////////////////
-    public FcsKeyFastBTreeN(Func<TKey, TKey, object, int> funcCmp) : this(funcCmp, null, null, null, _btnDefaultBTreeN)
+    public FcsKeyFastBTreeN(Func<TKeyValue, TKeyValue, object, int> funcCmp) : this(funcCmp, null, null, null, _btnDefaultBTreeN)
     {
     }
     //////////////////////////
-    public FcsKeyFastBTreeN(Func<TKey, TKey, object, int> funcCmp, int btnBTreeN) : this(funcCmp, null, null, null, btnBTreeN)
+    public FcsKeyFastBTreeN(Func<TKeyValue, TKeyValue, object, int> funcCmp, int btnBTreeN) : this(funcCmp, null, null, null, btnBTreeN)
     {
     }
     //////////////////////////
-    public FcsKeyFastBTreeN(Func<TKey, TKey, object, int> funcCmp, FuncUpdate funcUp) : this(funcCmp, null, funcUp, null, _btnDefaultBTreeN)
+    public FcsKeyFastBTreeN(Func<TKeyValue, TKeyValue, object, int> funcCmp, FuncUpdate funcUp) : this(funcCmp, null, funcUp, null, _btnDefaultBTreeN)
     {
     }
     //////////////////////////
-    public FcsKeyFastBTreeN(Func<TKey, TKey, object, int> funcCmp, FuncUpdate funcUp, object objUp) : this(funcCmp, null, funcUp, objUp, _btnDefaultBTreeN)
+    public FcsKeyFastBTreeN(Func<TKeyValue, TKeyValue, object, int> funcCmp, FuncUpdate funcUp, object objUp) : this(funcCmp, null, funcUp, objUp, _btnDefaultBTreeN)
     {
     }
     //////////////////////////
-    public FcsKeyFastBTreeN(Func<TKey, TKey, object, int> funcCmp, FuncUpdate funcUp, int btnBTreeN) : this(funcCmp, null, funcUp, null, btnBTreeN)
+    public FcsKeyFastBTreeN(Func<TKeyValue, TKeyValue, object, int> funcCmp, FuncUpdate funcUp, int btnBTreeN) : this(funcCmp, null, funcUp, null, btnBTreeN)
     {
     }
     //////////////////////////
-    public FcsKeyFastBTreeN(Func<TKey, TKey, object, int> funcCmp, FuncUpdate funcUp, object objUp, int btnBTreeN) : this(funcCmp, null, funcUp, objUp, btnBTreeN)
+    public FcsKeyFastBTreeN(Func<TKeyValue, TKeyValue, object, int> funcCmp, FuncUpdate funcUp, object objUp, int btnBTreeN) : this(funcCmp, null, funcUp, objUp, btnBTreeN)
     {
     }
     //////////////////////////
-    public FcsKeyFastBTreeN(Func<TKey, TKey, object, int> funcCmp, object objCmp) : this(funcCmp, objCmp, null, null, _btnDefaultBTreeN)
+    public FcsKeyFastBTreeN(Func<TKeyValue, TKeyValue, object, int> funcCmp, object objCmp) : this(funcCmp, objCmp, null, null, _btnDefaultBTreeN)
     {
     }
     //////////////////////////
-    public FcsKeyFastBTreeN(Func<TKey, TKey, object, int> funcCmp, object objCmp, int btnBTreeN) : this(funcCmp, objCmp, null, null, btnBTreeN)
+    public FcsKeyFastBTreeN(Func<TKeyValue, TKeyValue, object, int> funcCmp, object objCmp, int btnBTreeN) : this(funcCmp, objCmp, null, null, btnBTreeN)
     {
     }
     //////////////////////////
-    public FcsKeyFastBTreeN(Func<TKey, TKey, object, int> funcCmp, object objCmp, FuncUpdate funcUp) : this(funcCmp, objCmp, funcUp, null, _btnDefaultBTreeN)
+    public FcsKeyFastBTreeN(Func<TKeyValue, TKeyValue, object, int> funcCmp, object objCmp, FuncUpdate funcUp) : this(funcCmp, objCmp, funcUp, null, _btnDefaultBTreeN)
     {
     }
     //////////////////////////
-    public FcsKeyFastBTreeN(Func<TKey, TKey, object, int> funcCmp, object objCmp, FuncUpdate funcUp, object objUp) : this(funcCmp, objCmp, funcUp, objUp, _btnDefaultBTreeN)
+    public FcsKeyFastBTreeN(Func<TKeyValue, TKeyValue, object, int> funcCmp, object objCmp, FuncUpdate funcUp, object objUp) : this(funcCmp, objCmp, funcUp, objUp, _btnDefaultBTreeN)
     {
     }
     //////////////////////////
-    public FcsKeyFastBTreeN(Func<TKey, TKey, object, int> funcCmp, object objCmp, FuncUpdate funcUp, object objUp, int btnBTreeN)
+    public FcsKeyFastBTreeN(Func<TKeyValue, TKeyValue, object, int> funcCmp, object objCmp, FuncUpdate funcUp, object objUp, int btnBTreeN)
     {
       if ((btnBTreeN <= 0) || (btnBTreeN > _btnMaxBTreeN))
         throw new ArgumentOutOfRangeException();
@@ -133,14 +133,14 @@ namespace FriendlyCSharp.Databases
       _funcUp = funcUp;
     }
     //////////////////////////
-    public TKey this[TKey key]
+    public TKeyValue this[TKeyValue key]
     {
       get
       {
-        TKey keyL = key;
+        TKeyValue keyL = key;
         if (BtnFind(ref keyL) == true)
           return keyL;
-        return default(TKey);
+        return default(TKeyValue);
       }
       set
       {
@@ -148,7 +148,7 @@ namespace FriendlyCSharp.Databases
       }
     }
     //////////////////////////
-    public TKey this[TKey key, bool bNext]
+    public TKeyValue this[TKeyValue key, bool bNext]
     {
       get
       {
@@ -160,7 +160,7 @@ namespace FriendlyCSharp.Databases
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////           BtnAdd           //////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    private bool? _BtnAdd(ref TKey keyAdd, out TKey keyUp, ref BtnKeyPage keyPageUp, ref bool bUp)
+    private bool? _BtnAdd(ref TKeyValue keyAdd, out TKeyValue keyUp, ref BtnKeyPage keyPageUp, ref bool bUp)
     {
       bool? bNullResult = null;
       if (keyPageUp == null)
@@ -190,7 +190,7 @@ namespace FriendlyCSharp.Databases
         if (iResultCmp == 0)
         {
           bUp = false;
-          keyUp = default(TKey);
+          keyUp = default(TKeyValue);
           // bVyslNull je pri update = false, jinak null - viz predchozi radek; add = true - viz vyse
           if ((_funcUp != null) && (_funcUp(keyAdd, ref keyPageUp.aData[middle], _objUp)))
             keyPageUp.bUpdatedValue = true;
@@ -238,7 +238,7 @@ namespace FriendlyCSharp.Databases
               _btnVersionPage++;
               _btnUpdatedRoot = true;
               BtnKeyPage kvPageRight = null;
-              TKey kvUpLocal;
+              TKeyValue kvUpLocal;
               BtnKeyPage kvPageNew = new BtnKeyPage(BtnBTreeN, keyPageUp.kvPageNextRight != null);
               if (high <= BtnBTreeN)
               {
@@ -311,7 +311,7 @@ namespace FriendlyCSharp.Databases
       return bNullResult;
     }
     //////////////////////////
-    public bool? BtnAdd(ref TKey key)
+    public bool? BtnAdd(ref TKeyValue key)
     {
       bool bUp = false;
       BtnKeyPage keyPageDown = _btnRoot;
@@ -319,7 +319,7 @@ namespace FriendlyCSharp.Databases
 
       lock (_btnLockAdd)
       {
-        bNullResult = _BtnAdd(ref key, out TKey keyUp, ref keyPageDown, ref bUp);
+        bNullResult = _BtnAdd(ref key, out TKeyValue keyUp, ref keyPageDown, ref bUp);
         if (bUp)
         {
           bUp = false;
@@ -340,7 +340,7 @@ namespace FriendlyCSharp.Databases
       return bNullResult; // add = true, update = false, else null;
     }
     //////////////////////////
-    public bool? BtnAdd(TKey key)
+    public bool? BtnAdd(TKeyValue key)
     {
       return BtnAdd(ref key);
     }
@@ -368,7 +368,7 @@ namespace FriendlyCSharp.Databases
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////            BtnFind           //////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    protected bool? _BtnFind(ref TKey key, BtnKeyPage keyPage, out BtnFastKey btnFast)
+    protected bool? _BtnFind(ref TKeyValue key, BtnKeyPage keyPage, out BtnFastKey btnFast)
     {
       bool? bNullResult = null;
       if (keyPage == null)
@@ -415,35 +415,35 @@ namespace FriendlyCSharp.Databases
       return bNullResult;
     }
     //////////////////////////
-    public virtual bool? BtnFind(ref TKey key)
+    public virtual bool? BtnFind(ref TKeyValue key)
     {
       return _BtnFind(ref key, _btnRoot, out _btnFast);
     }
     //////////////////////////
-    public virtual bool? BtnFastFind(ref TKey key, out BtnFastKey btnFast)
+    public virtual bool? BtnFastFind(ref TKeyValue key, out BtnFastKey btnFast)
     {
       return _BtnFind(ref key, _btnRoot, out btnFast);
     }
     ////////////////////////// 
-    public virtual TKey BtnFind(TKey key)
+    public virtual TKeyValue BtnFind(TKeyValue key)
     {
       if (_BtnFind(ref key, _btnRoot, out _btnFast) != null)
         return key;
       else
-        return default(TKey);
+        return default(TKeyValue);
     }
     ////////////////////////// 
-    public virtual TKey BtnFastFind(TKey key, out BtnFastKey btnFast)
+    public virtual TKeyValue BtnFastFind(TKeyValue key, out BtnFastKey btnFast)
     {
       if (_BtnFind(ref key, _btnRoot, out btnFast) != null)
         return key;
       else
-        return default(TKey);
+        return default(TKeyValue);
     }
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////           BtnFirst           //////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    protected bool? _BtnFirst(out TKey key, out BtnFastKey btnFast)
+    protected bool? _BtnFirst(out TKeyValue key, out BtnFastKey btnFast)
     {
       BtnKeyPage QQ = _btnRoot;
       while ((QQ != null) && (QQ.kvPageNextRight != null))
@@ -459,22 +459,22 @@ namespace FriendlyCSharp.Databases
       }
       else
       {
-        key = default(TKey);
+        key = default(TKeyValue);
         btnFast = default(BtnFastKey);
         return null;
       }
     }
-    public virtual bool? BtnFirst(out TKey key)
+    public virtual bool? BtnFirst(out TKeyValue key)
     {
       return _BtnFirst(out key, out _btnFast);
     }
     //////////////////////////
-    public virtual bool? BtnFastFirst(out TKey key, out BtnFastKey btnFast)
+    public virtual bool? BtnFastFirst(out TKeyValue key, out BtnFastKey btnFast)
     {
       return _BtnFirst(out key, out btnFast);
     }
     //////////////////////////
-    protected TKey _BtnFirst(out BtnFastKey btnFast)
+    protected TKeyValue _BtnFirst(out BtnFastKey btnFast)
     {
       BtnKeyPage QQ = _btnRoot;
       while ((QQ != null) && (QQ.kvPageNextRight != null))
@@ -490,21 +490,21 @@ namespace FriendlyCSharp.Databases
       else
       {
         btnFast = default(BtnFastKey);
-        return default(TKey);
+        return default(TKeyValue);
       }
     }
-    public virtual TKey BtnFirst()
+    public virtual TKeyValue BtnFirst()
     {
       return _BtnFirst(out _btnFast);
     }
-    public virtual TKey BtnFastFirst(out BtnFastKey btnFast)
+    public virtual TKeyValue BtnFastFirst(out BtnFastKey btnFast)
     {
       return _BtnFirst(out btnFast);
     }
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////            BtnLast           //////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    protected bool? _BtnLast(out TKey key, out BtnFastKey btnFast)
+    protected bool? _BtnLast(out TKeyValue key, out BtnFastKey btnFast)
     {
       BtnKeyPage QQ = _btnRoot;
       while ((QQ != null) && (QQ.kvPageNextRight != null))
@@ -520,22 +520,22 @@ namespace FriendlyCSharp.Databases
       }
       else
       {
-        key = default(TKey);
+        key = default(TKeyValue);
         btnFast = default(BtnFastKey);
         return null;
       }
     }
-    public virtual bool? BtnLast(out TKey key)
+    public virtual bool? BtnLast(out TKeyValue key)
     {
       return _BtnLast(out key, out _btnFast);
     }
     //////////////////////////
-    public virtual bool? BtnFastLast(out TKey key, out BtnFastKey btnFast)
+    public virtual bool? BtnFastLast(out TKeyValue key, out BtnFastKey btnFast)
     {
       return _BtnLast(out key, out btnFast);
     }
     //////////////////////////
-    protected TKey _BtnLast(out BtnFastKey btnFast)
+    protected TKeyValue _BtnLast(out BtnFastKey btnFast)
     {
       BtnKeyPage QQ = _btnRoot;
       while ((QQ != null) && (QQ.kvPageNextRight != null))
@@ -551,21 +551,21 @@ namespace FriendlyCSharp.Databases
       else
       {
         btnFast = default(BtnFastKey);
-        return default(TKey);
+        return default(TKeyValue);
       }
     }
-    public virtual TKey BtnLast()
+    public virtual TKeyValue BtnLast()
     {
       return _BtnLast(out _btnFast);
     }
-    public virtual TKey BtnFastLast(out BtnFastKey btnFast)
+    public virtual TKeyValue BtnFastLast(out BtnFastKey btnFast)
     {
       return _BtnLast(out btnFast);
     }
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////            BtnNext           //////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    protected bool? _BtnNext(ref TKey key, BtnKeyPage keyPage, ref bool bNext, out BtnFastKey btnFast)
+    protected bool? _BtnNext(ref TKeyValue key, BtnKeyPage keyPage, ref bool bNext, out BtnFastKey btnFast)
     {
       bool? bNullResult = null;
       if (keyPage == null)
@@ -655,13 +655,13 @@ namespace FriendlyCSharp.Databases
       return bNullResult;
     }
     //////////////////////////
-    public virtual bool? BtnNext(ref TKey key)
+    public virtual bool? BtnNext(ref TKeyValue key)
     {
       bool bNext = false;
       return _BtnNext(ref key, _btnRoot, ref bNext, out _btnFast);
     }
     //////////////////////////
-    public virtual bool? BtnFastNext(ref TKey key, ref BtnFastKey btnFast)
+    public virtual bool? BtnFastNext(ref TKeyValue key, ref BtnFastKey btnFast)
     {
       int middle = btnFast.fastMiddle;
       if ( (btnFast.version == BtnVersion) && (btnFast.fastPage != null) && (middle > 0) && (middle < btnFast.fastPage.iDataCount))
@@ -676,15 +676,15 @@ namespace FriendlyCSharp.Databases
       }
     }
     //////////////////////////
-    public virtual TKey BtnNext(TKey key)
+    public virtual TKeyValue BtnNext(TKeyValue key)
     {
       bool bNext = false;
       if (_BtnNext(ref key, _btnRoot, ref bNext, out _btnFast) != null)
         return key;
       else
-        return default(TKey);
+        return default(TKeyValue);
     }
-    public virtual TKey BtnFastNext(TKey key, ref BtnFastKey btnFast)
+    public virtual TKeyValue BtnFastNext(TKeyValue key, ref BtnFastKey btnFast)
     {
       int middle = btnFast.fastMiddle;
       if ( (btnFast.version == BtnVersion) && (btnFast.fastPage != null) && (middle > 0) && (middle < btnFast.fastPage.iDataCount))
@@ -695,13 +695,13 @@ namespace FriendlyCSharp.Databases
         if (_BtnNext(ref key, _btnRoot, ref bNext, out btnFast) != null)
           return key;
         else
-          return default(TKey);
+          return default(TKeyValue);
       }
     }
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////            BtnPrev           //////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    protected bool? _BtnPrev(ref TKey key, BtnKeyPage keyPage, ref bool bNext, out BtnFastKey btnFast)
+    protected bool? _BtnPrev(ref TKeyValue key, BtnKeyPage keyPage, ref bool bNext, out BtnFastKey btnFast)
     {
       bool? bNullResult = null;
       if (keyPage == null)
@@ -795,13 +795,13 @@ namespace FriendlyCSharp.Databases
       return bNullResult;
     }
     //////////////////////////
-    public virtual bool? BtnPrev(ref TKey key)
+    public virtual bool? BtnPrev(ref TKeyValue key)
     {
       bool bNext = false;
       return _BtnPrev(ref key, _btnRoot, ref bNext, out _btnFast);
     }
     //////////////////////////
-    public virtual bool? BtnFastPrev(ref TKey key, ref BtnFastKey btnFast)
+    public virtual bool? BtnFastPrev(ref TKeyValue key, ref BtnFastKey btnFast)
     {
       int middle = btnFast.fastMiddle;
       if ( (btnFast.version == BtnVersion) && (btnFast.fastPage != null) && (middle > 1) && (middle <= btnFast.fastPage.iDataCount))
@@ -816,15 +816,15 @@ namespace FriendlyCSharp.Databases
       }
     }
     //////////////////////////
-    public virtual TKey BtnPrev(TKey key)
+    public virtual TKeyValue BtnPrev(TKeyValue key)
     {
       bool bNext = false;
       if (_BtnPrev(ref key, _btnRoot, ref bNext, out _btnFast) != null)
         return key;
       else
-        return default(TKey);
+        return default(TKeyValue);
     }
-    public virtual TKey BtnFastPrev(TKey key, ref BtnFastKey btnFast)
+    public virtual TKeyValue BtnFastPrev(TKeyValue key, ref BtnFastKey btnFast)
     {
       int middle = btnFast.fastMiddle;
       if ( (btnFast.version == BtnVersion) && (btnFast.fastPage != null) && (middle > 1) && (middle <= btnFast.fastPage.iDataCount))
@@ -837,13 +837,13 @@ namespace FriendlyCSharp.Databases
         if (_BtnPrev(ref key, _btnRoot, ref bNext, out btnFast) != null)
           return key;
         else
-          return default(TKey);
+          return default(TKeyValue);
       }
     }
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////           BtnSearch          //////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    protected bool? _BtnSearch(ref TKey key, BtnKeyPage keyPage, ref bool bNext, out BtnFastKey btnFast)
+    protected bool? _BtnSearch(ref TKeyValue key, BtnKeyPage keyPage, ref bool bNext, out BtnFastKey btnFast)
     {
       bool? bNullResult = null;
       if (keyPage == null)
@@ -911,38 +911,38 @@ namespace FriendlyCSharp.Databases
       return bNullResult;
     }
     //////////////////////////
-    public virtual bool? BtnSearch(ref TKey key)
+    public virtual bool? BtnSearch(ref TKeyValue key)
     {
       bool bNext = false;
       return _BtnSearch(ref key, _btnRoot, ref bNext, out _btnFast);
     }
     //////////////////////////
-    public virtual bool? BtnFastSearch(ref TKey key, out BtnFastKey btnFast)
+    public virtual bool? BtnFastSearch(ref TKeyValue key, out BtnFastKey btnFast)
     {
       bool bNext = false;
       return _BtnSearch(ref key, _btnRoot, ref bNext, out btnFast);
     }
     //////////////////////////
-    public virtual TKey BtnSearch(TKey key)
+    public virtual TKeyValue BtnSearch(TKeyValue key)
     {
       bool bNext = false;
       if (_BtnSearch(ref key, _btnRoot, ref bNext, out _btnFast) != null)
         return key;
       else
-        return default(TKey);
+        return default(TKeyValue);
     }
-    public virtual TKey BtnFastSearch(TKey key, out BtnFastKey btnFast)
+    public virtual TKeyValue BtnFastSearch(TKeyValue key, out BtnFastKey btnFast)
     {
       bool bNext = false;
       if (_BtnSearch(ref key, _btnRoot, ref bNext, out btnFast) != null)
         return key;
       else
-        return default(TKey);
+        return default(TKeyValue);
     }
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////         BtnSearchPrev        //////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    protected bool? _BtnSearchPrev(ref TKey key, BtnKeyPage keyPage, ref bool bNext, out BtnFastKey btnFast)
+    protected bool? _BtnSearchPrev(ref TKeyValue key, BtnKeyPage keyPage, ref bool bNext, out BtnFastKey btnFast)
     {
       bool? bNullResult = null;
       if (keyPage == null)
@@ -1010,38 +1010,38 @@ namespace FriendlyCSharp.Databases
       return bNullResult;
     }
     //////////////////////////
-    public virtual bool? BtnSearchPrev(ref TKey key)
+    public virtual bool? BtnSearchPrev(ref TKeyValue key)
     {
       bool bNext = false;
       return _BtnSearchPrev(ref key, _btnRoot, ref bNext, out _btnFast);
     }
     //////////////////////////
-    public virtual bool? BtnFastSearchPrev(ref TKey key, out BtnFastKey btnFast)
+    public virtual bool? BtnFastSearchPrev(ref TKeyValue key, out BtnFastKey btnFast)
     {
       bool bNext = false;
       return _BtnSearchPrev(ref key, _btnRoot, ref bNext, out btnFast);
     }
     //////////////////////////
-    public virtual TKey BtnSearchPrev(TKey key)
+    public virtual TKeyValue BtnSearchPrev(TKeyValue key)
     {
       bool bNext = false;
       if (_BtnSearchPrev(ref key, _btnRoot, ref bNext, out _btnFast) != null)
         return key;
       else
-        return default(TKey);
+        return default(TKeyValue);
     }
-    public virtual TKey BtnFastSearchPrev(TKey key, out BtnFastKey btnFast)
+    public virtual TKeyValue BtnFastSearchPrev(TKeyValue key, out BtnFastKey btnFast)
     {
       bool bNext = false;
       if (_BtnSearchPrev(ref key, _btnRoot, ref bNext, out btnFast) != null)
         return key;
       else
-        return default(TKey);
+        return default(TKeyValue);
     }
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////         BtnUpdate          //////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    private bool? _BtnUpdate(ref TKey keyUpdate, BtnKeyPage keyPage)
+    private bool? _BtnUpdate(ref TKeyValue keyUpdate, BtnKeyPage keyPage)
     {
       bool? bNullResult = null;
       if (keyPage != null)
@@ -1085,13 +1085,13 @@ namespace FriendlyCSharp.Databases
       return bNullResult;
     }
     //////////////////////////
-    public bool? BtnUpdate(ref TKey key)
+    public bool? BtnUpdate(ref TKeyValue key)
     {
       // update = false, else null;
       return _BtnUpdate(ref key, _btnRoot);
     }
     //////////////////////////
-    public bool? BtnUpdate(TKey key)
+    public bool? BtnUpdate(TKeyValue key)
     {
       // update = false, else null;
       return _BtnUpdate(ref key, _btnRoot);
@@ -1122,22 +1122,22 @@ namespace FriendlyCSharp.Databases
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////         IEnumerator          //////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    public FcsKeyFastBTreeN<TKey>.BtnKeyEnumeratorFast GetEnumeratorFastEx(bool reverse)
+    public FcsKeyFastBTreeN<TKeyValue>.BtnKeyEnumeratorFast GetEnumeratorFastEx(bool reverse)
     {
       return new BtnKeyEnumeratorFast(this, null, null, reverse, -2);
     }
     //////////////////////////
-    public FcsKeyFastBTreeN<TKey>.BtnKeyEnumeratorFast GetEnumeratorFastEx(bool reverse, int maxCount)
+    public FcsKeyFastBTreeN<TKeyValue>.BtnKeyEnumeratorFast GetEnumeratorFastEx(bool reverse, int maxCount)
     {
       return new BtnKeyEnumeratorFast(this, null, null, reverse, maxCount);
     }
     //////////////////////////
-    public FcsKeyFastBTreeN<TKey>.BtnKeyEnumeratorFast GetEnumeratorFastEx(TKey? keyLo, TKey? keyHi, bool reverse)
+    public FcsKeyFastBTreeN<TKeyValue>.BtnKeyEnumeratorFast GetEnumeratorFastEx(TKeyValue? keyLo, TKeyValue? keyHi, bool reverse)
     {
       return new BtnKeyEnumeratorFast(this, keyLo, keyHi, reverse, -3);
     }
     //////////////////////////
-    public FcsKeyFastBTreeN<TKey>.BtnKeyEnumeratorFast GetEnumeratorFastEx(TKey? keyLo, TKey? keyHi, bool reverse, int maxCount)
+    public FcsKeyFastBTreeN<TKeyValue>.BtnKeyEnumeratorFast GetEnumeratorFastEx(TKeyValue? keyLo, TKeyValue? keyHi, bool reverse, int maxCount)
     {
       return new BtnKeyEnumeratorFast(this, keyLo, keyHi, reverse, maxCount);
     }
@@ -1148,26 +1148,26 @@ namespace FriendlyCSharp.Databases
       return GetEnumerator();
     }
     //////////////////////////
-    public IEnumerator<TKey?> GetEnumerator()
+    public IEnumerator<TKeyValue?> GetEnumerator()
     {
       return new BtnKeyEnumeratorFast(this, null, null, false, -1);
     }
     //////////////////////////
-    public class BtnKeyEnumeratorFast : IEnumerator<TKey?>
+    public class BtnKeyEnumeratorFast : IEnumerator<TKeyValue?>
     {
       // constructor
-      private FcsKeyFastBTreeN<TKey> _btn = null;
-      private TKey? _keyLo;
-      private TKey? _keyHi;
+      private FcsKeyFastBTreeN<TKeyValue> _btn = null;
+      private TKeyValue? _keyLo;
+      private TKeyValue? _keyHi;
       private int _maxCount;
       private bool _reverse;
       // locals
       private bool _bOK;
-      private TKey _key;
+      private TKeyValue _key;
       private int _count;
       private BtnFastKey _btnFast;
       //////////////////////////
-      public BtnKeyEnumeratorFast(FcsKeyFastBTreeN<TKey> btn, TKey? keyLo, TKey? keyHi, bool reverse, int maxCount)
+      public BtnKeyEnumeratorFast(FcsKeyFastBTreeN<TKeyValue> btn, TKeyValue? keyLo, TKeyValue? keyHi, bool reverse, int maxCount)
       {
         _btn = btn ?? throw new NullReferenceException();
         _keyLo = keyLo;
@@ -1227,7 +1227,7 @@ namespace FriendlyCSharp.Databases
         return _bOK;
       }
       //////////////////////////
-      public TKey? Current
+      public TKeyValue? Current
       {
         get
         {

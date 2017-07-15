@@ -7,17 +7,17 @@ A library of cross platform C# data structures. Generic [**B-tree**](https://en.
 ## B-Tree generic class
 #### [FcsBTreeN&lt;TKey, TValue&gt;](FriendlyCSharp.Databases/BTreeN/FcsBTreeN.cs) \[where TKey : struct, IComparable&lt;TKey&gt;\]
    + `Methods:` BtnAddFirst, BtnCompares, BtnUpdates, BtnAdd, BtnDeleteAll, BtnFind, BtnFirst, BtnLast, BtnNext, BtnPrev, BtnSearch, BtnSearchPrev, BtnUpdate and BtnUsedKeys.
-#### [FcsDuplValueFastBTreeN&lt;TKey, TValue&gt;](FriendlyCSharp.Databases/BTreeN/FcsDuplValueFastBTreeN.cs) \[where TKey : struct, IComparable&lt;TKey&gt;\] - [new 2.0.0-preview2](https://www.nuget.org/packages/FriendlyCSharp.Databases/2.0.0-preview2), [INSTALL](#install)
-   + `Methods:` BtnAddFirst, BtnCompares, BtnUpdates, BtnAdd, BtnDeleteAll, BtnFind, BtnFirst, BtnLast, BtnNext, BtnPrev, BtnSearch, BtnSearchPrev, BtnUpdate and BtnUsedKeys.
-   + `Methods:` BtnFastFind, BtnFastFirst, BtnFastLast, BtnFastNext, BtnFastPrev, BtnFastSearch, BtnFastSearchPrev.
 #### [FcsFastBTreeN&lt;TKey, TValue&gt;](FriendlyCSharp.Databases/BTreeN/FcsFastBTreeN.cs) \[where TKey : struct, IComparable&lt;TKey&gt;\]
    + `Methods:` BtnAddFirst, BtnCompares, BtnUpdates, BtnAdd, BtnDeleteAll, BtnFind, BtnFirst, BtnLast, BtnNext, BtnPrev, BtnSearch, BtnSearchPrev, BtnUpdate and BtnUsedKeys.
    + `Methods:` BtnFastFind, BtnFastFirst, BtnFastLast, BtnFastNext, BtnFastPrev, BtnFastSearch, BtnFastSearchPrev.
-#### [FcsLockBTreeN&lt;TKey, TValue&gt;](FriendlyCSharp.Databases/BTreeN/FcsLockBTreeN.cs) \[where TKey : struct, IComparable&lt;TKey&gt;\]
+#### [FcsDuplValueFastBTreeN&lt;TKey, TValue&gt;](FriendlyCSharp.Databases/BTreeN/FcsDuplValueFastBTreeN.cs) \[where TKey : struct, IComparable&lt;TKey&gt;\] - [new 2.0.0-preview2](https://www.nuget.org/packages/FriendlyCSharp.Databases/2.0.0-preview2), [INSTALL](#install)
    + `Methods:` BtnAddFirst, BtnCompares, BtnUpdates, BtnAdd, BtnDeleteAll, BtnFind, BtnFirst, BtnLast, BtnNext, BtnPrev, BtnSearch, BtnSearchPrev, BtnUpdate and BtnUsedKeys.
-#### [FcsKeyFastBTreeN&lt;TKey, TValue&gt;](FriendlyCSharp.Databases/BTreeN/FcsKeyFastBTreeN.cs) \[where TKey : struct\] - [new 2.0.0-preview2](https://www.nuget.org/packages/FriendlyCSharp.Databases/2.0.0-preview2), [INSTALL](#install)
+   + `Methods:` BtnFastFind, BtnFastFirst, BtnFastLast, BtnFastNext, BtnFastPrev, BtnFastSearch, BtnFastSearchPrev.
+#### [FcsKeyFastBTreeN&lt;TKeyValue&gt;](FriendlyCSharp.Databases/BTreeN/FcsKeyFastBTreeN.cs) \[where TKeyValue : struct\] - [new 2.0.0-preview2](https://www.nuget.org/packages/FriendlyCSharp.Databases/2.0.0-preview2), [INSTALL](#install)
    + `Methods:` BtnAdd, BtnDeleteAll, BtnFind, BtnFirst, BtnLast, BtnNext, BtnPrev, BtnSearch, BtnSearchPrev, BtnUpdate and BtnUsedKeys.
    + `Methods:` BtnFastFind, BtnFastFirst, BtnFastLast, BtnFastNext, BtnFastPrev, BtnFastSearch, BtnFastSearchPrev.
+#### [FcsLockBTreeN&lt;TKey, TValue&gt;](FriendlyCSharp.Databases/BTreeN/FcsLockBTreeN.cs) \[where TKey : struct, IComparable&lt;TKey&gt;\]
+   + `Methods:` BtnAddFirst, BtnCompares, BtnUpdates, BtnAdd, BtnDeleteAll, BtnFind, BtnFirst, BtnLast, BtnNext, BtnPrev, BtnSearch, BtnSearchPrev, BtnUpdate and BtnUsedKeys.
 #### [FcsFastLockBTreeN&lt;TKey, TValue&gt;](FriendlyCSharp.Databases/BTreeN/FcsFastLockBTreeN.cs) \[where TKey : struct, IComparable&lt;TKey&gt;\]
    + `Methods:` BtnAddFirst, BtnCompares, BtnUpdates, BtnAdd, BtnDeleteAll, BtnFind, BtnFirst, BtnLast, BtnNext, BtnPrev, BtnSearch, BtnSearchPrev, BtnUpdate and BtnUsedKeys.
    + `Methods:` BtnFastFind, BtnFastFirst, BtnFastLast, BtnFastNext, BtnFastPrev, BtnFastSearch, BtnFastSearchPrev.
@@ -39,10 +39,11 @@ A [**B-tree**](https://en.wikipedia.org/wiki/B-tree) of order m is a tree which 
 | generic class | sorted by&nbsp;key | duplicate keys | B-tree | locking records |
 | --- | :---: | :---: | :---: | :---: |
 | [**fastDB&lt;...&gt;**](http://www.inmem.cz/inmem_letak.pdf) | **Yes** | **Yes** | **Yes** | **Yes** |
-| [**FcsBTreeN&lt;TKey, TValue&gt;**](#fcsbtreentkey-tvalue) | **Yes** | **Yes** | **Yes** | No |
-| [**FcsFastBTreeN&lt;TKey, TValue&gt;**](#fcsfastbtreentkey-tvalue) | **Yes** | **Yes** | **Yes** | No |	
-| [**FcsLockBTreeN&lt;TKey, TValue&gt;**](#fcslockbtreentkey-tvalue) | **Yes** | **Yes** | **Yes** | No |
-| [**FcsFastLockBTreeN&lt;TKey, TValue&gt;**](#fcsfastlockbtreentkey-tvalue) | **Yes** | **Yes** | **Yes** | No |
+| [**FcsBTreeN&lt;TKey, TValue&gt;**](#fcsbtreentkey-tvalue-where-tkey--struct-icomparabletkey) | **Yes** | **Yes** | **Yes** | No |
+| [**FcsFastBTreeN&lt;TKey, TValue&gt;**](#fcsfastbtreentkey-tvalue-where-tkey--struct-icomparabletkey) | **Yes** | **Yes** | **Yes** | No |	
+| [**FcsLockBTreeN&lt;TKey, TValue&gt;**](#fcslockbtreentkey-tvalue-where-tkey--struct-icomparabletkey) | **Yes** | **Yes** | **Yes** | No |
+| [**FcsFastLockBTreeN&lt;TKey, TValue&gt;**](#fcsfastlockbtreentkey-tvalue-where-tkey--struct-icomparabletkey) | **Yes** | **Yes** | **Yes** | No |
+| [**FcsKeyFastBTreeN&lt;TKeyValue&gt;**](#fcskeyfastbtreentkey-tvalue-where-tkey--struct---new-200-preview2-install) | **Yes** | **Yes** | **Yes** | No |	
 | SortedSet&lt;KeyValuePair&lt;TKey, TValue&gt;&gt; | **Yes** | No | No | No |
 | HashSet&lt;KeyValuePair&lt;TKey, TValue&gt;&gt; | No | No | No | No |
 | Dictionary&lt;TKey, TValue&gt; | No | No | No | No |

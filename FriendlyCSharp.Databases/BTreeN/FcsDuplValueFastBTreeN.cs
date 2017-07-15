@@ -43,8 +43,7 @@ namespace FriendlyCSharp.Databases
       internal int fastMiddle;
       internal BtnDuplValuePage fastPage;
       //////////////////////////
-      public int Version { get => version; set => version = 0; } // value; }
-      //////////////////////////
+      public int Version { get => version; set => version = 0; } 
       public void Dispose(bool disposing)
       {
         fastPage = null;
