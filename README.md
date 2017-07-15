@@ -43,7 +43,7 @@ A [**B-tree**](https://en.wikipedia.org/wiki/B-tree) of order m is a tree which 
 | [**FcsFastBTreeN&lt;TKey, TValue&gt;**](#fcsfastbtreentkey-tvalue-where-tkey--struct-icomparabletkey) | **Yes** | **Yes** | **Yes** | No |	
 | [**FcsLockBTreeN&lt;TKey, TValue&gt;**](#fcslockbtreentkey-tvalue-where-tkey--struct-icomparabletkey) | **Yes** | **Yes** | **Yes** | No |
 | [**FcsFastLockBTreeN&lt;TKey, TValue&gt;**](#fcsfastlockbtreentkey-tvalue-where-tkey--struct-icomparabletkey) | **Yes** | **Yes** | **Yes** | No |
-| [**FcsKeyFastBTreeN&lt;TKeyValue&gt;**](#fcskeyfastbtreentkey-tvalue-where-tkey--struct---new-200-preview2-install) | **Yes** | **Yes** | **Yes** | No |	
+| [**FcsKeyFastBTreeN&lt;TKeyValue&gt;**](#fcskeyfastbtreentkeyvalue-where-tkeyvalue--struct---new-200-preview2-install) | **Yes** | **Yes** | **Yes** | No |	
 | SortedSet&lt;KeyValuePair&lt;TKey, TValue&gt;&gt; | **Yes** | No | No | No |
 | HashSet&lt;KeyValuePair&lt;TKey, TValue&gt;&gt; | No | No | No | No |
 | Dictionary&lt;TKey, TValue&gt; | No | No | No | No |
