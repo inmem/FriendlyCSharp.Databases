@@ -13,12 +13,12 @@
 
 The B-tree is a generalization of a binary search tree in that a node can have more than two children (Comer 1979, p. 123). Unlike self-balancing binary search trees, the B-tree is optimized for systems that read and write large blocks of data.
 </Description>
-    <PackageReleaseNotes>Upgrades with news NETStandard.Library 2.0.0-preview2</PackageReleaseNotes>
+    <PackageReleaseNotes>Upgrades with news NETStandard.Library 2.0.0</PackageReleaseNotes>
   </PropertyGroup>
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>2.0.0-preview2</Version>
+    <Version>2.0.0</Version>
     <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <FileVersion>2.0.0.0</FileVersion>
   </PropertyGroup>

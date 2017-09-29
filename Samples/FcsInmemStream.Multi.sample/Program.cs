@@ -3,11 +3,11 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 using FriendlyCSharp.Databases;
 
-namespace FcsInmemStream.NET.sample
+namespace FcsInmemStream.Multi.sample
 {
   class Program
   {
-    public unsafe struct StructIms
+    public unsafe struct StructIms : ICloneable
     {
       public int key;
       public uint value;
@@ -17,12 +17,17 @@ namespace FcsInmemStream.NET.sample
       public Guid guid;
       //
       public fixed byte buff[32]; // 4064, 992, 480, 224, 96, 32
+
+      public object Clone()
+      {
+        return base.MemberwiseClone(); 
+      }
     }
 
     static void Main(string[] args)
     {
       Console.OutputEncoding = System.Text.Encoding.UTF8;
-      Console.WriteLine(String.Format("FcsInmemStream.NET452.sample, {0}", (IntPtr.Size == 4) ? "32 bit" : "64 bit"));
+      Console.WriteLine(String.Format("FcsInmemStream.Core11.sample, {0}", (IntPtr.Size == 4) ? "32 bit" : "64 bit"));
       Console.WriteLine("------------------------------------");
 
       int iSizeT = Marshal.SizeOf(default(StructIms));

@@ -10,10 +10,10 @@ A library of cross platform C# data structures. Generic [**B-tree**](https://en.
 #### [FcsFastBTreeN&lt;TKey, TValue&gt;](FriendlyCSharp.Databases/BTreeN/FcsFastBTreeN.cs) \[where TKey : struct, IComparable&lt;TKey&gt;\]
    + `Methods:` BtnAddFirst, BtnCompares, BtnUpdates, BtnAdd, BtnDeleteAll, BtnFind, BtnFirst, BtnLast, BtnNext, BtnPrev, BtnSearch, BtnSearchPrev, BtnUpdate and BtnUsedKeys.
    + `Methods:` BtnFastFind, BtnFastFirst, BtnFastLast, BtnFastNext, BtnFastPrev, BtnFastSearch, BtnFastSearchPrev.
-#### [FcsDuplValueFastBTreeN&lt;TKey, TValue&gt;](FriendlyCSharp.Databases/BTreeN/FcsDuplValueFastBTreeN.cs) \[where TKey : struct, IComparable&lt;TKey&gt;\] - [new 2.0.0-preview2](https://www.nuget.org/packages/FriendlyCSharp.Databases/2.0.0-preview2), [INSTALL](#install)
+#### [FcsDuplValueFastBTreeN&lt;TKey, TValue&gt;](FriendlyCSharp.Databases/BTreeN/FcsDuplValueFastBTreeN.cs) \[where TKey : struct, IComparable&lt;TKey&gt;\]
    + `Methods:` BtnAddFirst, BtnCompares, BtnUpdates, BtnAdd, BtnDeleteAll, BtnFind, BtnFirst, BtnLast, BtnNext, BtnPrev, BtnSearch, BtnSearchPrev, BtnUpdate and BtnUsedKeys.
    + `Methods:` BtnFastFind, BtnFastFirst, BtnFastLast, BtnFastNext, BtnFastPrev, BtnFastSearch, BtnFastSearchPrev.
-#### [FcsKeyFastBTreeN&lt;TKeyValue&gt;](FriendlyCSharp.Databases/BTreeN/FcsKeyFastBTreeN.cs) \[where TKeyValue : struct\] - [new 2.0.0-preview2](https://www.nuget.org/packages/FriendlyCSharp.Databases/2.0.0-preview2), [INSTALL](#install)
+#### [FcsKeyFastBTreeN&lt;TKeyValue&gt;](FriendlyCSharp.Databases/BTreeN/FcsKeyFastBTreeN.cs) \[where TKeyValue : struct\] 
    + `Methods:` BtnAdd, BtnDeleteAll, BtnFind, BtnFirst, BtnLast, BtnNext, BtnPrev, BtnSearch, BtnSearchPrev, BtnUpdate and BtnUsedKeys.
    + `Methods:` BtnFastFind, BtnFastFirst, BtnFastLast, BtnFastNext, BtnFastPrev, BtnFastSearch, BtnFastSearchPrev.
 #### [FcsLockBTreeN&lt;TKey, TValue&gt;](FriendlyCSharp.Databases/BTreeN/FcsLockBTreeN.cs) \[where TKey : struct, IComparable&lt;TKey&gt;\]
@@ -23,10 +23,10 @@ A library of cross platform C# data structures. Generic [**B-tree**](https://en.
    + `Methods:` BtnFastFind, BtnFastFirst, BtnFastLast, BtnFastNext, BtnFastPrev, BtnFastSearch, BtnFastSearchPrev.
 
 ### Samples
-* [BtnEnumerator.Core.sample](Samples/BtnEnumerator.Core.sample), [BtnEnumerator.NET.sample](Samples/BtnEnumerator.NET.sample)
-* [FcsFastBTreeN.Core.benchmark](Samples/FcsFastBTreeN.Core.benchmark), [FcsFastBTreeN.NET.benchmark](Samples/FcsFastBTreeN.NET.benchmark)
-* [MultipleKeys.Core.sample](Samples/MultipleKeys.Core.sample), [MultipleKeys.NET.sample](Samples/MultipleKeys.NET.sample)
-* **new** [DuplicityKeys.Core.sample](DuplicityKeys.Core.sample) - [Microsoft.NETCore.App 2.0.0-preview2](https://www.nuget.org/packages/Microsoft.NETCore.App/2.0.0-preview2-25407-01), [NETStandard.Library 2.0.0-preview2](https://www.nuget.org/packages/NETStandard.Library/2.0.0-preview2-25401-01), [INSTALL](#install)
+* [BtnEnumerator.Multi.sample](Samples/BtnEnumerator.Multi.sample)
+* [FcsFastBTreeN.Multi.benchmark](Samples/FcsFastBTreeN.Multi.benchmark)
+* [MultipleKeys.Multi.sample](Samples/MultipleKeys.Multi.sample)
+* [DuplicityKeys.Multi.sample](Samples/DuplicityKeys.Multi.sample) 
 
 ### Performance
 A [**B-tree**](https://en.wikipedia.org/wiki/B-tree) of order m is a tree which satisfies the following properties:
@@ -43,7 +43,7 @@ A [**B-tree**](https://en.wikipedia.org/wiki/B-tree) of order m is a tree which 
 | [**FcsFastBTreeN&lt;TKey, TValue&gt;**](#fcsfastbtreentkey-tvalue-where-tkey--struct-icomparabletkey) | **Yes** | **Yes** | **Yes** | No |	
 | [**FcsLockBTreeN&lt;TKey, TValue&gt;**](#fcslockbtreentkey-tvalue-where-tkey--struct-icomparabletkey) | **Yes** | **Yes** | **Yes** | No |
 | [**FcsFastLockBTreeN&lt;TKey, TValue&gt;**](#fcsfastlockbtreentkey-tvalue-where-tkey--struct-icomparabletkey) | **Yes** | **Yes** | **Yes** | No |
-| [**FcsKeyFastBTreeN&lt;TKeyValue&gt;**](#fcskeyfastbtreentkey-tvalue-where-tkey--struct---new-200-preview2-install) | **Yes** | **Yes** | **Yes** | No |	
+| [**FcsKeyFastBTreeN&lt;TKeyValue&gt;**](#fcskeyfastbtreentkeyvalue-where-tkeyvalue--struct---new-200-preview2-install) | **Yes** | **Yes** | **Yes** | No |	
 | SortedSet&lt;KeyValuePair&lt;TKey, TValue&gt;&gt; | **Yes** | No | No | No |
 | HashSet&lt;KeyValuePair&lt;TKey, TValue&gt;&gt; | No | No | No | No |
 | Dictionary&lt;TKey, TValue&gt; | No | No | No | No |
@@ -51,7 +51,7 @@ A [**B-tree**](https://en.wikipedia.org/wiki/B-tree) of order m is a tree which 
 ### Benchmark 
 The benchmark was configured as follows:
 * CPU: Intel Xeon E3-1245 @ 3.3 GHz;
-* Windows 10, 64bit, .NET Standard 1.1
+* Windows 10, 64bit, .NET Standard 2.0
 * 4x4GB DDR3 Kingston @ 1333 MHz
 
 >**Adding in a single thread:**
@@ -263,16 +263,16 @@ public virtual KeyValuePair<TKey, TValue>? BtnSearchPrev(TKey key)
 
 &nbsp;
 ## MemoryStream generic class
-#### [FcsInmemStream&lt;T&gt;](FriendlyCSharp.Databases/Storage/FcsInmemStream.cs) \[where T : struct\]
+#### [FcsInmemStream&lt;T&gt;](FriendlyCSharp.Databases/Storage/FcsInmemStream.cs) \[where T : struct, ICloneable\]
    + `Methods:` Append, Close, Length, Open, Position, Read, Seek, Write.
 
 ### Samples
-* [FcsInmemStream.Core.sample](Samples/FcsInmemStream.Core.sample), [FcsInmemStream.NET.sample](Samples/FcsInmemStream.NET.sample)
+* [FcsInmemStream.Multi.sample](Samples/FcsInmemStream.Multi.sample)
 
 ### Benchmark 
 The benchmark was configured as follows:
 * CPU: Intel Xeon E3-1245 @ 3.3 GHz;
-* Windows 10, 64bit, .NET Standard 1.1
+* Windows 10, 64bit, .NET Standard 2.0
 * 4x4 GB DDR3 Kingston @ 1333 MHz
 * Append, Read, Write (*cache 1,000 T*) and foreach (*cache 128 T*)
 
@@ -290,23 +290,17 @@ The benchmark was configured as follows:
 &nbsp;　
 ## INSTALL
 
-Instal Visual Studio 2017 version 15.3.0 preview 3.0 & .NET Core 2.0 preview 2 
+Instal Visual Studio 2017 version 15.4.0 preview 3.0 & .NET Core 2.0 & support for multiple target frameworks
 * [Pre-release Visual Studio 2017 | Visual Studio Preview](https://www.visualstudio.com/vs/preview/)
-* [Visual Studio 2017 (version 15.3 - Preview 3.0) Release Notes](https://www.visualstudio.com/en-us/news/releasenotes/vs2017-preview-relnotes)
-* [Announcing .NET Core 2.0 Preview 2](https://blogs.msdn.microsoft.com/dotnet/2017/06/28/announcing-net-core-2-0-preview-2/)
+* [Visual Studio 2017 (version 15.4 - Preview 3.0) Release Notes](https://www.visualstudio.com/en-us/news/releasenotes/vs2017-preview-relnotes)
+* [Announcing .NET Core 2.0](https://blogs.msdn.microsoft.com/dotnet/2017/08/14/announcing-net-core-2-0/)
 * [GitHUB .NET Core](https://github.com/dotnet/core/tree/master/release-notes)
-* [.NET Core 2.0 preview 2 download](https://github.com/dotnet/core/blob/master/release-notes/download-archives/2.0.0-preview2-download.md)
+* [.NET Core 2.0 download](https://github.com/dotnet/core/blob/master/release-notes/download-archives/2.0.0-download.md)
 
-Install via Nuget Package Manager [version 2.0.0-preview2](https://www.nuget.org/packages/FriendlyCSharp.Databases/2.0.0-preview2)
-
-```
-PM> Install-Package FriendlyCSharp.Databases -pre
-```
-
-Install via Nuget Package Manager [version 1.0.3](https://www.nuget.org/packages/FriendlyCSharp.Databases/1.0.3)
+Install via Nuget Package Manager [version 2.0.0](https://www.nuget.org/packages/FriendlyCSharp.Databases/2.0.0)
 
 ```
-PM> Install-Package FriendlyCSharp.Databases -Version 1.0.3
+PM> Install-Package FriendlyCSharp.Databases
 ```
 
 &nbsp;

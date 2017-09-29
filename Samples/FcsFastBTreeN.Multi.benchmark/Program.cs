@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using FriendlyCSharp.Databases;
 
-namespace FcsFastBTreeN.NET.benchmark
+namespace FcsFastBTreeN.Multi.benchmark
 {
   class Program
   {
@@ -54,7 +54,7 @@ namespace FcsFastBTreeN.NET.benchmark
     static void Main(string[] args)
     {
       Console.OutputEncoding = System.Text.Encoding.UTF8;
-      Console.WriteLine(String.Format("FcsFastBTreeN.NET452.benchmark, {0}", (IntPtr.Size == 4) ? "32 bit" : "64 bit"));
+      Console.WriteLine(String.Format("FcsFastBTreeN.Core11.benchmark, {0}", (IntPtr.Size == 4) ? "32 bit" : "64 bit"));
       Console.WriteLine("--------------------------------------");
 
       int iPocetAdd = 0;

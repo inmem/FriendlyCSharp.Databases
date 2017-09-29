@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 
-namespace DuplicityKeys.Core.sample
+namespace DuplicityKeys.Multi.sample
 {
   class Program
   {

@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
-using FriendlyCSharp.Databases;
 using System.Diagnostics;
+using FriendlyCSharp.Databases;
 
-namespace MultipleKeys.NET.sample
+namespace MultipleKeys.Multi.sample
 {
   class Program
   {
@@ -14,16 +14,16 @@ namespace MultipleKeys.NET.sample
         // Resize ?
         if (valueUpdates.aDateTime.Length <= valueUpdates.count)
         {
-          if (valueUpdates.aDateTime.Length >= 1024) 
-            Array.Resize<DateTime>(ref valueUpdates.aDateTime, valueUpdates.aDateTime.Length + 256); 
+          if (valueUpdates.aDateTime.Length >= 1024)
+            Array.Resize<DateTime>(ref valueUpdates.aDateTime, valueUpdates.aDateTime.Length + 256);
           else
             Array.Resize<DateTime>(ref valueUpdates.aDateTime, valueUpdates.aDateTime.Length * 2);
         }
         // Resize ?
         if (valueUpdates.aRand.Length <= valueUpdates.count)
         {
-          if (valueUpdates.aRand.Length >= 1024) 
-            Array.Resize<uint>(ref valueUpdates.aRand, valueUpdates.aRand.Length + 256); 
+          if (valueUpdates.aRand.Length >= 1024)
+            Array.Resize<uint>(ref valueUpdates.aRand, valueUpdates.aRand.Length + 256);
           else
             Array.Resize<uint>(ref valueUpdates.aRand, valueUpdates.aRand.Length * 2);
         }
@@ -138,7 +138,7 @@ namespace MultipleKeys.NET.sample
     static void Main(string[] args)
     {
       Console.OutputEncoding = System.Text.Encoding.UTF8;
-      Console.WriteLine(String.Format("MultipleKeys.NET452.sample, {0}", (IntPtr.Size == 4) ? "32 bit" : "64 bit"));
+      Console.WriteLine(String.Format("MultipleKeys.Core11.sample, {0}", (IntPtr.Size == 4) ? "32 bit" : "64 bit"));
       Console.WriteLine("----------------------------------");
 
       int max = 36000;
@@ -149,7 +149,7 @@ namespace MultipleKeys.NET.sample
       var hashSetRand = new HashSet<uint>();
       while (iPocetAdd < max)
       {
-        uint rand = (uint)r.Next(0, Int32.MaxValue-1);
+        uint rand = (uint)r.Next(0, Int32.MaxValue - 1);
         if (hashSetRand.Contains(rand) == false)
         {
           hashSetRand.Add(rand);
@@ -209,7 +209,7 @@ namespace MultipleKeys.NET.sample
       Console.WriteLine($"{((double)(swFcsKV.Elapsed.TotalMilliseconds * 1000000) / iCompareCount),9:N2} ns  [{swFcsKV.Elapsed.TotalMilliseconds,11} ms | {iCompareCount} keys ]{iCompareCount / swFcsKV.Elapsed.TotalSeconds,20:N0} IOPS");
 
       iCompareCount = 0;
-      FcsBTreeN<BtnKey,BtnValue>.BtnEnumerator btnEn = btnTest.GetEnumeratorEx(false);
+      FcsBTreeN<BtnKey, BtnValue>.BtnEnumerator btnEn = btnTest.GetEnumeratorEx(false);
       swFcsKV.Restart();
       while (btnEn.MoveNext())
       {

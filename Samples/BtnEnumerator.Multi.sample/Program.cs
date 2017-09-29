@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using FriendlyCSharp.Databases;
 
-namespace BtnEnumerator.Core.sample
+namespace BtnEnumerator.Multi.sample
 {
   public class TestKV : FcsBTreeN<int, uint>
   {
