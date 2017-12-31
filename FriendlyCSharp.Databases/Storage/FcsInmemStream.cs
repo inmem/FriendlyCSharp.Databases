@@ -7,27 +7,30 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
+using TImsId = System.UInt32;
 
 namespace FriendlyCSharp.Databases
 {
-  public partial class FcsInmemStream<T> : Stream, IDisposable, IEnumerable, IEnumerable<T> 
-                                           where T : struct, ICloneable
+  public class FcsInmemStream<T> : Stream, IDisposable, IEnumerable, IEnumerable<T> 
+                                   where T : struct, ICloneable
   {
-    protected int _maxBlockByte = 1 << 20;
-    protected int _bufferCols;
-    protected int _bufferRows;
-    protected int _bufferRowsCount;
-    protected BufferPage[] _bufferPage;
+    public static readonly TImsId NoDelete = default(TImsId);
+    public static readonly TImsId ErrorId = default(TImsId);
+    protected short _delta64KPerPageT;
+    protected int _recPageCols = 0x00010000; // 65536
+    protected int _recPageRows;
+    protected int _recPageRowsCount;
+    protected RecPage[] _recPage;
     protected bool _bRecDelete;
-    protected long _capacity;
-    protected long _length;
+    protected TImsId _capacity;
+    protected TImsId _length;
     protected bool _isOpen;
-    private long _position;
+    private TImsId _position;
     protected readonly object _lockAppend = new object();
-    public const long OFFSET_ERROR = long.MinValue;
+    public readonly TImsId OFFSET_ERROR = TImsId.MaxValue;
     //
-    private long _offsetPosition;
-    public long OFFSET_POSITION { get => _offsetPosition; }
+    private TImsId _offsetPosition;
+    public TImsId OFFSET_POSITION { get => _offsetPosition; }
     //
     private bool _bFuncPosition;
     public bool FuncPosition
@@ -39,7 +42,7 @@ namespace FriendlyCSharp.Databases
       set
       {
         if (_bFuncPosition)
-          _offsetPosition = -1;
+          _offsetPosition = OFFSET_ERROR;
         else
           _offsetPosition = 0;
         _bFuncPosition = value;
@@ -50,18 +53,17 @@ namespace FriendlyCSharp.Databases
     public bool FuncException { get => _bFuncException; set => _bFuncException = value; }
     //
     private bool _disposed = false;
-    private readonly int _sizeT = 1;
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////         Transaction          //////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public struct Transaction : ICloneable
     {
-      public long   keyPos;
+      public TImsId keyPos;
       public UInt16 keyCount;
       public bool   valueOK;
       public T[]    valueARec;
       /////////////////////////////////////////////
-      public Transaction(long pos, UInt16 count)
+      public Transaction(TImsId pos, UInt16 count)
       {
         keyPos = pos;
         keyCount = count;
@@ -95,25 +97,25 @@ namespace FriendlyCSharp.Databases
       }
     }
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    /////////////////////////////////////////////          BufferPage          //////////////////////////////////////////////////////
+    /////////////////////////////////////////////           RecPage            //////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    protected class BufferPage : IDisposable
+    protected class RecPage : IDisposable
     {
       public int iUpdate;
       public DateTime timeRead;
       public DateTime timeWrite;
       public T[] aRec;
-      public long[] aDel;
+      public TImsId[] aDel;
       private bool disposed = false;
       /////////////////////////////////////////////
-      public BufferPage(int iValue, bool bRecDelete)
+      public RecPage(int iRecCount, bool bRecDelete)
       {
         iUpdate = 0;
         timeRead = DateTime.MinValue;
         timeWrite = DateTime.MinValue;
-        aRec = new T[iValue];
+        aRec = new T[iRecCount];
         if (bRecDelete)
-          aDel = new long[iValue];
+          aDel = new TImsId[iRecCount];
         else
           aDel = null;
       }
@@ -145,34 +147,29 @@ namespace FriendlyCSharp.Databases
     {
     }
     /////////////////////////////////////////////
-    public FcsInmemStream(short deltaPage) : this(deltaPage, false)
+    public FcsInmemStream(short delta64KPerPageT) : this(delta64KPerPageT, false)
     {
     }
     /////////////////////////////////////////////
-    public FcsInmemStream(short deltaPage, bool bRecDelete)
+    public FcsInmemStream(short delta64KPerPageT, bool bRecDelete)
     {
       if (typeof(T) == typeof(DateTime))
         throw new ArgumentOutOfRangeException("Type DateTime can not be directly insert it into the structure.");
-      _sizeT = Marshal.SizeOf(default(T));
-      // deltaPage == -4 up 8GB == -3 up 16GB == -2 up 32GB, == -1 up 64GB, == 0 up 128GB 
-      // deltaPage == 1 up 256 GB, == 2 up 512GB, == 3 up 1024GB, == 4 up 2048GB
-      if ((deltaPage < -4) || (deltaPage > 4))
-        throw new ArgumentOutOfRangeException(nameof(deltaPage));
-      if (deltaPage < 0)
-        _maxBlockByte >>= Math.Abs(deltaPage);
-      else if (deltaPage > 0)
-        _maxBlockByte <<= Math.Abs(deltaPage);
-      _bufferCols = (_maxBlockByte / _sizeT);
-      if (_bufferCols > 0x0400)      // 1024
-        _bufferCols &= 0x7FFFFD00;   // nasobky 512
-      else if (_bufferCols > 0x0100) // 256
-        _bufferCols &= 0x7FFFFF80;   // nasobky 128
-      else if (_bufferCols > 0x0010) // 16
-        _bufferCols &= 0x7FFFFFF0;   // nasobky 16
-      _bufferRows = 0x0100;          // 256 BufferPage
-      _bufferPage = new BufferPage[_bufferRows];
+      _delta64KPerPageT = delta64KPerPageT;
+      // min.T 4096, max.T 1048576 (rec per page), maxRows = 32768, min.T 128M, max.T 32G
+      // deltaPage == -4 up 2^12T, == -3 up 2^13T, == -2 up 2^14T, == -1 up 2^15T (rec per page)
+      // deltaPage ==  0 up 2^16T (rec per page)
+      // deltaPage ==  1 up 2^17T, ==  2 up 2^18T, ==  3 up 2^19T, ==  4 up 2^20T (rec per page)
+      if ((delta64KPerPageT < -4) || (delta64KPerPageT > 4))
+        throw new ArgumentOutOfRangeException(nameof(delta64KPerPageT));
+      if (delta64KPerPageT < 0)
+        _recPageCols >>= Math.Abs(delta64KPerPageT);
+      else if (delta64KPerPageT > 0)
+        _recPageCols <<= Math.Abs(delta64KPerPageT);
+      _recPageRows = 0x0100;          // 256 BufferPage
+      _recPage = new RecPage[_recPageRows];
       _bRecDelete = bRecDelete;
-      _bufferRowsCount = 0;
+      _recPageRowsCount = 0;
       _capacity = 0;
       _length = 0;
       _position = 0;
@@ -183,14 +180,14 @@ namespace FriendlyCSharp.Databases
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////            Append            //////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    public virtual long Append(T value)
+    public virtual TImsId Append(T value)
     {
       T[] aValue = new T[1];
       aValue[0] = value;
-      return Append(aValue);
+      return Append(aValue, null, 0, (UInt16)aValue.Length);
     }
     /////////////////////////////////////////////
-    public virtual long Append(T[] aValue)
+    public virtual TImsId Append(T[] aValue)
     {
       if (_bFuncException)
       {
@@ -200,10 +197,23 @@ namespace FriendlyCSharp.Databases
           throw new ArgumentOutOfRangeException(nameof(aValue.Length));
       }
 
-      return Append(aValue, 0, (UInt16)aValue.Length);
+      return Append(aValue, null, 0, (UInt16)aValue.Length);
     }
     /////////////////////////////////////////////
-    public virtual long Append(T[] aValue, int index, UInt16 count)
+    public virtual TImsId Append(T[] aValue, int index, UInt16 count)
+    {
+      if (_bFuncException)
+      {
+        if (aValue == null)
+          throw new ArgumentOutOfRangeException(nameof(aValue));
+        if ((aValue.Length <= 0) || (aValue.Length > UInt16.MaxValue))
+          throw new ArgumentOutOfRangeException(nameof(aValue.Length));
+      }
+
+      return Append(aValue, null, index, count);
+    }
+    /////////////////////////////////////////////
+    protected virtual TImsId Append(T[] aValue, TImsId[] aDel, int index, UInt16 count)
     {
       if (!CanWrite)
         return OFFSET_ERROR;
@@ -218,28 +228,33 @@ namespace FriendlyCSharp.Databases
           throw new ArgumentOutOfRangeException(nameof(count));
       }
 
-      long lengthTemp = OFFSET_ERROR;
+      TImsId lengthTemp = OFFSET_ERROR;
       lock (_lockAppend)
       {
-        lengthTemp = Length;
-        if (lengthTemp < 0)
+        if (Length < 0)
           throw new ArgumentOutOfRangeException(nameof(Length));
-        while (lengthTemp + count >= Capacity)
+        lengthTemp = (TImsId)Length;
+        long lNewLen = lengthTemp + count;
+        while (lNewLen > Capacity)
         {
-          if (_bufferRowsCount >= _bufferRows) 
+          if (_recPageRowsCount >= _recPageRows)
           {
-            _bufferRows <<= 1;
-            if (_bufferRows >= 0x00020000) // 131072
+            _recPageRows <<= 1;
+            if (_recPageRows >= 0x00008000) // 32768
               throw new OutOfMemoryException();
-            Array.Resize<BufferPage>(ref _bufferPage, _bufferRows);
+            Array.Resize<RecPage>(ref _recPage, _recPageRows);
           }
-          _bufferPage[_bufferRowsCount++] = new BufferPage(_bufferCols, _bRecDelete);
-          _capacity = _bufferCols * _bufferRowsCount;
+          _recPage[_recPageRowsCount++] = new RecPage(_recPageCols, _bRecDelete);
+          long lCapacity = _recPageCols * _recPageRowsCount;
+          if (lCapacity < 0)
+            throw new ArgumentOutOfRangeException();
+          else
+            _capacity = (TImsId)lCapacity;
         }
-        int iWrite = _BlockCopyInternal(false, lengthTemp, aValue, index, count);
+        int iWrite = _BlockCopyInternal(false, lengthTemp, aValue, aDel, index, count);
         if (iWrite == count)
         {
-          _length += iWrite;
+          _length += (TImsId)iWrite;
           if (FuncPosition)
             Position = Length;
         }
@@ -268,7 +283,7 @@ namespace FriendlyCSharp.Databases
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////       Capacity, Close        //////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    public virtual long Capacity { get => _capacity; }
+    public virtual TImsId Capacity { get => _capacity; }
     /////////////////////////////////////////////
     public override void Close()
     {
@@ -279,14 +294,14 @@ namespace FriendlyCSharp.Databases
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////            Delete            //////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    public virtual void Delete(long offset)
+    public virtual bool Delete(TImsId offset)
     {
-      Delete(offset, -1);
+      return Delete(offset, ErrorId);
     }
     /////////////////////////////////////////////
-    public virtual void Delete(long offset, long offsetNew)
+    public virtual bool Delete(TImsId offset, TImsId offsetNew)
     {
-      BufferPage[] buffPageLocal = _bufferPage;
+      RecPage[] buffPageLocal = _recPage;
       if ((offset < 0) || (offset >= Length) || (!_RowColsOffset(buffPageLocal, offset, out int iRow, out int iCols)))
         throw new ArgumentOutOfRangeException(nameof(offset));
       if (!_bRecDelete)
@@ -296,8 +311,8 @@ namespace FriendlyCSharp.Databases
           if (!_bRecDelete)
           {
             _bRecDelete = true;
-            for (int idx = 0; idx < _bufferRows; idx++)
-              buffPageLocal[idx].aDel = new long[_bufferCols];
+            for (int idx = 0; idx < _recPageRowsCount; idx++)
+              buffPageLocal[idx].aDel = new TImsId[_recPageCols];
           }
         }
       }
@@ -305,6 +320,7 @@ namespace FriendlyCSharp.Databases
         throw new ArgumentNullException("", "_bufferPage[iRow].aDel");
 
       buffPageLocal[iRow].aDel[iCols] = offsetNew;
+      return true;
     }
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////        Dispose, Flush        //////////////////////////////////////////////////////
@@ -318,11 +334,19 @@ namespace FriendlyCSharp.Databases
     /////////////////////////////////////////////
     protected override void Dispose(bool disposing)
     {
-      if (_disposed)
+      if (!_disposed)
       {
         _disposed = true;
         _isOpen = false;
-        _bufferPage = null;
+        if (_recPage != null)
+        {
+          for (int ii = 0; ii < _recPageRowsCount; ii++)
+          {
+            _recPage[ii].Dispose();
+            _recPage[ii] = null;
+          }
+        }
+        _recPage = null;
         // Call base class implementation.
         base.Dispose(disposing);
       }
@@ -335,12 +359,12 @@ namespace FriendlyCSharp.Databases
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////           IsDelete           //////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    public virtual long IsDelete(long offset)
+    public virtual long IsDelete(TImsId offset)
     {
       if (!_bRecDelete)
         return 0;
 
-      BufferPage[] buffPageLocal = _bufferPage;
+      RecPage[] buffPageLocal = _recPage;
       if ((offset < 0) || (offset >= Length) || (!_RowColsOffset(buffPageLocal, offset, out int iRow, out int iCols)))
         throw new ArgumentOutOfRangeException(nameof(offset));
       if (buffPageLocal[iRow].aDel == null)
@@ -357,14 +381,14 @@ namespace FriendlyCSharp.Databases
       return new FcsInmemStream<T>(0, false);
     }
     /////////////////////////////////////////////
-    public static FcsInmemStream<T> Open(short deltaPage)
+    public static FcsInmemStream<T> Open(short delta64KPerPageT)
     {
-      return new FcsInmemStream<T>(deltaPage, false);
+      return new FcsInmemStream<T>(delta64KPerPageT, false);
     }
     /////////////////////////////////////////////
-    public static FcsInmemStream<T> Open(short deltaPage, bool bRecDelete)
+    public static FcsInmemStream<T> Open(short delta64KPerPageT, bool bRecDelete)
     {
-      return new FcsInmemStream<T>(deltaPage, bRecDelete);
+      return new FcsInmemStream<T>(delta64KPerPageT, bRecDelete);
     }
     /////////////////////////////////////////////
     public override long Position
@@ -381,9 +405,9 @@ namespace FriendlyCSharp.Databases
         {
           long lengthTemp = Length;
           if ((value >= 0) && (value <= lengthTemp))
-            _position = value;
+            _position = (TImsId)value;
           else
-            _position = lengthTemp;
+            _position = (TImsId)lengthTemp;
         }
         else
           throw new NotImplementedException("Cannot Position() to this FcsInmemStream<T>.");
@@ -424,7 +448,7 @@ namespace FriendlyCSharp.Databases
       if (position + countT > lengthTemp)
         countT = (UInt16)(lengthTemp - position);
       T[] aValue = new T[countT];
-      int iRead = _BlockCopyInternal(true, position, aValue, 0, countT);
+      int iRead = _BlockCopyInternal(true, position, aValue, null, 0, countT);
       //
       int size = iRead * sizeT;
       IntPtr ptr = Marshal.AllocHGlobal(size);
@@ -449,37 +473,56 @@ namespace FriendlyCSharp.Databases
     {
       if (FuncPosition)
         return Read(OFFSET_POSITION, out aValue, count);
-      aValue = new T[1];
-      aValue[0] = default(T);
+      aValue = new T[0];
       return 0;
     }
     /////////////////////////////////////////////
-    public virtual int Read(long offset, out T value)
+    public virtual int Read(TImsId offset, out T value, out TImsId DeleteRecId)
     {
       value = default(T);
-      if (!CanRead)
-        return 0;
-
+      DeleteRecId = NoDelete;
       if ((FuncPosition) && (offset == OFFSET_POSITION))
-        offset = Position;
-      if ((offset < 0) || (offset >= Length))
+        offset = (TImsId)Position;
+      if ((!CanRead) || (offset < 0) || (offset >= Length))
         return 0;
 
       T[] aValue = new T[1];
-      int iRead = _BlockCopyInternal(true, offset, aValue, 0, 1);
+      TImsId[] aDel = new TImsId[1];
+      int iRead = _BlockCopyInternal(true, offset, aValue, aDel, 0, 1);
       if (FuncPosition)
       {
         lock (_lockAppend)
           Position = offset + iRead;
       }
-      if (iRead == 1)
-        value = aValue[0];
-      else
-        iRead = 0;
+      if (iRead != 1)
+        return 0;
+      value = aValue[0];
+      DeleteRecId = aDel[0];
       return iRead;
     }
     /////////////////////////////////////////////
-    public virtual int Read(long offset, out T[] aValue, int count)
+    public virtual int Read(TImsId offset, out T value)
+    {
+      value = default(T);
+      if ((FuncPosition) && (offset == OFFSET_POSITION))
+        offset = (TImsId)Position;
+      if ((!CanRead) || (offset < 0) || (offset >= Length))
+        return 0;
+
+      T[] aValue = new T[1];
+      int iRead = _BlockCopyInternal(true, offset, aValue, null, 0, 1);
+      if (FuncPosition)
+      {
+        lock (_lockAppend)
+          Position = offset + iRead;
+      }
+      if (iRead != 1)
+        return 0;
+      value = aValue[0];
+      return iRead;
+    }
+    /////////////////////////////////////////////
+    public virtual int Read(TImsId offset, out T[] aValue, int count)
     {
       if (_bFuncException)
       {
@@ -487,10 +530,22 @@ namespace FriendlyCSharp.Databases
           throw new ArgumentOutOfRangeException(nameof(count));
       }
       aValue = new T[count];
-      return Read(offset, aValue, 0, (UInt16)count);
+      return Read(offset, aValue, null, 0, (UInt16)count);
     }
     /////////////////////////////////////////////
-    public virtual int Read(long offset, T[] aValue)
+    public virtual int Read(TImsId offset, out T[] aValue, out TImsId[] aDel, int count)
+    {
+      if (_bFuncException)
+      {
+        if ((count <= 0) || (count > UInt16.MaxValue))
+          throw new ArgumentOutOfRangeException(nameof(count));
+      }
+      aValue = new T[count];
+      aDel = new TImsId[count];
+      return Read(offset, aValue, aDel, 0, (UInt16)count);
+    }
+    /////////////////////////////////////////////
+    public virtual int Read(TImsId offset, T[] aValue)
     {
       if (_bFuncException)
       {
@@ -499,10 +554,10 @@ namespace FriendlyCSharp.Databases
         if ((aValue.Length == 0) || (aValue.Length > UInt16.MaxValue))
           throw new ArgumentOutOfRangeException(nameof(aValue.Length));
       }
-      return Read(offset, aValue, 0, (UInt16)aValue.Length);
+      return Read(offset, aValue, null, 0, (UInt16)aValue.Length);
     }
     /////////////////////////////////////////////
-    public virtual int Read(long offset, T[] aValue, int count)
+    public virtual int Read(TImsId offset, T[] aValue, int count)
     {
       if (_bFuncException)
       {
@@ -513,7 +568,21 @@ namespace FriendlyCSharp.Databases
         if ((count <= 0) || (count > UInt16.MaxValue))
           throw new ArgumentOutOfRangeException(nameof(count));
       }
-      return Read(offset, aValue, 0, (UInt16)count);
+      return Read(offset, aValue, null, 0, (UInt16)count);
+    }
+    /////////////////////////////////////////////
+    public virtual int Read(TImsId offset, T[] aValue, TImsId[] aDel, int count)
+    {
+      if (_bFuncException)
+      {
+        if (aValue == null)
+          throw new ArgumentOutOfRangeException(nameof(aValue));
+        if ((aValue.Length == 0) || (aValue.Length > UInt16.MaxValue))
+          throw new ArgumentOutOfRangeException(nameof(aValue.Length));
+        if ((count <= 0) || (count > UInt16.MaxValue))
+          throw new ArgumentOutOfRangeException(nameof(count));
+      }
+      return Read(offset, aValue, aDel, 0, (UInt16)count);
     }
     /////////////////////////////////////////////
     public virtual int Read(Transaction[] aTrans, int index, UInt16 count)
@@ -539,7 +608,7 @@ namespace FriendlyCSharp.Databases
                              (aTrans[pr].keyPos >= 0) && (aTrans[pr].keyPos + iCount <= Length) )
         {
           aTrans[pr].valueARec = new T[iCount];
-          if (_BlockCopyInternal(true, aTrans[pr].keyPos, aTrans[pr].valueARec, 0, iCount) == iCount)
+          if (_BlockCopyInternal(true, aTrans[pr].keyPos, aTrans[pr].valueARec, null, 0, iCount) == iCount)
           {
             aTrans[pr].valueOK = true;
             iRead++;
@@ -559,7 +628,7 @@ namespace FriendlyCSharp.Databases
       return iRead;
     }
     /////////////////////////////////////////////
-    public virtual int Read(long offset, T[] aValue, int index, UInt16 count)
+    public virtual int Read(TImsId offset, T[] aValue, TImsId[] aDel, int index, UInt16 count)
     {
       if (!CanRead)
         return 0;
@@ -576,7 +645,7 @@ namespace FriendlyCSharp.Databases
 
       long lengthTemp = Length;
       if ((FuncPosition) && (offset == OFFSET_POSITION))
-        offset = Position;
+        offset = (TImsId)Position;
       if (offset == lengthTemp) // foreach must return 0
         return 0;
       if ((offset < 0) || (offset > lengthTemp))
@@ -584,7 +653,113 @@ namespace FriendlyCSharp.Databases
 
       if (offset + count > lengthTemp)
         count = (UInt16)(lengthTemp - offset);
-      int iRead = _BlockCopyInternal(true, offset, aValue, index, count);
+      int iRead = _BlockCopyInternal(true, offset, aValue, aDel, index, count);
+      if (FuncPosition)
+      {
+        lock (_lockAppend)
+          Position = offset + iRead;
+      }
+      return iRead;
+    }
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////          ReadNoLock             //////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    public virtual int ReadNoLock(TImsId offset, out T value)
+    {
+      value = default(T);
+      if ((!CanRead) || (offset < 0) || (offset >= Length))
+        return 0;
+
+      T[] aValue = new T[1];
+      int iRead = _BlockReadNoLockInternal(offset, aValue, null, 0, 1);
+      if (iRead != 1)
+        return 0;
+      value = aValue[0];
+      return iRead;
+    }
+    /////////////////////////////////////////////
+    public virtual int ReadNoLock(TImsId offset, out T value, out TImsId DeleteRecId)
+    {
+      value = default(T);
+      DeleteRecId = NoDelete;
+      if ((!CanRead) || (offset < 0) || (offset >= Length))
+        return 0;
+
+      T[] aValue = new T[1];
+      TImsId[] aDel = new TImsId[1];
+      int iRead = _BlockReadNoLockInternal(offset, aValue, aDel, 0, 1);
+      if (iRead != 1)
+        return 0;
+      value = aValue[0];
+      DeleteRecId = aDel[0];
+      return iRead;
+    }
+    /////////////////////////////////////////////
+    public virtual int ReadNoLock(TImsId offset, out T[] aValue, UInt16 count)
+    {
+      if ((!CanRead) || (offset < 0) || (offset >= Length))
+      {
+        aValue = new T[0];
+        return 0;
+      }
+
+      aValue = new T[count];
+      int iRead = _BlockReadNoLockInternal(offset, aValue, null, 0, 1);
+      if (iRead <= 0)
+      {
+        aValue = new T[0];
+        return 0;
+      }
+      return iRead;
+    }
+    /////////////////////////////////////////////
+    public virtual int ReadNoLock(TImsId offset, out T[] aValue, out TImsId[] aDel, UInt16 count)
+    {
+      if ((!CanRead) || (offset < 0) || (offset >= Length))
+      {
+        aValue = new T[0];
+        aDel = new TImsId[0];
+        return 0;
+      }
+
+      aValue = new T[count];
+      aDel = new TImsId[count];
+      int iRead = _BlockReadNoLockInternal(offset, aValue, aDel, 0, count);
+      if (iRead <= 0)
+      {
+        aValue = new T[0];
+        aDel = new TImsId[0];
+        return 0;
+      }
+      return iRead;
+    }
+    /////////////////////////////////////////////
+    public virtual int ReadNoLock(TImsId offset, T[] aValue, TImsId[] aDel, int index, UInt16 count)
+    {
+      if (!CanRead)
+        return 0;
+
+      if (_bFuncException)
+      {
+        if (aValue == null)
+          throw new ArgumentOutOfRangeException(nameof(aValue));
+        if ((index < 0) || (index >= aValue.Length) || (index >= aDel.Length))
+          throw new ArgumentOutOfRangeException(nameof(index));
+        if ((count == 0) || (count + index > aValue.Length) || (count + index > aDel.Length))
+          throw new ArgumentOutOfRangeException(nameof(count));
+      }
+
+      long lengthTemp = Length;
+      if ((FuncPosition) && (offset == OFFSET_POSITION))
+        offset = (TImsId)Position;
+      if (offset == lengthTemp) // foreach must return 0
+        return 0;
+      if ((offset < 0) || (offset > lengthTemp))
+        throw new ArgumentOutOfRangeException(nameof(offset));
+
+      if (offset + count > lengthTemp)
+        count = (UInt16)(lengthTemp - offset);
+      int iRead = _BlockReadNoLockInternal(offset, aValue, aDel, index, count);
       if (FuncPosition)
       {
         lock (_lockAppend)
@@ -663,7 +838,16 @@ namespace FriendlyCSharp.Databases
     {
       T[] aValue = new T[1];
       aValue[0] = value;
-      return Write(offset, aValue, 0, 1);
+      return Write(offset, aValue, null, 0, 1);
+    }
+    /////////////////////////////////////////////
+    public virtual int Write(long offset, T value, TImsId DeleteRecId)
+    {
+      T[] aValue = new T[1];
+      aValue[0] = value;
+      TImsId[] aDel = new TImsId[1];
+      aDel[0] = DeleteRecId;
+      return Write(offset, aValue, aDel, 0, 1);
     }
     /////////////////////////////////////////////
     public virtual int Write(long offset, T[] aValue)
@@ -675,7 +859,7 @@ namespace FriendlyCSharp.Databases
         if ((aValue.Length == 0) || (aValue.Length > UInt16.MaxValue))
           throw new ArgumentOutOfRangeException(nameof(aValue.Length));
       }
-      return Write(offset, aValue, 0, (UInt16)aValue.Length);
+      return Write(offset, aValue, null, 0, (UInt16)aValue.Length);
     }
     /////////////////////////////////////////////
     public virtual int Write(long offset, T[] aValue, int count)
@@ -689,7 +873,7 @@ namespace FriendlyCSharp.Databases
         if ((count <= 0) || (count > UInt16.MaxValue))
           throw new ArgumentOutOfRangeException(nameof(count));
       }
-      return Write(offset, aValue, 0, (UInt16)count);
+      return Write(offset, aValue, null, 0, (UInt16)count);
     }
     /////////////////////////////////////////////
     public virtual int Write(Transaction[] aTrans, int index, UInt16 count)
@@ -715,7 +899,7 @@ namespace FriendlyCSharp.Databases
                             (aTrans[pr].keyPos >= 0) && (aTrans[pr].keyPos + iCount <= Length))
         {
           aTrans[pr].valueARec = new T[iCount];
-          if (_BlockCopyInternal(false, aTrans[pr].keyPos, aTrans[pr].valueARec, 0, iCount) == iCount)
+          if (_BlockCopyInternal(false, aTrans[pr].keyPos, aTrans[pr].valueARec, null, 0, iCount) == iCount)
           {
             aTrans[pr].valueOK = true;
             iWrite++;
@@ -735,7 +919,7 @@ namespace FriendlyCSharp.Databases
       return iWrite;
     }
     /////////////////////////////////////////////
-    public virtual int Write(long offset, T[] aValue, int index, UInt16 count)
+    public virtual int Write(long offset, T[] aValue, TImsId[] aDel, int index, UInt16 count)
     {
       if (!CanWrite)
         return 0;
@@ -755,7 +939,7 @@ namespace FriendlyCSharp.Databases
       if ((offset < 0) || (offset + count > Length))
         throw new ArgumentOutOfRangeException(nameof(offset));
 
-      int iWrite = _BlockCopyInternal(false, offset, aValue, index, count);
+      int iWrite = _BlockCopyInternal(false, offset, aValue, aDel, index, count);
       if (FuncPosition)
       {
         lock (_lockAppend)
@@ -771,7 +955,7 @@ namespace FriendlyCSharp.Databases
       if (!_bRecDelete)
         return false;
 
-      BufferPage[] buffPageLocal = _bufferPage;
+      RecPage[] buffPageLocal = _recPage;
       if ((offset < 0) || (offset >= Length) || (!_RowColsOffset(buffPageLocal, offset, out int iRow, out int iCols)))
         throw new ArgumentOutOfRangeException(nameof(offset));
       if (buffPageLocal[iRow].aDel == null)
@@ -787,14 +971,14 @@ namespace FriendlyCSharp.Databases
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////            locals            //////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    private int _BlockCopyInternal(bool bReadArrayBuff, long srcOffset, T[] aRW, int aRWOffset, int count)
+    private int _BlockCopyInternal(bool bReadArrayBuff, long srcOffset, T[] aRW, TImsId[] aDelRW, int aRWOffset, int count)
     {
-      BufferPage[] buffPageLocal = _bufferPage;
+      RecPage[] buffPageLocal = _recPage;
       if (!_RowColsOffset(buffPageLocal, srcOffset, out int iRow, out int iCols))
         throw new ArgumentOutOfRangeException(nameof(srcOffset));
 
       int iResult = 0;
-      int iCount = _bufferCols - iCols;
+      int iCount = _recPageCols - iCols;
       if (iCount > count)
         iCount = count;
 
@@ -808,11 +992,15 @@ namespace FriendlyCSharp.Databases
           if (bReadArrayBuff)
           {
             Array.Copy(buffPageLocal[iRow].aRec, iCols, aRW, aRWOffset, iCount);
+            if ((aDelRW != null) && (buffPageLocal[iRow].aDel != null))
+              Array.Copy(buffPageLocal[iRow].aDel, iCols, aDelRW, aRWOffset, iCount);
             buffPageLocal[iRow].timeRead = DateTime.Now;
           }
           else
           {
             Array.Copy(aRW, aRWOffset, buffPageLocal[iRow].aRec, iCols, iCount);
+            if ((aDelRW != null) && (buffPageLocal[iRow].aDel != null))
+              Array.Copy(aDelRW, aRWOffset, buffPageLocal[iRow].aDel, iCols, iCount);
             buffPageLocal[iRow].timeWrite = DateTime.Now;
             buffPageLocal[iRow].iUpdate++;
           }
@@ -822,8 +1010,8 @@ namespace FriendlyCSharp.Databases
         count -= iCount;
         aRWOffset += iCount;
         // nastavi iCount, iCols, iRows pro pripadne opakovani
-        if (count > _bufferCols)
-          iCount = _bufferCols;
+        if (count > _recPageCols)
+          iCount = _recPageCols;
         else
           iCount = count;
         iCols = 0;
@@ -832,11 +1020,46 @@ namespace FriendlyCSharp.Databases
       return iResult;
     }
     /////////////////////////////////////////////
-    private bool _RowColsOffset(BufferPage[] buffPageLocal, long offset, out int iRow, out int iCols)
+    private int _BlockReadNoLockInternal(long srcOffset, T[] aRW, TImsId[] aDelRW, int aRWOffset, int count)
     {
-      iRow = (int)(offset / _bufferCols);
-      iCols = (int)(offset % _bufferCols);
-      if ((iRow >= _bufferRowsCount) || (buffPageLocal == null))
+      RecPage[] buffPageLocal = _recPage;
+      if (!_RowColsOffset(buffPageLocal, srcOffset, out int iRow, out int iCols))
+        throw new ArgumentOutOfRangeException(nameof(srcOffset));
+
+      int iResult = 0;
+      int iCount = _recPageCols - iCols;
+      if (iCount > count)
+        iCount = count;
+
+      while (iCount > 0)
+      {
+        if (buffPageLocal[iRow].aRec == null)
+          throw new ArgumentNullException("", "_bufferPage[iRow].aRec[]");
+
+        Array.Copy(buffPageLocal[iRow].aRec, iCols, aRW, aRWOffset, iCount);
+        if ((aDelRW != null) && (buffPageLocal[iRow].aDel != null))
+          Array.Copy(buffPageLocal[iRow].aDel, iCols, aDelRW, aRWOffset, iCount);
+        buffPageLocal[iRow].timeRead = DateTime.Now;
+
+        iResult += iCount;
+        count -= iCount;
+        aRWOffset += iCount;
+        // nastavi iCount, iCols, iRows pro pripadne opakovani
+        if (count > _recPageCols)
+          iCount = _recPageCols;
+        else
+          iCount = count;
+        iCols = 0;
+        iRow++;
+      }
+      return iResult;
+    }
+    /////////////////////////////////////////////
+    private bool _RowColsOffset(RecPage[] buffPageLocal, long offset, out int iRow, out int iCols)
+    {
+      iRow = (int)(offset / _recPageCols);
+      iCols = (int)(offset % _recPageCols);
+      if ((iRow >= _recPageRowsCount) || (buffPageLocal == null))
         return false;
       else
         return true;
@@ -859,12 +1082,12 @@ namespace FriendlyCSharp.Databases
       }
     }
     /////////////////////////////////////////////
-    public FcsInmemStream<T>.ImsEnumerator GetEnumeratorEx(long posLo)
+    public FcsInmemStream<T>.ImsEnumerator GetEnumeratorEx(TImsId posLo)
     {
       return new ImsEnumerator(this, posLo, -1);
     }
     /////////////////////////////////////////////
-    public FcsInmemStream<T>.ImsEnumerator GetEnumeratorEx(long posLo, int countMax)
+    public FcsInmemStream<T>.ImsEnumerator GetEnumeratorEx(TImsId posLo, int countMax)
     {
       return new ImsEnumerator(this, posLo, countMax);
     }
@@ -883,18 +1106,18 @@ namespace FriendlyCSharp.Databases
     public class ImsEnumerator : IEnumerator<T>
     {
       // constructor
-      private long _posLo;
+      private TImsId _posLo;
       private int _countMax;
       private FcsInmemStream<T> _inmem;
       // locals
       private int _count;
-      private long _pos;
+      private TImsId _pos;
       private int _idx;
       private int _len;
       private UInt16 _cacheLen;
       private T[] _aT;
       /////////////////////////////////////////////
-      public ImsEnumerator(FcsInmemStream<T> inmem, long posLo, int countMax)
+      public ImsEnumerator(FcsInmemStream<T> inmem, TImsId posLo, int countMax)
       {
         _inmem = inmem ?? throw new NullReferenceException();
         _posLo = posLo;
@@ -914,8 +1137,8 @@ namespace FriendlyCSharp.Databases
           _idx++;
         else
         {
-          iRead = _inmem.Read(_pos, _aT, 0, _cacheLen);
-          _pos += iRead;
+          iRead = _inmem.Read(_pos, _aT, null, 0, _cacheLen);
+          _pos += (TImsId)iRead;
           _idx = 0;
           _len = iRead - 1;
         }

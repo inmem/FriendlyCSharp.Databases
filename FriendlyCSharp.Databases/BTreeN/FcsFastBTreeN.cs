@@ -35,7 +35,7 @@ namespace FriendlyCSharp.Databases
       return _BtnFind(ref key, out value, _btnRoot, out _btnKVFast[idxFast]);
     }
     //////////////////////////
-    protected virtual bool? BtnFastFind(TKey key, out TValue value, out BtnFastKeyValue btnFast)
+    protected virtual bool? BtnFastFind(TKey key, out TValue value, out KeyValueFast btnFast)
     {
       return _BtnFind(ref key, out value, _btnRoot, out btnFast);
     }
@@ -66,7 +66,7 @@ namespace FriendlyCSharp.Databases
       return _BtnFirst(out key, out value, out _btnKVFast[idxFast]);
     }
     //////////////////////////
-    protected virtual bool? BtnFastFirst(out TKey key, out TValue value, out BtnFastKeyValue btnFast)
+    protected virtual bool? BtnFastFirst(out TKey key, out TValue value, out KeyValueFast btnFast)
     {
       return _BtnFirst(out key, out value, out btnFast);
     }
@@ -90,7 +90,7 @@ namespace FriendlyCSharp.Databases
       return _BtnLast(out key, out value, out _btnKVFast[idxFast]);
     }
     //////////////////////////
-    protected virtual bool? BtnFastLast(out TKey key, out TValue value, out BtnFastKeyValue btnFast)
+    protected virtual bool? BtnFastLast(out TKey key, out TValue value, out KeyValueFast btnFast)
     {
       return _BtnLast(out key, out value, out btnFast);
     }
@@ -112,7 +112,7 @@ namespace FriendlyCSharp.Databases
     public virtual bool? BtnFastNext(ref TKey key, out TValue value, uint idxFast)
     {
       int middle = _btnKVFast[idxFast].fastMiddle;
-      BtnFastKeyValue btnFast = _btnKVFast[idxFast];
+      KeyValueFast btnFast = _btnKVFast[idxFast];
       if ( (btnFast.version == BtnVersion) && (btnFast.fastPage != null) && (middle > 0) &&
            (middle < btnFast.fastPage.iDataCount) && (BtnCompares(key, btnFast.fastPage.aData[middle].key, _objCompares) == 0))
       {
@@ -128,7 +128,7 @@ namespace FriendlyCSharp.Databases
       }
     }
     //////////////////////////
-    protected virtual bool? BtnFastNext(ref TKey key, out TValue value, ref BtnFastKeyValue btnFast)
+    protected virtual bool? BtnFastNext(ref TKey key, out TValue value, ref KeyValueFast btnFast)
     {
       int middle = btnFast.fastMiddle;
       if ( (btnFast.version == BtnVersion) && (btnFast.fastPage != null) && (middle > 0) &&
@@ -150,7 +150,7 @@ namespace FriendlyCSharp.Databases
     public virtual KeyValuePair<TKey, TValue>? BtnFastNext(TKey key, uint idxFast)
     {
       int middle = _btnKVFast[idxFast].fastMiddle;
-      BtnFastKeyValue btnFast = _btnKVFast[idxFast];
+      KeyValueFast btnFast = _btnKVFast[idxFast];
       if ( (btnFast.version == BtnVersion) && (btnFast.fastPage != null) && (middle > 0) &&
            (middle < btnFast.fastPage.iDataCount) && (BtnCompares(key, btnFast.fastPage.aData[middle].key, _objCompares) == 0))
       {
@@ -193,7 +193,7 @@ namespace FriendlyCSharp.Databases
     public virtual bool? BtnFastPrev(ref TKey key, out TValue value, uint idxFast)
     {
       int middle = _btnKVFast[idxFast].fastMiddle;
-      BtnFastKeyValue btnFast = _btnKVFast[idxFast];
+      KeyValueFast btnFast = _btnKVFast[idxFast];
       if ( (btnFast.version == BtnVersion) && (btnFast.fastPage != null) && (middle > 1) &&
            (middle <= btnFast.fastPage.iDataCount) && (BtnCompares(key, btnFast.fastPage.aData[middle].key, _objCompares) == 0) )
       {
@@ -209,7 +209,7 @@ namespace FriendlyCSharp.Databases
       }
     }
     //////////////////////////
-    protected virtual bool? BtnFastPrev(ref TKey key, out TValue value, ref BtnFastKeyValue btnFast)
+    protected virtual bool? BtnFastPrev(ref TKey key, out TValue value, ref KeyValueFast btnFast)
     {
       int middle = btnFast.fastMiddle;
       if ( (btnFast.version == BtnVersion) && (btnFast.fastPage != null) && (middle > 1) &&
@@ -231,7 +231,7 @@ namespace FriendlyCSharp.Databases
     public virtual KeyValuePair<TKey, TValue>? BtnFastPrev(TKey key, uint idxFast)
     {
       int middle = _btnKVFast[idxFast].fastMiddle;
-      BtnFastKeyValue btnFast = _btnKVFast[idxFast];
+      KeyValueFast btnFast = _btnKVFast[idxFast];
       if ( (btnFast.version == BtnVersion) && (btnFast.fastPage != null) && (middle > 1) &&
            (middle <= btnFast.fastPage.iDataCount) && (BtnCompares(key, btnFast.fastPage.aData[middle].key, _objCompares) == 0))
       {
@@ -277,7 +277,7 @@ namespace FriendlyCSharp.Databases
       return _BtnSearch(ref key, out value, _btnRoot, ref bNext, out _btnKVFast[idxFast]);
     }
     //////////////////////////
-    protected virtual bool? BtnFastSearch(ref TKey key, out TValue value, out BtnFastKeyValue btnFast)
+    protected virtual bool? BtnFastSearch(ref TKey key, out TValue value, out KeyValueFast btnFast)
     {
       bool bNext = false;
       return _BtnSearch(ref key, out value, _btnRoot, ref bNext, out btnFast);
@@ -311,7 +311,7 @@ namespace FriendlyCSharp.Databases
       return _BtnSearchPrev(ref key, out value, _btnRoot, ref bNext, out _btnKVFast[idxFast]);
     }
     //////////////////////////
-    protected virtual bool? BtnFastSearchPrev(ref TKey key, out TValue value, out BtnFastKeyValue btnFast)
+    protected virtual bool? BtnFastSearchPrev(ref TKey key, out TValue value, out KeyValueFast btnFast)
     {
       bool bNext = false;
       return _BtnSearchPrev(ref key, out value, _btnRoot, ref bNext, out btnFast);
@@ -377,7 +377,7 @@ namespace FriendlyCSharp.Databases
       private TKey   _key;
       private TValue _value;
       private int    _count;
-      private BtnFastKeyValue _btnFast;
+      private KeyValueFast _btnFast;
       //////////////////////////
       public BtnEnumeratorFast(FcsFastBTreeN<TKey, TValue> btn, TKey? keyLo, TKey? keyHi, bool reverse, int maxCount)
       {
@@ -398,7 +398,7 @@ namespace FriendlyCSharp.Databases
 
         if (_btnFast.version == int.MinValue)
         {
-          _btnFast = default(BtnFastKeyValue);
+          _btnFast = default(KeyValueFast);
           if ((_keyLo == null) && (!_reverse))
             _bOK = (_btn.BtnFastFirst(out _key, out _value, out _btnFast) != null);
           else if ((_keyHi == null) && (_reverse))
@@ -465,7 +465,7 @@ namespace FriendlyCSharp.Databases
       {
         _count = _maxCount;
         _bOK = true;
-        _btnFast = default(BtnFastKeyValue);
+        _btnFast = default(KeyValueFast);
         _btnFast.version = int.MinValue;
       }
     }

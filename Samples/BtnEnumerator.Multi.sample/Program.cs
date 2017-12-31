@@ -28,7 +28,7 @@ namespace BtnEnumerator.Multi.sample
     static void Main(string[] args)
     {
       Console.OutputEncoding = System.Text.Encoding.UTF8;
-      Console.WriteLine(String.Format("BtnEnumerator.Core11.sample, {0}", (IntPtr.Size == 4) ? "32 bit" : "64 bit"));
+      Console.WriteLine(String.Format("BtnEnumerator.Multi.sample, {0}", (IntPtr.Size == 4) ? "32 bit" : "64 bit"));
       Console.WriteLine("-----------------------------------");
 
       uint uiCount = 1;

@@ -27,7 +27,7 @@ namespace FcsInmemStream.Multi.sample
     static void Main(string[] args)
     {
       Console.OutputEncoding = System.Text.Encoding.UTF8;
-      Console.WriteLine(String.Format("FcsInmemStream.Core11.sample, {0}", (IntPtr.Size == 4) ? "32 bit" : "64 bit"));
+      Console.WriteLine(String.Format("FcsInmemStream.Multi.sample, {0}", (IntPtr.Size == 4) ? "32 bit" : "64 bit"));
       Console.WriteLine("------------------------------------");
 
       int iSizeT = Marshal.SizeOf(default(StructIms));
@@ -40,7 +40,7 @@ namespace FcsInmemStream.Multi.sample
       int cacheCount = 1000;
       StructIms[] aIms = new StructIms[cacheCount];
       FcsInmemStream<StructIms>.ImsEnumeratorCacheLen = 128;
-      FcsInmemStream<StructIms> ims = FcsInmemStream<StructIms>.Open(2);
+      FcsInmemStream<StructIms> ims = FcsInmemStream<StructIms>.Open(-4);
 #if DEBUG
       ims.FuncException = true;
 #else
@@ -84,11 +84,11 @@ namespace FcsInmemStream.Multi.sample
       Console.WriteLine("foreach IOPS: {0,13:N0} [{1:N7} s] | count: {2,10:N0}", iID / swX.Elapsed.TotalSeconds, swX.Elapsed.TotalSeconds, iID);
 
       // Write()
-      long pos = 0;
+      uint pos = 0;
       while (pos < ims.Length)
       {
         int iRead = ims.Read(pos, aIms, (UInt16)cacheCount);
-        pos += iRead;
+        pos += (uint)iRead;
       }
       Array.Clear(aIms, 0, aIms.Length);
       iID = 0;
@@ -103,9 +103,9 @@ namespace FcsInmemStream.Multi.sample
           iID++;
         }
         swX.Start();
-        ims.Write(pos, aIms, 0, (UInt16)cacheCount);
+        ims.Write(pos, aIms, null, 0, (UInt16)cacheCount);
         swX.Stop();
-        pos += cacheCount;
+        pos += (uint)cacheCount;
       }
       Console.WriteLine("Write IOPS:   {0,13:N0} [{1:N7} s] | count: {2,10:N0}", iID / swX.Elapsed.TotalSeconds, swX.Elapsed.TotalSeconds, iID);
 
@@ -119,7 +119,7 @@ namespace FcsInmemStream.Multi.sample
         swX.Start();
         int iRead = ims.Read(pos, aIms, (UInt16)cacheCount);
         swX.Stop();
-        pos += iRead;
+        pos += (uint)iRead;
         for (int ui = 0; ui < iRead; ui++)
         {
           if (aIms[ui].key != iID)

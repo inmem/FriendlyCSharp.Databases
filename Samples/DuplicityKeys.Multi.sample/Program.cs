@@ -21,7 +21,7 @@ namespace DuplicityKeys.Multi.sample
       public DateTime[] aValueDateTime;
       public uint[] aValueRand;
       //
-      static int CmpBtnKey(BtnKey keyX, BtnKey keyY, object objCmp)
+      static int CmpBtnKey(BtnKey keyX, BtnKey keyY, object objCmp, object objCmp2)
       {
         // return < 0 (less), = 0 (equal), > 0 (greater)
         int iResult = String.Compare(keyX.keyCity, keyY.keyCity, StringComparison.Ordinal);
@@ -78,7 +78,7 @@ namespace DuplicityKeys.Multi.sample
     static void Main(string[] args)
     {
       Console.OutputEncoding = System.Text.Encoding.UTF8;
-      Console.WriteLine(String.Format("DuplicityKeys.Core20.sample, {0}", (IntPtr.Size == 4) ? "32 bit" : "64 bit"));
+      Console.WriteLine(String.Format("DuplicityKeys.Milti.sample, {0}", (IntPtr.Size == 4) ? "32 bit" : "64 bit"));
       Console.WriteLine("-----------------------------------");
 
       int max = 36000;
@@ -143,7 +143,7 @@ namespace DuplicityKeys.Multi.sample
       Console.WriteLine($"{((double)(swFcsKV.Elapsed.TotalMilliseconds * 1000000) / iCompareCount),9:N2} ns  [{swFcsKV.Elapsed.TotalMilliseconds,11} ms | {iCompareCount} keys ]{iCompareCount / swFcsKV.Elapsed.TotalSeconds,20:N0} IOPS");
 
       iCompareCount = 0;
-      FcsKeyFastBTreeN<BtnKey>.BtnKeyEnumeratorFast btnEn = btnTest.GetEnumeratorFastEx(false);
+      FcsKeyFastBTreeN<BtnKey>.KeyEnumerator btnEn = btnTest.GetEnumeratorFastEx(false);
       swFcsKV.Restart();
       while (btnEn.MoveNext())
       {
@@ -156,7 +156,7 @@ namespace DuplicityKeys.Multi.sample
       Console.WriteLine($"{((double)(swFcsKV.Elapsed.TotalMilliseconds * 1000000) / iCompareCount),9:N2} ns  [{swFcsKV.Elapsed.TotalMilliseconds,11} ms | {iCompareCount} keys ]{iCompareCount / swFcsKV.Elapsed.TotalSeconds,20:N0} IOPS");
 
       iCompareCount = 0;
-      FcsKeyFastBTreeN<BtnKey>.BtnFastKey btnFast;
+      FcsKeyFastBTreeN<BtnKey>.KeyFast btnFast;
       swFcsKV.Restart();
       if (btnTest.BtnFastFirst(out BtnKey fcsKey2, out btnFast) != null)
       {

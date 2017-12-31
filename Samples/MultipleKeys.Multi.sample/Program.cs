@@ -62,7 +62,7 @@ namespace MultipleKeys.Multi.sample
         base.BtnAddFirst(valueIn, out valueAdd);
       }
       //////////////////////////
-      private void _BtnUsedValues(ref uint Count, BtnKeyValuePage QQ)
+      private void _BtnUsedValues(ref uint Count, KeyValuePage QQ)
       {
         if (QQ != null)
         {
@@ -138,7 +138,7 @@ namespace MultipleKeys.Multi.sample
     static void Main(string[] args)
     {
       Console.OutputEncoding = System.Text.Encoding.UTF8;
-      Console.WriteLine(String.Format("MultipleKeys.Core11.sample, {0}", (IntPtr.Size == 4) ? "32 bit" : "64 bit"));
+      Console.WriteLine(String.Format("MultipleKeys.Multi.sample, {0}", (IntPtr.Size == 4) ? "32 bit" : "64 bit"));
       Console.WriteLine("----------------------------------");
 
       int max = 36000;

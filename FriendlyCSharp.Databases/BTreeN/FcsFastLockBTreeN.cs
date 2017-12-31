@@ -71,7 +71,7 @@ namespace FriendlyCSharp.Databases
         return base.BtnFastFind(key, out value, idxFast);
     }
     //////////////////////////
-    protected override bool? BtnFastFind(TKey key, out TValue value, out BtnFastKeyValue btnFast)
+    protected override bool? BtnFastFind(TKey key, out TValue value, out KeyValueFast btnFast)
     {
       lock (_btnLock)
         return base.BtnFastFind(key, out value, out btnFast);
@@ -119,7 +119,7 @@ namespace FriendlyCSharp.Databases
         return base.BtnFastFirst(out key, out value, idxFast);
     }
     //////////////////////////
-    protected override bool? BtnFastFirst(out TKey key, out TValue value, out BtnFastKeyValue btnFast)
+    protected override bool? BtnFastFirst(out TKey key, out TValue value, out KeyValueFast btnFast)
     {
       lock (_btnLock)
         return base.BtnFastFirst(out key, out value, out btnFast);
@@ -167,7 +167,7 @@ namespace FriendlyCSharp.Databases
         return base.BtnFastLast(out key, out value, idxFast);
     }
     //////////////////////////
-    protected override bool? BtnFastLast(out TKey key, out TValue value, out BtnFastKeyValue btnFast)
+    protected override bool? BtnFastLast(out TKey key, out TValue value, out KeyValueFast btnFast)
     {
       lock (_btnLock)
         return base.BtnFastLast(out key, out value, out btnFast);
@@ -230,7 +230,7 @@ namespace FriendlyCSharp.Databases
         return base.BtnFastNext(ref key, out value, idxFast);
     }
     //////////////////////////
-    protected override bool? BtnFastNext(ref TKey key, out TValue value, ref BtnFastKeyValue btnFast)
+    protected override bool? BtnFastNext(ref TKey key, out TValue value, ref KeyValueFast btnFast)
     {
       lock (_btnLock)
         return base.BtnFastNext(ref key, out value, ref btnFast);
@@ -293,7 +293,7 @@ namespace FriendlyCSharp.Databases
         return base.BtnFastPrev(ref key, out value, idxFast);
     }
     //////////////////////////
-    protected override bool? BtnFastPrev(ref TKey key, out TValue value, ref BtnFastKeyValue btnFast)
+    protected override bool? BtnFastPrev(ref TKey key, out TValue value, ref KeyValueFast btnFast)
     {
       lock (_btnLock)
         return base.BtnFastPrev(ref key, out value, ref btnFast);
@@ -354,7 +354,7 @@ namespace FriendlyCSharp.Databases
         return base.BtnFastSearch(ref key, out value, idxFast);
     }
     //////////////////////////
-    protected override bool? BtnFastSearch(ref TKey key, out TValue value, out BtnFastKeyValue btnFast)
+    protected override bool? BtnFastSearch(ref TKey key, out TValue value, out KeyValueFast btnFast)
     {
       lock (_btnLock)
         return base.BtnFastSearch(ref key, out value, out btnFast);
@@ -415,7 +415,7 @@ namespace FriendlyCSharp.Databases
         return base.BtnFastSearchPrev(ref key, out value, idxFast);
     }
     //////////////////////////
-    protected override bool? BtnFastSearchPrev(ref TKey key, out TValue value, out BtnFastKeyValue btnFast)
+    protected override bool? BtnFastSearchPrev(ref TKey key, out TValue value, out KeyValueFast btnFast)
     {
       lock (_btnLock)
         return base.BtnFastSearchPrev(ref key, out value, out btnFast);
