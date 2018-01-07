@@ -743,9 +743,9 @@ namespace FriendlyCSharp.Databases
       {
         if (aValue == null)
           throw new ArgumentOutOfRangeException(nameof(aValue));
-        if ((index < 0) || (index >= aValue.Length) || (index >= aDel.Length))
+        if ((index < 0) || (index >= aValue.Length))
           throw new ArgumentOutOfRangeException(nameof(index));
-        if ((count == 0) || (count + index > aValue.Length) || (count + index > aDel.Length))
+        if ((count == 0) || (count + index > aValue.Length))
           throw new ArgumentOutOfRangeException(nameof(count));
       }
 

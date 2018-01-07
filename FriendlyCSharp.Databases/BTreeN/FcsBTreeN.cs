@@ -446,13 +446,16 @@ namespace FriendlyCSharp.Databases
             btnFast = default(KeyValueFast);
           bNullResult = new bool?(true);
         }
-        if (kvPage.kvPageNextRight == null)
-          QQ = null;
-        else if (high > 0)
-          QQ = kvPage.kvPageNextRight[high];       // right
         else
-          QQ = kvPage.kvPageNextRight[0];          // left
-        bNullResult = _BtnFind(ref key, out value, QQ, out btnFast);
+        {
+          if (kvPage.kvPageNextRight == null)
+            QQ = null;
+          else if (high > 0)
+            QQ = kvPage.kvPageNextRight[high];       // right
+          else
+            QQ = kvPage.kvPageNextRight[0];          // left
+          bNullResult = _BtnFind(ref key, out value, QQ, out btnFast);
+        }
       }
       return bNullResult;
     }
