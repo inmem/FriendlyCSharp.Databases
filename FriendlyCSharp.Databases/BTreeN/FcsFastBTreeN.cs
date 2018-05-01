@@ -8,8 +8,8 @@ using System.Collections.Generic;
 
 namespace FriendlyCSharp.Databases
 {
-  public partial class FcsFastBTreeN<TKey, TValue> : FcsBTreeN<TKey, TValue>, IEnumerable<KeyValuePair<TKey, TValue>?>
-                                                     where TKey : struct, IComparable<TKey>
+  public partial class FcsFastBTreeN<TKey, TValue> : FcsBTreeN<TKey, TValue>, IEnumerable<KeyValuePair<TKey, TValue>>
+                                                     where TKey : IComparable<TKey>
   {
     //////////////////////////
     public FcsFastBTreeN(uint allocIdxFast) : base(_btnDefaultBTreeN, allocIdxFast, null)
@@ -341,35 +341,35 @@ namespace FriendlyCSharp.Databases
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public FcsFastBTreeN<TKey, TValue>.BtnEnumeratorFast GetEnumeratorFastEx(bool reverse)
     {
-      return new BtnEnumeratorFast(this, null, null, reverse, -2);
+      return new BtnEnumeratorFast(this, default(TKey), default(TKey), reverse, -2);
     }
     //////////////////////////
     public FcsFastBTreeN<TKey, TValue>.BtnEnumeratorFast GetEnumeratorFastEx(bool reverse, int maxCount)
     {
-      return new BtnEnumeratorFast(this, null, null, reverse, maxCount);
+      return new BtnEnumeratorFast(this, default(TKey), default(TKey), reverse, maxCount);
     }
     //////////////////////////
-    public FcsFastBTreeN<TKey, TValue>.BtnEnumeratorFast GetEnumeratorFastEx(TKey? keyLo, TKey? keyHi, bool reverse)
+    public FcsFastBTreeN<TKey, TValue>.BtnEnumeratorFast GetEnumeratorFastEx(TKey keyLo, TKey keyHi, bool reverse)
     {
       return new BtnEnumeratorFast(this, keyLo, keyHi, reverse, -3);
     }
     //////////////////////////
-    public FcsFastBTreeN<TKey, TValue>.BtnEnumeratorFast GetEnumeratorFastEx(TKey? keyLo, TKey? keyHi, bool reverse, int maxCount)
+    public FcsFastBTreeN<TKey, TValue>.BtnEnumeratorFast GetEnumeratorFastEx(TKey keyLo, TKey keyHi, bool reverse, int maxCount)
     {
       return new BtnEnumeratorFast(this, keyLo, keyHi, reverse, maxCount);
     }
     //////////////////////////
-    public new IEnumerator<KeyValuePair<TKey, TValue>?> GetEnumerator()
+    public new IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
     {
-      return new BtnEnumeratorFast(this, null, null, false, -1);
+      return new BtnEnumeratorFast(this, default(TKey), default(TKey), false, -1);
     }
     //////////////////////////
-    public class BtnEnumeratorFast : IEnumerator<KeyValuePair<TKey, TValue>?>
+    public class BtnEnumeratorFast : IEnumerator<KeyValuePair<TKey, TValue>>
     {
       // constructor
       private FcsFastBTreeN<TKey, TValue> _btn = null;
-      private TKey?  _keyLo;
-      private TKey?  _keyHi;
+      private TKey  _keyLo;
+      private TKey  _keyHi;
       private int    _maxCount;
       private bool   _reverse;
       // locals
@@ -379,7 +379,7 @@ namespace FriendlyCSharp.Databases
       private int    _count;
       private KeyValueFast _btnFast;
       //////////////////////////
-      public BtnEnumeratorFast(FcsFastBTreeN<TKey, TValue> btn, TKey? keyLo, TKey? keyHi, bool reverse, int maxCount)
+      public BtnEnumeratorFast(FcsFastBTreeN<TKey, TValue> btn, TKey keyLo, TKey keyHi, bool reverse, int maxCount)
       {
         _btn = btn ?? throw new NullReferenceException();
         _keyLo = keyLo;
@@ -399,25 +399,25 @@ namespace FriendlyCSharp.Databases
         if (_btnFast.version == int.MinValue)
         {
           _btnFast = default(KeyValueFast);
-          if ((_keyLo == null) && (!_reverse))
+          if ((_keyLo.Equals(default(TKey))) && (!_reverse))
             _bOK = (_btn.BtnFastFirst(out _key, out _value, out _btnFast) != null);
-          else if ((_keyHi == null) && (_reverse))
+          else if ((_keyHi.Equals(default(TKey))) && (_reverse))
             _bOK = (_btn.BtnFastLast(out _key, out _value, out _btnFast) != null);
           else
           {
             if (_reverse)
             {
-              _key = _keyHi.GetValueOrDefault();
+              _key = _keyHi;
               _bOK = (_btn.BtnFastSearchPrev(ref _key, out _value, out _btnFast)!=null);
-              if ((_keyLo != null) && (_bOK))
-                _bOK = (_key.CompareTo(_keyLo.GetValueOrDefault()) >= 0);
+              if ((!_keyLo.Equals(default(TKey))) && (_bOK))
+                _bOK = (_key.CompareTo(_keyLo) >= 0);
             }
             else
             {
-              _key = _keyLo.GetValueOrDefault();
+              _key = _keyLo;
               _bOK = (_btn.BtnFastSearch(ref _key, out _value, out _btnFast) != null);
-              if ((_keyHi != null) && (_bOK))
-                _bOK = (_key.CompareTo(_keyHi.GetValueOrDefault()) <= 0);
+              if ((!_keyHi.Equals(default(TKey))) && (_bOK))
+                _bOK = (_key.CompareTo(_keyHi) <= 0);
             }
           }
         }
@@ -426,25 +426,25 @@ namespace FriendlyCSharp.Databases
           if (_reverse)
           {
             _bOK = (_btn.BtnFastPrev(ref _key, out _value, ref _btnFast) != null);
-            if ((_keyLo != null) && (_bOK))
-              _bOK = (_key.CompareTo(_keyLo.GetValueOrDefault()) >= 0);
+            if ((!_keyLo.Equals(default(TKey))) && (_bOK))
+              _bOK = (_key.CompareTo(_keyLo) >= 0);
           }
           else
           {
             _bOK = (_btn.BtnFastNext(ref _key, out _value, ref _btnFast) != null);
-            if ((_keyHi != null) && (_bOK))
-              _bOK = (_key.CompareTo(_keyHi.GetValueOrDefault()) <= 0);
+            if ((!_keyHi.Equals(default(TKey))) && (_bOK))
+              _bOK = (_key.CompareTo(_keyHi) <= 0);
           }
         }
         return _bOK;
       }
       //////////////////////////
-      public KeyValuePair<TKey, TValue>? Current
+      public KeyValuePair<TKey, TValue> Current
       {
         get
         {
           if (!_bOK)
-            return null;
+            return new KeyValuePair<TKey, TValue>(default(TKey), default(TValue));
           return new KeyValuePair<TKey, TValue>(_key, _value);
         }
       }
@@ -454,7 +454,7 @@ namespace FriendlyCSharp.Databases
         get
         {
           if (!_bOK)
-            return null;
+            return new KeyValuePair<TKey, TValue>(default(TKey), default(TValue));
           return new KeyValuePair<TKey, TValue>(_key, _value);
         }
       }

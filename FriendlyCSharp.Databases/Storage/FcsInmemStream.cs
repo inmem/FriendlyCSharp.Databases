@@ -1100,7 +1100,7 @@ namespace FriendlyCSharp.Databases
     /////////////////////////////////////////////
     public IEnumerator<T> GetEnumerator()
     {
-      return new ImsEnumerator(this, OFFSET_ERROR, -1);
+      return new ImsEnumerator(this, ErrorId, -1);
     }
     /////////////////////////////////////////////
     public class ImsEnumerator : IEnumerator<T>
